@@ -1,0 +1,19 @@
+{
+  "name": "seer-engine-test",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "npm run build && vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@soonfx/fx": "latest"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0",
+    "typescript": "^5.0.0",
+    "@types/node": "^20.0.0"
+  }
+}

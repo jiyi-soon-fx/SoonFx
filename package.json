@@ -1,0 +1,45 @@
+{
+  "name": "@soonfx/fx",
+  "version": "1.0.10101",
+  "description": "SoonFx 游戏数值引擎 - 强大的游戏数值引擎运行库",
+  "scripts": {
+    "build:types": "tsc",
+    "build": "npm run build:esm && npm run build:cjs",
+    "build:esm": "esbuild src/index.ts --bundle --format=esm --platform=node --packages=external --outfile=build/fx/lib/index.mjs",
+    "build:cjs": "esbuild src/index.ts --bundle --format=cjs --packages=external --outfile=build/fx/lib/index.js",
+    "build:types-gen": "dts-bundle-generator --umd-module-name fx -o build/fx/lib/index.d.ts src/index.ts",
+    "build:types-global": "npm run build:types-gen && node scripts/generate-fx-dts.js",
+    "build:complete": "npm run build",
+    "dev": "esbuild src/index.ts --bundle --format=iife --outfile=bin/fx.js --watch --sourcemap",
+    "verify": "node scripts/verify-package.js",
+    "install:local": "node scripts/install-local.js",
+    "test:local": "cd test-local && npm install && node test.js",
+    "package:prepare": "npm run build:complete && npm run verify",
+    "publish:npm": "npm run verify && node scripts/publish.js",
+    "package:publish": "npm run package:prepare && npm run publish:npm",
+    "package:local": "rimraf --glob \"fx-*.tgz\" && npm run package:prepare && npm run install:local",
+    "p": "rimraf --glob \"*.tgz\" && npm run build:types-gen &&  npm run build && npm run package:tgz && node scripts/copy-to-game.js",
+    "package:tgz": "npm run package:prepare && node scripts/create-tgz.js",
+    "test:tgz": "node scripts/test-tgz.js",
+    "quick:publish": "node scripts/quick-publish.js",
+    "clean": "rimraf --glob \"build/fx/lib/*\" && rimraf test-local test-tgz-install && rimraf --glob \"*.tgz\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@swc/cli": "^0.1.62",
+    "@swc/core": "^1.3.78",
+    "dts-gen": "^0.10.3",
+    "esbuild": "^0.19.2",
+    "rimraf": "^5.0.1",
+    "typescript": "^5.5.2"
+  },
+  "dependencies": {
+    "dts-bundle-generator": "^9.5.1",
+    "fx": "file:./build/fx",
+    "tsc": "^2.0.4"
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
+}

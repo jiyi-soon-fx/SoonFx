@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "target": "es2022",
+    
+    "emitDeclarationOnly": true,
+    "outDir": "types",
+    "allowJs": true,
+    "baseUrl": "./src",
+    "paths": {
+      "@fx/core/*": ["core/*"],
+      "@fx/basicdata/*": ["basicdata/*"], 
+      "@fx/utils/*": ["utils/*"] 
+    }
+  },
+  "include": ["src/**/*.ts"]
+}
