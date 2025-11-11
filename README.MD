@@ -28,6 +28,8 @@
 
 使用 npm：
 ```bash
+cd docs\examples\
+
 npm install @soonfx/fx
 ```
 
@@ -296,7 +298,7 @@ npm run dev
 
 - 💬 [GitHub Discussions](https://github.com/jiyi-soon-fx/SoonFx/discussions) - 提问和讨论
 - 🐛 [GitHub Issues](https://github.com/jiyi-soon-fx/SoonFx/issues) - Bug 报告和功能请求
-- 📧 [team@jysoon.com](mailto:team@jysoon.com) - 邮件联系
+- 📧 [jiyisoon@163.com](mailto:jiyisoon@163.com) - 邮件联系
 
 ## ⭐ Star History
 
