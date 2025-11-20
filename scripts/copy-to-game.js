@@ -10,7 +10,7 @@ const version = packageJson.version;
 const targetDir = 'D:\\game\\soon-magic-road-pixi-pure\\libs\\';
 
 // 源文件名
-const sourceFile = `soonfx-fx-${version}.tgz`;
+const sourceFile = `soonfx-engine-${version}.tgz`;
 
 // 检查源文件是否存在
 const sourcePath = path.join(__dirname, '..', sourceFile);

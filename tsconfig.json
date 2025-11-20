@@ -2,16 +2,15 @@
   "compilerOptions": {
     "declaration": true,
     "target": "es2022",
-    
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "emitDeclarationOnly": true,
     "outDir": "types",
     "allowJs": true,
     "baseUrl": "./src",
-    "paths": {
-      "@fx/core/*": ["core/*"],
-      "@fx/basicdata/*": ["basicdata/*"], 
-      "@fx/utils/*": ["utils/*"] 
-    }
+    "paths": { 
+    },
+    "skipLibCheck": true
   },
   "include": ["src/**/*.ts"]
 }

@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SoonFx Engine - 战斗系统演示</title>
+    <title>SoonFx Engine - Interactive Battle Demo</title>
+    <base href="./">
     <script src="libs/chart.umd.min.js"></script>
     <style>
         * {
@@ -12,277 +13,165 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --primary-color: #1e3a8a;
+            --secondary-color: #7c3aed;
+            --accent-color: #06b6d4;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --dark-bg: #0f172a;
+            --card-bg: #1e293b;
+            --text-light: #f1f5f9;
+            --text-gray: #94a3b8;
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #333;
-            padding: 8px;
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: var(--text-light);
+            padding: 1rem;
             min-height: 100vh;
             overflow-x: hidden;
         }
 
         .container {
-            max-width: 1600px;
+            max-width: 1500px;
             margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 500px;
-            gap: 15px;
-            height: calc(100vh - 16px);
-            overflow: hidden;
         }
 
-        .main-content {
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-            height: 100%;
-        }
-        
-        /* 隐藏主内容区域的滚动条 */
-        .main-content::-webkit-scrollbar {
-            display: none;
-        }
-        
-        .main-content {
-            -ms-overflow-style: none;  /* IE and Edge */
-            scrollbar-width: none;  /* Firefox */
-        }
-
+        /* Header */
         .header {
-            background: white;
-            border-radius: 6px;
-            padding: 10px 15px;
-            margin-bottom: 10px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.2rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
             text-align: center;
         }
 
         .header h1 {
-            color: #667eea;
-            font-size: 1.3em;
-            margin-bottom: 3px;
+            color: var(--accent-color);
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
         }
 
         .header p {
-            color: #666;
-            font-size: 0.8em;
+            color: var(--text-gray);
+            font-size: 1rem;
         }
 
-        .controls {
-            background: white;
-            border-radius: 6px;
-            padding: 10px;
-            margin-bottom: 10px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .controls h2 {
-            color: #667eea;
-            margin-bottom: 8px;
-            font-size: 1em;
-        }
-
-        .button-grid {
+        /* Main Layout */
+        .main-layout {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 8px;
-            margin-bottom: 8px;
+            grid-template-columns: 280px 1fr 380px;
+            gap: 1rem;
+            align-items: start;
         }
 
-        .btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            font-size: 0.85em;
-            border-radius: 5px;
+        /* Scenario Selector */
+        .scenario-panel {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 1rem;
+        }
+
+        .scenario-panel h2 {
+            color: var(--accent-color);
+            font-size: 1.2rem;
+            margin-bottom: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .scenario-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .scenario-btn {
+            background: linear-gradient(135deg, rgba(30, 58, 138, 0.5), rgba(124, 58, 237, 0.5));
+            color: var(--text-light);
+            border: 2px solid transparent;
+            padding: 0.9rem;
+            border-radius: 10px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 2px 6px rgba(102, 126, 234, 0.3);
-        }
-
-        .btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.5);
-        }
-
-        .btn:active {
-            transform: translateY(0);
-        }
-
-        .btn.primary {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        }
-
-        .btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .output-container {
-            background: white;
-            border-radius: 6px;
-            padding: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            height: 100%;
-            overflow-y: auto;
-        }
-        
-        /* 隐藏输出容器的滚动条 */
-        .output-container::-webkit-scrollbar {
-            display: none;
-        }
-        
-        .output-container {
-            -ms-overflow-style: none;  /* IE and Edge */
-            scrollbar-width: none;  /* Firefox */
-        }
-        
-        .output-container .chart-box {
-            background: white;
-            border-radius: 8px;
-            padding: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .output-container h2 {
-            color: #667eea;
-            margin-bottom: 8px;
-            font-size: 1em;
-        }
-
-        #output {
-            background: #1e1e1e;
-            color: #d4d4d4;
-            padding: 10px;
-            border-radius: 5px;
-            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-            font-size: 11px;
-            line-height: 1.3;
-            max-height: 200px;
-            overflow-y: auto;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-        }
-        
-        /* 隐藏输出日志的滚动条 */
-        #output::-webkit-scrollbar {
-            display: none;
-        }
-        
-        #output {
-            -ms-overflow-style: none;  /* IE and Edge */
-            scrollbar-width: none;  /* Firefox */
-        }
-
-        #output:empty::before {
-            content: '等待运行示例...';
-            color: #888;
-            font-style: italic;
-        }
-
-        .status {
-            padding: 8px 12px;
-            border-radius: 4px;
-            margin-bottom: 10px;
-            font-weight: 500;
-            font-size: 0.9em;
-        }
-
-        .status.loading {
-            background: #fff3cd;
-            color: #856404;
-            border: 1px solid #ffeaa7;
-        }
-
-        .status.success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-
-        .status.error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-
-        .info-box {
-            background: #e7f3ff;
-            border-left: 3px solid #667eea;
-            padding: 8px;
-            margin-bottom: 8px;
-            border-radius: 3px;
-            font-size: 0.8em;
-        }
-
-        .info-box strong {
-            color: #667eea;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 2px 6px;
-            border-radius: 10px;
-            font-size: 0.7em;
+            text-align: left;
+            font-size: 0.9rem;
             font-weight: 600;
-            margin-left: 5px;
         }
 
-        .badge.new {
-            background: #ff6b6b;
-            color: white;
+        .scenario-btn:hover {
+            border-color: var(--accent-color);
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
         }
 
-        .badge.hot {
-            background: #ffd93d;
-            color: #333;
+        .scenario-btn.active {
+            background: linear-gradient(135deg, var(--accent-color), var(--secondary-color));
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 12px rgba(6, 182, 212, 0.5);
         }
 
-        /* 图表容器样式 */
-        .charts-container {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 10px;
-            margin-bottom: 0;
+        .scenario-btn .label {
+            display: block;
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
         }
 
-        .chart-box {
-            background: white;
-            border-radius: 6px;
-            padding: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        .scenario-btn .desc {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-gray);
+            font-weight: 400;
         }
 
-        .chart-box h3 {
-            color: #667eea;
-            margin-bottom: 8px;
-            font-size: 0.95em;
-            text-align: center;
+        .scenario-btn.active .desc {
+            color: rgba(255, 255, 255, 0.8);
         }
-        
-        /* PVE图表深色主题 */
-        #pveChartsContainer .chart-box {
-            background: linear-gradient(135deg, #2c2f45 0%, #3a3f5c 100%);
+
+        /* Chart Area */
+        .chart-area {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
         }
-        
-        #pveChartsContainer .chart-wrapper {
-            background: #2c2f45;
-            border-radius: 6px;
-            padding: 10px;
+
+        .chart-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .chart-card h3 {
+            color: var(--accent-color);
+            font-size: 1.1rem;
+            margin-bottom: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .chart-wrapper {
             position: relative;
-            height: 200px;
+            height: 280px;
         }
 
         .chart-wrapper canvas {
             max-height: 100%;
         }
 
-        /* 图表占位符样式 */
         .chart-placeholder {
             position: absolute;
             top: 0;
@@ -292,197 +181,330 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #888;
-            font-size: 0.9em;
+            color: var(--text-gray);
+            font-size: 1rem;
             font-style: italic;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px dashed rgba(150, 150, 150, 0.3);
-            border-radius: 4px;
-            pointer-events: none;
+            background: rgba(0, 0, 0, 0.2);
+            border: 2px dashed rgba(150, 150, 150, 0.3);
+            border-radius: 8px;
         }
 
         .chart-placeholder.hidden {
             display: none;
         }
 
-        .full-width {
-            grid-column: 1 / -1;
+        /* Battle Details */
+        .details-panel {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 1rem;
+            max-height: calc(100vh - 2rem);
+            overflow-y: auto;
         }
 
-        .chart-wrapper.tall {
-            height: 250px;
+        .details-panel::-webkit-scrollbar {
+            width: 8px;
         }
 
-        /* 响应式设计 */
-        @media (max-width: 1200px) {
-            .container {
-                grid-template-columns: 1fr;
-                gap: 15px;
+        .details-panel::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+        }
+
+        .details-panel::-webkit-scrollbar-thumb {
+            background: var(--accent-color);
+            border-radius: 4px;
+        }
+
+        .details-panel h2 {
+            color: var(--accent-color);
+            font-size: 1.2rem;
+            margin-bottom: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .status {
+            padding: 0.9rem;
+            border-radius: 8px;
+            margin-bottom: 0.9rem;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .status.loading {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning-color);
+            border: 1px solid var(--warning-color);
+        }
+
+        .status.success {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+        }
+
+        .status.error {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger-color);
+            border: 1px solid var(--danger-color);
+        }
+
+        .detail-chart {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 0.9rem;
+            margin-bottom: 0.9rem;
+        }
+
+        .detail-chart h4 {
+            color: var(--text-light);
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .detail-chart-wrapper {
+            height: 180px;
+            position: relative;
+        }
+
+        #output {
+            background: #000;
+            color: #0f0;
+            padding: 0.9rem;
+            border-radius: 8px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            max-height: 250px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        #output::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        #output::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        #output::-webkit-scrollbar-thumb {
+            background: #0f0;
+            border-radius: 4px;
+        }
+
+        #output:empty::before {
+            content: 'Waiting for simulation...';
+            color: #888;
+            font-style: italic;
+        }
+
+        .info-box {
+            background: rgba(6, 182, 212, 0.1);
+            border-left: 3px solid var(--accent-color);
+            padding: 0.9rem;
+            margin-bottom: 0.9rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+
+        .info-box strong {
+            color: var(--accent-color);
+        }
+
+        /* Loading Animation */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--accent-color);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1400px) {
+            .main-layout {
+                grid-template-columns: 260px 1fr 350px;
             }
-            
-            .output-container {
+        }
+
+        @media (max-width: 1200px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .scenario-panel, .details-panel {
+                position: static;
+            }
+
+            .details-panel {
                 max-height: none;
-                height: auto;
             }
         }
 
         @media (max-width: 768px) {
             .header h1 {
-                font-size: 1.5em;
-            }
-
-            .button-grid {
-                grid-template-columns: 1fr;
-            }
-
-            #output {
-                font-size: 11px;
-                max-height: 250px;
-            }
-
-            .charts-container {
-                grid-template-columns: 1fr;
+                font-size: 1.5rem;
             }
 
             .chart-wrapper {
-                height: 180px;
+                height: 250px;
             }
 
-            .chart-wrapper.tall {
-                height: 200px;
+            .detail-chart-wrapper {
+                height: 180px;
             }
+        }
+
+        /* Story Mode Styles */
+        .story-header {
+            background: linear-gradient(135deg, rgba(30, 58, 138, 0.3), rgba(124, 58, 237, 0.3));
+            padding: 0.9rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .story-header h3 {
+            color: var(--accent-color);
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .story-header p {
+            color: var(--text-gray);
+            font-size: 0.9rem;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- 左侧主要内容区域 -->
-        <div class="main-content">
-            <!-- 头部 -->
-            <div class="header">
-                <h1>⚔️ SoonFx Engine 战斗系统演示</h1>
-                <p>基于 SoonFx Engine 的战斗数据可视化系统 - 支持PVE战斗数据分析与图表展示</p>
-            </div>
-
-            <!-- 控制面板 -->
-            <div class="controls">
-                <!-- <h2>🎮 战斗演示</h2>
-                
-                <div class="info-box">
-                    <strong>💡 提示：</strong> 点击运行按钮开始PVE战斗演示。战斗数据将以三线图的形式展示生命值、伤害和回合时间变化，详细日志记录在右侧。
-                </div> -->
-
-            <div class="button-grid">
-                <button class="btn" onclick="showPVECharts()" title="显示PVE三线图">
-                    📊 <span class="badge new">运行</span>
-                </button>
-                <button class="btn" onclick="clearOutput()">
-                    🗑️ 清空
-                </button> 
-            </div>
- 
+        <!-- Header -->
+        <div class="header">
+            <h1>⚔️ Interactive Battle Simulation</h1>
+            <p>Real-time combat data visualization and analysis powered by SoonFx Engine</p>
         </div>
 
-        <!-- 图表展示区域 -->
-        <div class="charts-container" id="chartsContainer" style="display: grid;">
-            <!-- PVE三线图区域 -->
-            <div id="pveChartsContainer" style="display: block;">
-                <!-- PVE生命线 -->
-                <div class="chart-box full-width" style="margin-bottom: 10px;">
-                    <h3 style="color: white; background: linear-gradient(135deg, #3a3f5c 0%, #2c2f45 100%); padding: 8px; margin: -12px -12px 10px -12px; border-radius: 6px 6px 0 0; font-size: 0.9em;">
-                        PVE生命线 
-                        <span id="currentLevelHp" style="font-size: 0.8em; color: #ffc800; margin-left: 10px; display: none;">● 当前等级: <span id="currentLevelNumHp">1</span></span>
-                    </h3>
-                    <div style="color: #888; font-size: 0.75em; margin-bottom: 5px;">生命</div>
-                    <div class="chart-wrapper" style="height: 176px; position: relative;">
-                        <canvas id="pveHpChart"></canvas>
-                        <div id="pveHpPlaceholder" class="chart-placeholder">等待数据加载...</div>
+        <!-- Main Layout -->
+        <div class="main-layout">
+            <!-- Scenario Selector -->
+            <div class="scenario-panel">
+                <h2>🎮 Battle Scenarios</h2>
+                <div class="scenario-list">
+                    <button class="scenario-btn active" data-scenario="pve-growth" onclick="selectScenario('pve-growth')">
+                        <span class="label">📈 Level Progression (1-50)</span>
+                        <span class="desc">Watch how stats scale across levels</span>
+                    </button>
+                    <button class="scenario-btn" data-scenario="newbie" onclick="selectScenario('newbie')">
+                        <span class="label">🌱 Newbie Village (Lv 1-10)</span>
+                        <span class="desc">First steps in the adventure</span>
+                    </button>
+                    <button class="scenario-btn" data-scenario="mid-game" onclick="selectScenario('mid-game')">
+                        <span class="label">⚔️ Mid-Game Challenge (Lv 20-30)</span>
+                        <span class="desc">Intermediate difficulty battles</span>
+                    </button>
+                    <button class="scenario-btn" data-scenario="boss" onclick="selectScenario('boss')">
+                        <span class="label">👹 Boss Battle (Lv 50)</span>
+                        <span class="desc">Epic end-game encounter</span>
+                    </button>
+                    <button class="scenario-btn" data-scenario="stress" onclick="selectScenario('stress')">
+                        <span class="label">🔥 Stress Test (Lv 100)</span>
+                        <span class="desc">Extreme performance test</span>
+                    </button>
+                </div>
+
+                <div class="info-box" style="margin-top: 1.5rem;">
+                    <strong>💡 Tip:</strong> Click on any data point in the charts to see detailed battle information for that level.
+                </div>
+            </div>
+
+            <!-- Chart Area -->
+            <div class="chart-area">
+                <!-- Story Header -->
+                <div class="story-header" id="storyHeader">
+                    <h3 id="storyTitle">📊 Analyzing Level Progression</h3>
+                    <p id="storyDesc">Simulating 50 battles to show how character stats evolve from novice to master...</p>
+                </div>
+
+                <!-- HP Chart -->
+                <div class="chart-card">
+                    <h3>❤️ Health Points (HP) by Level</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="hpChart"></canvas>
+                        <div id="hpPlaceholder" class="chart-placeholder">
+                            <span class="loading-spinner"></span>
+                            <span style="margin-left: 0.5rem;">Running simulations...</span>
+                        </div>
                     </div>
                 </div>
 
-                <!-- PVE伤害线 -->
-                <div class="chart-box full-width" style="margin-bottom: 10px;">
-                    <h3 style="color: white; background: linear-gradient(135deg, #3a3f5c 0%, #2c2f45 100%); padding: 8px; margin: -12px -12px 10px -12px; border-radius: 6px 6px 0 0; font-size: 0.9em;">
-                        PVE伤害线
-                        <span id="currentLevelDmg" style="font-size: 0.8em; color: #ffc800; margin-left: 10px; display: none;">● 当前等级: <span id="currentLevelNumDmg">1</span></span>
-                    </h3>
-                    <div style="color: #888; font-size: 0.75em; margin-bottom: 5px;">攻击</div>
-                    <div class="chart-wrapper" style="height: 176px; position: relative;">
-                        <canvas id="pveDamageChart"></canvas>
-                        <div id="pveDamagePlaceholder" class="chart-placeholder">等待数据加载...</div>
+                <!-- Damage Chart -->
+                <div class="chart-card">
+                    <h3>💥 Attack Damage by Level</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="damageChart"></canvas>
+                        <div id="damagePlaceholder" class="chart-placeholder">
+                            <span class="loading-spinner"></span>
+                            <span style="margin-left: 0.5rem;">Running simulations...</span>
+                        </div>
                     </div>
                 </div>
 
-                <!-- PVE时间线 -->
-                <div class="chart-box full-width" style="margin-bottom: 10px;">
-                    <h3 style="color: white; background: linear-gradient(135deg, #3a3f5c 0%, #2c2f45 100%); padding: 8px; margin: -12px -12px 10px -12px; border-radius: 6px 6px 0 0; font-size: 0.9em;">
-                        PVE时间线
-                        <span id="currentLevelTime" style="font-size: 0.8em; color: #ffc800; margin-left: 10px; display: none;">● 当前等级: <span id="currentLevelNumTime">1</span></span>
-                    </h3>
-                    <div style="color: #888; font-size: 0.75em; margin-bottom: 5px;">回合</div>
-                    <div class="chart-wrapper" style="height: 176px; position: relative;">
-                        <canvas id="pveTimeChart"></canvas>
-                        <div id="pveTimePlaceholder" class="chart-placeholder">等待数据加载...</div>
+                <!-- Rounds Chart -->
+                <div class="chart-card">
+                    <h3>⏱️ Battle Duration (Rounds) by Level</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="roundsChart"></canvas>
+                        <div id="roundsPlaceholder" class="chart-placeholder">
+                            <span class="loading-spinner"></span>
+                            <span style="margin-left: 0.5rem;">Running simulations...</span>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 回合数对比图（多场对比时常驻） -->
-            <div class="chart-box full-width" id="roundsChartBox" style="display: none;">
-                <h3>⏱️ 战斗回合数对比 <span style="font-size: 0.8em; color: #888;">(点击柱状图查看该场战斗详情)</span></h3>
-                <div class="chart-wrapper">
-                    <canvas id="roundsChart"></canvas>
-                </div>
-            </div>
-
-            </div>
-        </div>
-
-        <!-- 右侧输出区域 -->
-        <div class="output-container">
-            <h2>📋 战斗详情</h2>
-            
-            <!-- 状态信息（置顶显示） -->
-            <div id="status"></div>
-            
-            <!-- 多场战斗详情区 -->
-            <div id="battleDetailContainer" style="display: block; margin-bottom: 20px;">
-                <div class="chart-box" style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); border: 2px solid #667eea; margin-bottom: 15px; padding: 12px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <h3 id="battleDetailTitle" style="margin: 0; font-size: 1em;">📊 战斗详情</h3>
-                        <!-- <button class="btn" onclick="closeBattleDetail()" style="margin: 0; padding: 6px 12px; font-size: 0.85em; display: none;" id="closeBattleDetailBtn">关闭</button> -->
-                    </div>
-                </div>
-
-                <!-- 详情血量图 -->
-                <div class="chart-box" style="margin-bottom: 15px;">
-                    <h3 style="font-size: 0.95em;">⚔️ 血量变化曲线</h3>
-                    <div class="chart-wrapper" style="height: 200px; position: relative;">
-                        <canvas id="detailHpChart"></canvas>
-                        <div id="detailHpPlaceholder" class="chart-placeholder">点击图表查看战斗详情</div>
-                    </div>
-                </div>
+            <!-- Battle Details -->
+            <div class="details-panel">
+                <h2>📋 Battle Details</h2>
                 
-                <!-- 详情伤害图 -->
-                <div class="chart-box" style="margin-bottom: 15px;">
-                    <h3 style="font-size: 0.95em;">💥 伤害统计对比</h3>
-                    <div class="chart-wrapper" style="height: 200px; position: relative;">
-                        <canvas id="detailDamageChart"></canvas>
-                        <div id="detailDamagePlaceholder" class="chart-placeholder">点击图表查看战斗详情</div>
+                <div id="status"></div>
+
+                <!-- Detail Charts -->
+                <div id="detailChartsContainer" style="display: none;">
+                    <div class="detail-chart">
+                        <h4>HP Change Over Rounds</h4>
+                        <div class="detail-chart-wrapper">
+                            <canvas id="detailHpChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="detail-chart">
+                        <h4>Damage Statistics</h4>
+                        <div class="detail-chart-wrapper">
+                            <canvas id="detailDamageChart"></canvas>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div id="output"></div>
+                <div id="output"></div>
+            </div>
         </div>
     </div>
 
-    <!-- 加载 SoonFx Engine 和相关脚本 -->
     <script type="module">
-        // 这里需要根据实际情况导入编译后的 JS 文件
-        // import { runAllExamples, exampleSingleBattle, ... } from './dist/battle-demo.js';
-        
-        // 等待 Chart.js 加载完成
+        // Wait for Chart.js to load
         await new Promise((resolve) => {
             if (typeof Chart !== 'undefined') {
                 resolve();
@@ -490,352 +512,290 @@
                 window.addEventListener('load', resolve);
             }
         });
-        
-        // 全局函数定义
-        window.outputElement = document.getElementById('output');
-        window.statusElement = document.getElementById('status');
-        window.chartInstances = {}; // 存储图表实例
-        window.multipleBattlesData = null; // 存储多场战斗的完整数据
-        window.selectedBattleIndex = -1; // 记录当前选中的战斗索引
-        window.pveBattleData = null; // 存储PVE战斗的完整数据（包含每个等级的详细战斗数据）
-        window.currentPVELevel = undefined; // 当前选中的PVE等级（用于高亮显示）
-        window.Chart = Chart; // 在 window 上保存 Chart 引用供全局使用
 
-        // 重写 console.log 以同时输出到页面
-        const originalLog = console.log;
-        let scrollScheduled = false; // 标记是否已安排滚动
-        
-        console.log = function(...args) {
-            // originalLog.apply(console, args);
-            const message = args.toString();
-                        
-            // args.map(arg => 
-            //     typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
-            // ).join(' ');
-            
-            if (window.outputElement) {
-                window.outputElement.textContent += message + '\n';
-                
-                // 使用 requestAnimationFrame 优化滚动性能
-                // 多次 console.log 调用只会在下一帧执行一次滚动
-                if (!scrollScheduled) {
-                    scrollScheduled = true;
-                    requestAnimationFrame(() => {
-                        if (window.outputElement) {
-                            window.outputElement.scrollTop = window.outputElement.scrollHeight;
-                        }
-                        scrollScheduled = false;
-                    });
+        // Global state
+        window.Chart = Chart;
+        window.chartInstances = {};
+        window.currentScenario = 'pve-growth';
+        window.pveBattleData = null;
+        window.currentLevel = null;
+
+        // Story content for each scenario
+        const storyContent = {
+            'pve-growth': {
+                title: '📊 Level Progression Analysis',
+                desc: 'Simulating 50 battles to show how character stats evolve from novice to master...'
+            },
+            'newbie': {
+                title: '🌱 The First Adventure',
+                desc: 'A young hero takes their first steps, facing level 1-10 slimes in the Newbie Village...'
+            },
+            'mid-game': {
+                title: '⚔️ Rising Challenge',
+                desc: 'The hero has grown stronger (Lv 20-30) and now faces tougher enemies in the Dark Forest...'
+            },
+            'boss': {
+                title: '👹 The Final Confrontation',
+                desc: 'At level 50, the hero challenges the Ancient Dragon in an epic boss battle...'
+            },
+            'stress': {
+                title: '🔥 Legendary Power',
+                desc: 'Testing the limits: a maxed-out level 100 warrior against ultimate foes...'
+            }
+        };
+
+        // Update story header
+        function updateStoryHeader(scenario) {
+            const content = storyContent[scenario];
+            document.getElementById('storyTitle').textContent = content.title;
+            document.getElementById('storyDesc').textContent = content.desc;
+        }
+
+        // Scenario selection
+        window.selectScenario = async function(scenario) {
+            // Update active button
+            document.querySelectorAll('.scenario-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.scenario === scenario) {
+                    btn.classList.add('active');
                 }
-            }
-        };
-
-        // 清空所有图表
-        window.clearCharts = function() {
-            Object.values(window.chartInstances).forEach(chart => {
-                if (chart) chart.destroy();
             });
-            window.chartInstances = {};
-            document.getElementById('chartsContainer').style.display = 'none';
+
+            window.currentScenario = scenario;
+            updateStoryHeader(scenario);
+
+            // Clear previous data
+            window.clearOutput();
+            window.clearCharts();
+
+            // Show placeholders
+            document.getElementById('hpPlaceholder').classList.remove('hidden');
+            document.getElementById('damagePlaceholder').classList.remove('hidden');
+            document.getElementById('roundsPlaceholder').classList.remove('hidden');
+
+            // Run simulation based on scenario
+            await runScenario(scenario);
         };
 
-        // 显示图表容器
-        window.showCharts = function() {
-            document.getElementById('chartsContainer').style.display = 'grid';
-        };
+        // Run scenario
+        async function runScenario(scenario) {
+            window.setStatus('loading', `🔄 Running ${scenario} simulation...`);
 
+            try {
+                switch (scenario) {
+                    case 'pve-growth':
+                        await showPVEGrowthCurve(50);
+                        break;
+                    case 'newbie':
+                        await showPVEGrowthCurve(10, 1);
+                        break;
+                    case 'mid-game':
+                        await showPVEGrowthCurve(11, 20);
+                        break;
+                    case 'boss':
+                        await showBossBattle();
+                        break;
+                    case 'stress':
+                        await showStressTest();
+                        break;
+                }
 
-        // 创建回合数对比图（带点击事件和高亮效果）
-        window.createRoundsChart = function(results) {
-            const ctx = document.getElementById('roundsChart');
-            if (!ctx) return;
+                window.setStatus('success', '✅ Simulation complete! Click on any chart point to see detailed battle data.');
+            } catch (error) {
+                console.error('Simulation error:', error);
+                window.setStatus('error', '❌ Simulation failed: ' + error.message);
+            }
+        }
 
-            if (window.chartInstances.roundsChart) {
-                window.chartInstances.roundsChart.destroy();
+        // Show PVE growth curve
+        async function showPVEGrowthCurve(maxLevel, startLevel = 1) {
+            window.currentLevel = null;
+            document.getElementById('detailChartsContainer').style.display = 'none';
+
+            const pveData = await window.generatePVEData((data, level, total) => {
+                window.updateCharts(data);
+                window.pveBattleData = data;
+                window.setStatus('loading', `🔄 Simulating battles... ${level}/${total} (${Math.round(level/total*100)}%)`);
+
+                // Auto-select first level when ready
+                if (level === startLevel && data.length > 0) {
+                    setTimeout(() => {
+                        if (data[0] && data[0].battleData) {
+                            window.showBattleDetail(0);
+                        }
+                    }, 500);
+                }
+            }, maxLevel, startLevel);
+
+            window.pveBattleData = pveData;
+            console.log(`Growth curve generated with ${pveData.length} data points`);
+        }
+
+        // Show boss battle
+        async function showBossBattle() {
+            await showPVEGrowthCurve(1, 50);
+        }
+
+        // Show stress test
+        async function showStressTest() {
+            await showPVEGrowthCurve(1, 100);
+        }
+
+        // Generate PVE data
+        window.generatePVEData = async function(onProgress, maxLevel = 50, startLevel = 1) {
+            if (typeof window.battleDemo === 'undefined') {
+                throw new Error('Battle demo module not loaded');
             }
 
-            // 保存完整数据供点击使用
-            window.multipleBattlesData = results;
+            return await window.battleDemo.generatePVEDataRange(onProgress, maxLevel, startLevel);
+        };
 
-            const labels = results.map(r => r.场景 || r.敌人 || `战斗${r.战斗序号}`);
-            const rounds = results.map(r => r.回合数);
+        // Update all charts
+        window.updateCharts = function(data) {
+            if (!data || data.length === 0) return;
 
-            window.chartInstances.roundsChart = new window.Chart(ctx, {
-                type: 'bar',
+            const levels = data.map(d => `Lv ${d.level}`);
+            const hpValues = data.map(d => d.hp);
+            const damageValues = data.map(d => d.damage);
+            const roundsValues = data.map(d => d.rounds);
+
+            const currentLevelIndex = window.currentLevel !== null ? 
+                data.findIndex(d => d.level === window.currentLevel) : -1;
+
+            // Update or create HP chart
+            if (window.chartInstances.hpChart) {
+                updateChartData(window.chartInstances.hpChart, levels, hpValues, currentLevelIndex, 'rgb(75, 192, 192)');
+            } else {
+                window.chartInstances.hpChart = createLineChart('hpChart', levels, hpValues, 'Health Points', 'rgb(75, 192, 192)', currentLevelIndex);
+                document.getElementById('hpPlaceholder').classList.add('hidden');
+            }
+
+            // Update or create Damage chart
+            if (window.chartInstances.damageChart) {
+                updateChartData(window.chartInstances.damageChart, levels, damageValues, currentLevelIndex, 'rgb(255, 99, 132)');
+            } else {
+                window.chartInstances.damageChart = createLineChart('damageChart', levels, damageValues, 'Attack Damage', 'rgb(255, 99, 132)', currentLevelIndex);
+                document.getElementById('damagePlaceholder').classList.add('hidden');
+            }
+
+            // Update or create Rounds chart
+            if (window.chartInstances.roundsChart) {
+                updateChartData(window.chartInstances.roundsChart, levels, roundsValues, currentLevelIndex, 'rgb(153, 102, 255)');
+            } else {
+                window.chartInstances.roundsChart = createLineChart('roundsChart', levels, roundsValues, 'Battle Duration', 'rgb(153, 102, 255)', currentLevelIndex);
+                document.getElementById('roundsPlaceholder').classList.add('hidden');
+            }
+        };
+
+        // Create line chart
+        function createLineChart(canvasId, labels, data, label, color, highlightIndex = -1) {
+            const ctx = document.getElementById(canvasId);
+            if (!ctx) return null;
+
+            const pointRadii = labels.map((_, idx) => idx === highlightIndex ? 8 : 3);
+            const pointColors = labels.map((_, idx) => idx === highlightIndex ? 'rgb(255, 200, 0)' : color);
+
+            return new Chart(ctx, {
+                type: 'line',
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: '战斗回合数',
-                        data: rounds,
-                        backgroundColor: rounds.map((_, i) => 
-                            i === window.selectedBattleIndex 
-                                ? 'rgba(255, 99, 132, 0.8)' 
-                                : 'rgba(102, 126, 234, 0.8)'
-                        ),
-                        borderColor: rounds.map((_, i) => 
-                            i === window.selectedBattleIndex 
-                                ? 'rgb(255, 99, 132)' 
-                                : 'rgb(102, 126, 234)'
-                        ),
-                        borderWidth: 2
+                        label: label,
+                        data: data,
+                        borderColor: color,
+                        backgroundColor: color.replace('rgb', 'rgba').replace(')', ', 0.1)'),
+                        borderWidth: 2,
+                        pointRadius: pointRadii,
+                        pointBackgroundColor: pointColors,
+                        pointBorderColor: pointColors,
+                        pointBorderWidth: 2,
+                        pointHoverRadius: 6,
+                        tension: 0.3,
+                        fill: true
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: {
-                            display: false
-                        },
+                        legend: { display: false },
                         tooltip: {
-                            titleFont: {
-                                size: 11
-                            },
-                            bodyFont: {
-                                size: 10
-                            },
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            borderColor: color,
+                            borderWidth: 1,
                             callbacks: {
-                                afterLabel: function(context) {
-                                    return '点击查看详情';
-                                }
+                                afterLabel: () => 'Click to view battle details'
                             }
                         }
                     },
                     scales: {
                         y: {
                             beginAtZero: true,
-                            title: {
-                                display: true,
-                                text: '回合数',
-                                font: {
-                                    size: 11
-                                }
-                            },
-                            ticks: {
-                                font: {
-                                    size: 10
-                                }
-                            }
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                            ticks: { color: '#94a3b8' }
                         },
                         x: {
-                            ticks: {
-                                font: {
-                                    size: 10
-                                }
-                            }
+                            grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                            ticks: { color: '#94a3b8' }
                         }
                     },
-                    // 添加点击事件处理
                     onClick: (event, activeElements) => {
-                        if (activeElements.length > 0) {
+                        if (activeElements.length > 0 && window.pveBattleData) {
                             const index = activeElements[0].index;
-                            window.selectedBattleIndex = index;
-                            // 更新图表颜色以高亮选中项
-                            window.createRoundsChart(results);
-                            // 显示详情
                             window.showBattleDetail(index);
                         }
                     }
                 }
             });
-        };
+        }
 
+        // Update chart data
+        function updateChartData(chart, labels, data, highlightIndex, color) {
+            chart.data.labels = labels;
+            chart.data.datasets[0].data = data;
+            chart.data.datasets[0].pointRadius = labels.map((_, idx) => idx === highlightIndex ? 8 : 3);
+            chart.data.datasets[0].pointBackgroundColor = labels.map((_, idx) => 
+                idx === highlightIndex ? 'rgb(255, 200, 0)' : color
+            );
+            chart.update('none');
+        }
 
-        // 设置状态
-        window.setStatus = function(type, message) {
-            if (window.statusElement) {
-                window.statusElement.className = `status ${type}`;
-                window.statusElement.textContent = message;
-            }
-        };
-
-        // 清空输出
-        window.clearOutput = function() {
-            if (window.outputElement) {
-                window.outputElement.textContent = '';
-            }
-            if (window.statusElement) {
-                window.statusElement.className = '';
-                window.statusElement.textContent = '';
-            }
-            window.clearCharts();
-        };
-
-        // 打开控制台提示
-        window.openConsole = function() {
-            alert('请按 F12 键打开浏览器开发者工具，查看详细的战斗数据和日志。\n\n在控制台中，你还可以直接调用：\n- battleDemo.runAllExamples()\n- battleDemo.exampleSingleBattle()\n- battleDemo.exampleMultipleBattles()\n- battleDemo.exampleConsecutiveBattles()\n- battleDemo.exampleWinRateAnalysis()');
-        };
-
-        // 显示单场战斗详情（在回合数图表下方展示）
+        // Show battle detail
         window.showBattleDetail = function(index) {
-            if (!window.multipleBattlesData || !window.multipleBattlesData[index]) {
-                console.error('战斗数据不存在');
-                return;
-            }
-
-            const battle = window.multipleBattlesData[index];
-            
-            // 调试：输出战斗数据
-            console.log('战斗索引:', index);
-            console.log('战斗对象:', battle);
-            console.log('battleData:', battle.battleData);
-            
-            // 检查是否有战斗数据
-            if (!battle.battleData || battle.battleData.length === 0) {
-                console.error('该场战斗没有详细数据。battle.battleData =', battle.battleData);
-                alert('该场战斗没有详细数据\n\n调试信息:\n' + 
-                      '战斗场景: ' + battle.场景 + '\n' +
-                      'battleData类型: ' + typeof battle.battleData + '\n' +
-                      'battleData值: ' + JSON.stringify(battle.battleData));
-                return;
-            }
-
-            // 保持回合数图表显示，在其下方显示详情
-            document.getElementById('battleDetailContainer').style.display = 'block';
-
-            // 更新标题
-            document.getElementById('battleDetailTitle').textContent = 
-                `📊 ${battle.场景} - 主角Lv.${battle.主角等级} vs 敌人Lv.${battle.敌人等级} (回合数: ${battle.回合数})`;
-
-            // 创建详情图表
-            window.createDetailHpChart(battle.battleData, battle.heroName, battle.enemyName);
-            window.createDetailDamageChart(battle.battleData, battle.heroName, battle.enemyName);
-
-            // 平滑滚动到详情区
-            document.getElementById('battleDetailContainer').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        };
-
-        // 关闭战斗详情
-        window.closeBattleDetail = function() {
-            // 清除图表并显示占位符
-            if (window.chartInstances.detailHpChart) {
-                window.chartInstances.detailHpChart.destroy();
-                window.chartInstances.detailHpChart = null;
-            }
-            if (window.chartInstances.detailDamageChart) {
-                window.chartInstances.detailDamageChart.destroy();
-                window.chartInstances.detailDamageChart = null;
-            }
-            
-            // 显示占位符
-            const hpPlaceholder = document.getElementById('detailHpPlaceholder');
-            const damagePlaceholder = document.getElementById('detailDamagePlaceholder');
-            if (hpPlaceholder) hpPlaceholder.classList.remove('hidden');
-            if (damagePlaceholder) damagePlaceholder.classList.remove('hidden');
-            
-            // 隐藏关闭按钮
-            const closeBtn = document.getElementById('closeBattleDetailBtn');
-            if (closeBtn) closeBtn.style.display = 'none';
-            
-            // 重置标题
-            document.getElementById('battleDetailTitle').textContent = '📊 战斗详情';
-            
-            // 滚动回顶部
-            document.getElementById('battleDetailContainer').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        };
-
-        // 测试函数：直接在控制台调用来检查数据
-        window.testPVEData = function() {
-            console.log('===== PVE数据测试 =====');
-            console.log('pveBattleData 存在?', !!window.pveBattleData);
-            console.log('pveBattleData 长度:', window.pveBattleData?.length);
-            
-            if (window.pveBattleData && window.pveBattleData.length > 0) {
-                const testIndex = 0;
-                const testData = window.pveBattleData[testIndex];
-                console.log(`测试数据[${testIndex}]:`, testData);
-                console.log('  - level:', testData.level);
-                console.log('  - rounds:', testData.rounds);
-                console.log('  - hp:', testData.hp);
-                console.log('  - damage:', testData.damage);
-                console.log('  - battleData存在?', !!testData.battleData);
-                console.log('  - battleData类型:', typeof testData.battleData);
-                console.log('  - battleData长度:', testData.battleData?.length);
-                console.log('  - battleData内容:', testData.battleData);
-            }
-        };
-
-        // 显示PVE战斗详情（点击PVE三线图的数据点时）
-        window.showPVEBattleDetail = function(index) {
-            console.log('===== 调试：showPVEBattleDetail 被调用 =====');
-            console.log('索引:', index);
-            console.log('window.pveBattleData 存在?', !!window.pveBattleData);
-            console.log('window.pveBattleData 长度:', window.pveBattleData?.length);
-            
             if (!window.pveBattleData || !window.pveBattleData[index]) {
-                console.error('PVE战斗数据不存在，索引:', index);
-                alert('PVE战斗数据不存在\n\n索引: ' + index + '\npveBattleData是否存在: ' + !!window.pveBattleData);
+                console.error('Battle data not found for index:', index);
                 return;
             }
 
-            const battleInfo = window.pveBattleData[index];
+            const battle = window.pveBattleData[index];
             
-            // 调试：输出战斗数据
-            console.log('PVE战斗对象:', battleInfo);
-            console.log('battleInfo 的所有键:', Object.keys(battleInfo));
-            console.log('battleData 存在?', 'battleData' in battleInfo);
-            // console.log('battleData 值:', battleInfo.battleData);
-            console.log('battleData 类型:', typeof battleInfo.battleData);
-            
-            // 检查是否有战斗数据
-            if (!battleInfo.battleData || battleInfo.battleData.length === 0) {
-                console.error('该等级没有详细战斗数据。battleInfo.battleData =', battleInfo.battleData);
-                
-                // 更详细的调试信息
-                const debugInfo = '调试信息:\n' + 
-                      '等级: ' + battleInfo.level + '\n' +
-                      'rounds: ' + battleInfo.rounds + '\n' +
-                      'hp: ' + battleInfo.hp + '\n' +
-                      'damage: ' + battleInfo.damage + '\n' +
-                      'battleData存在?: ' + ('battleData' in battleInfo) + '\n' +
-                      'battleData类型: ' + typeof battleInfo.battleData + '\n' +
-                      'battleData值: ' + JSON.stringify(battleInfo.battleData) + '\n' +
-                      '所有字段: ' + Object.keys(battleInfo).join(', ');
-                
-                alert('该等级没有详细战斗数据\n\n' + debugInfo);
+            if (!battle.battleData || battle.battleData.length === 0) {
+                console.error('No detailed battle data available');
                 return;
             }
 
-            // 更新当前等级（用于高亮显示）
-            window.currentPVELevel = battleInfo.level;
-            
-            // 更新图表标题中的当前等级显示
-            const currentLevelHp = document.getElementById('currentLevelHp');
-            const currentLevelDmg = document.getElementById('currentLevelDmg');
-            const currentLevelTime = document.getElementById('currentLevelTime');
-            const currentLevelNumHp = document.getElementById('currentLevelNumHp');
-            const currentLevelNumDmg = document.getElementById('currentLevelNumDmg');
-            const currentLevelNumTime = document.getElementById('currentLevelNumTime');
-            
-            if (currentLevelHp) currentLevelHp.style.display = 'inline';
-            if (currentLevelDmg) currentLevelDmg.style.display = 'inline';
-            if (currentLevelTime) currentLevelTime.style.display = 'inline';
-            if (currentLevelNumHp) currentLevelNumHp.textContent = battleInfo.level;
-            if (currentLevelNumDmg) currentLevelNumDmg.textContent = battleInfo.level;
-            if (currentLevelNumTime) currentLevelNumTime.textContent = battleInfo.level;
-            
-            // 刷新所有PVE图表以更新高亮
-            if (window.pveBattleData) {
-                window.updatePVECharts(window.pveBattleData);
-            }
+            window.currentLevel = battle.level;
+            window.updateCharts(window.pveBattleData);
 
-            // 显示详情容器
-            document.getElementById('battleDetailContainer').style.display = 'block';
+            document.getElementById('detailChartsContainer').style.display = 'block';
 
-            // 更新标题
-            document.getElementById('battleDetailTitle').textContent = 
-                `📊 等级${battleInfo.level}战斗详情 - 回合数: ${battleInfo.rounds} | 生命: ${Math.round(battleInfo.hp)} | 攻击: ${Math.round(battleInfo.damage)}`;
+            // Create detail charts
+            createDetailHpChart(battle.battleData, battle.heroName || 'Hero', battle.enemyName || 'Enemy');
+            createDetailDamageChart(battle.battleData, battle.heroName || 'Hero', battle.enemyName || 'Enemy');
 
-            // 创建详情图表
-            window.createDetailHpChart(battleInfo.battleData, battleInfo.heroName || '主角', battleInfo.enemyName || '敌人');
-            window.createDetailDamageChart(battleInfo.battleData, battleInfo.heroName || '主角', battleInfo.enemyName || '敌人');
-
-            // 平滑滚动到详情区
-            document.getElementById('battleDetailContainer').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            // Update output
+            window.clearOutputOnly();
+            console.log(`\n========== Level ${battle.level} Battle Details ==========`);
+            console.log(`Battle Duration: ${battle.rounds} rounds`);
+            console.log(`Hero Final HP: ${Math.round(battle.hp)}`);
+            console.log(`Average Damage: ${Math.round(battle.damage)}`);
+            console.log(`========================================\n`);
         };
 
-        // 创建详情血量变化图
-        window.createDetailHpChart = function(battleData, heroName, enemyName) {
+        // Create detail HP chart
+        function createDetailHpChart(battleData, heroName, enemyName) {
             const ctx = document.getElementById('detailHpChart');
             if (!ctx) return;
 
@@ -843,33 +803,27 @@
                 window.chartInstances.detailHpChart.destroy();
             }
 
-            // 隐藏占位符，显示关闭按钮
-            const placeholder = document.getElementById('detailHpPlaceholder');
-            if (placeholder) placeholder.classList.add('hidden');
-            const closeBtn = document.getElementById('closeBattleDetailBtn');
-            if (closeBtn) closeBtn.style.display = 'inline-block';
-
-            const rounds = battleData.map(d => `第${d.round}回合`);
+            const rounds = battleData.map(d => `R${d.round}`);
             const heroHp = battleData.map(d => d.heroHp);
             const enemyHp = battleData.map(d => d.enemyHp);
 
-            window.chartInstances.detailHpChart = new window.Chart(ctx, {
+            window.chartInstances.detailHpChart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: rounds,
                     datasets: [{
-                        label: heroName + ' 生命值',
+                        label: `${heroName} HP`,
                         data: heroHp,
                         borderColor: 'rgb(75, 192, 192)',
                         backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        tension: 0.4,
+                        tension: 0.3,
                         fill: true
                     }, {
-                        label: enemyName + ' 生命值',
+                        label: `${enemyName} HP`,
                         data: enemyHp,
                         borderColor: 'rgb(255, 99, 132)',
                         backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                        tension: 0.4,
+                        tension: 0.3,
                         fill: true
                     }]
                 },
@@ -877,62 +831,28 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: {
+                        legend: { 
                             display: true,
-                            position: 'top',
-                            labels: {
-                                font: {
-                                    size: 11
-                                }
-                            }
-                        },
-                        tooltip: {
-                            mode: 'index',
-                            intersect: false,
-                            titleFont: {
-                                size: 11
-                            },
-                            bodyFont: {
-                                size: 10
-                            }
+                            labels: { color: '#f1f5f9' }
                         }
                     },
                     scales: {
                         y: {
                             beginAtZero: true,
-                            title: {
-                                display: true,
-                                text: '生命值 (HP)',
-                                font: {
-                                    size: 11
-                                }
-                            },
-                            ticks: {
-                                font: {
-                                    size: 10
-                                },
-                                callback: function(value) {
-                                    if (value >= 1000) {
-                                        return (value / 1000).toFixed(1) + 'k';
-                                    }
-                                    return value;
-                                }
-                            }
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                            ticks: { color: '#94a3b8' }
                         },
                         x: {
-                            ticks: {
-                                font: {
-                                    size: 10
-                                }
-                            }
+                            grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                            ticks: { color: '#94a3b8' }
                         }
                     }
                 }
             });
-        };
+        }
 
-        // 创建详情伤害统计图
-        window.createDetailDamageChart = function(battleData, heroName, enemyName) {
+        // Create detail damage chart
+        function createDetailDamageChart(battleData, heroName, enemyName) {
             const ctx = document.getElementById('detailDamageChart');
             if (!ctx) return;
 
@@ -940,19 +860,15 @@
                 window.chartInstances.detailDamageChart.destroy();
             }
 
-            // 隐藏占位符
-            const placeholder = document.getElementById('detailDamagePlaceholder');
-            if (placeholder) placeholder.classList.add('hidden');
-
             const totalHeroDamage = battleData.reduce((sum, d) => sum + (d.heroDamageDealt || 0), 0);
             const totalEnemyDamage = battleData.reduce((sum, d) => sum + (d.enemyDamageDealt || 0), 0);
             const avgHeroDamage = (totalHeroDamage / battleData.length).toFixed(1);
             const avgEnemyDamage = (totalEnemyDamage / battleData.length).toFixed(1);
 
-            window.chartInstances.detailDamageChart = new window.Chart(ctx, {
+            window.chartInstances.detailDamageChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: ['总伤害', '平均伤害/回合'],
+                    labels: ['Total Damage', 'Avg Damage/Round'],
                     datasets: [{
                         label: heroName,
                         data: [totalHeroDamage, avgHeroDamage],
@@ -971,707 +887,84 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: {
+                        legend: { 
                             display: true,
-                            position: 'top',
-                            labels: {
-                                font: {
-                                    size: 11
-                                }
-                            }
-                        },
-                        tooltip: {
-                            titleFont: {
-                                size: 11
-                            },
-                            bodyFont: {
-                                size: 10
-                            }
+                            labels: { color: '#f1f5f9' }
                         }
                     },
                     scales: {
                         y: {
                             beginAtZero: true,
-                            title: {
-                                display: true,
-                                text: '伤害值',
-                                font: {
-                                    size: 11
-                                }
-                            },
-                            ticks: {
-                                font: {
-                                    size: 10
-                                },
-                                callback: function(value) {
-                                    if (value >= 1000) {
-                                        return (value / 1000).toFixed(1) + 'k';
-                                    }
-                                    return value;
-                                }
-                            }
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                            ticks: { color: '#94a3b8' }
                         },
                         x: {
-                            ticks: {
-                                font: {
-                                    size: 10
-                                }
-                            }
+                            grid: { display: false },
+                            ticks: { color: '#94a3b8' }
                         }
                     }
                 }
             });
+        }
+
+        // Set status
+        window.setStatus = function(type, message) {
+            const statusEl = document.getElementById('status');
+            statusEl.className = `status ${type}`;
+            statusEl.textContent = message;
         };
 
-        // PVE三线图功能函数
-        // 显示PVE三线图
-        window.showPVECharts = async function() {
-            window.clearOutput();
-            window.setStatus('loading', '🔄 正在生成PVE三线图数据，进行50场实际战斗模拟...');
+        // Clear output
+        window.clearOutput = function() {
+            const outputEl = document.getElementById('output');
+            if (outputEl) outputEl.textContent = '';
+            window.setStatus('', '');
+            window.clearCharts();
+        };
+
+        window.clearOutputOnly = function() {
+            const outputEl = document.getElementById('output');
+            if (outputEl) outputEl.textContent = '';
+        };
+
+        // Clear charts
+        window.clearCharts = function() {
+            Object.values(window.chartInstances).forEach(chart => {
+                if (chart) chart.destroy();
+            });
+            window.chartInstances = {};
+        };
+
+        // Redirect console.log to output
+        const originalLog = console.log;
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            const message = args.map(arg => 
+                typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
+            ).join(' ');
             
-            try {
-                // 重置当前等级
-                window.currentPVELevel = undefined;
-                
-                // 隐藏当前等级指示器
-                const currentLevelHp = document.getElementById('currentLevelHp');
-                const currentLevelDmg = document.getElementById('currentLevelDmg');
-                const currentLevelTime = document.getElementById('currentLevelTime');
-                if (currentLevelHp) currentLevelHp.style.display = 'none';
-                if (currentLevelDmg) currentLevelDmg.style.display = 'none';
-                if (currentLevelTime) currentLevelTime.style.display = 'none';
-                
-                // 图表容器已默认显示，不需要再次显示
-                // 隐藏其他图表，只显示PVE三线图
-                document.getElementById('roundsChartBox').style.display = 'none';
-                // document.getElementById('battleDetailContainer').style.display = 'none';
-                document.getElementById('pveChartsContainer').style.display = 'block';
-                document.getElementById('chartsContainer').style.display = 'grid';
-                
-                // 不需要初始化空图表，保持占位符显示即可
-                
-                // 生成实际的50个等级的PVE战斗数据，带渐进式更新
-                const pveData = await window.generatePVEData((data, level, total) => {
-                    // 每完成一个等级的战斗，更新图表
-                    window.updatePVECharts(data);
-                    // 同时保存数据（渐进式保存）
-                    window.pveBattleData = data;
-                    // 更新状态信息
-                    window.setStatus('loading', `🔄 正在生成PVE数据... ${level}/${total} (${Math.round(level/total*100)}%)`);
-                    
-                    // 当第一个等级的数据返回后，自动选中第1级
-                    if (level === 1 && data.length > 0) {
-                        // 设置当前等级为1
-                        window.currentPVELevel = 1;
-                        
-                        // 显示等级指示器
-                        const currentLevelHp = document.getElementById('currentLevelHp');
-                        const currentLevelDmg = document.getElementById('currentLevelDmg');
-                        const currentLevelTime = document.getElementById('currentLevelTime');
-                        const currentLevelNumHp = document.getElementById('currentLevelNumHp');
-                        const currentLevelNumDmg = document.getElementById('currentLevelNumDmg');
-                        const currentLevelNumTime = document.getElementById('currentLevelNumTime');
-                        
-                        if (currentLevelHp) currentLevelHp.style.display = 'inline';
-                        if (currentLevelDmg) currentLevelDmg.style.display = 'inline';
-                        if (currentLevelTime) currentLevelTime.style.display = 'inline';
-                        if (currentLevelNumHp) currentLevelNumHp.textContent = '1';
-                        if (currentLevelNumDmg) currentLevelNumDmg.textContent = '1';
-                        if (currentLevelNumTime) currentLevelNumTime.textContent = '1';
-                        
-                        // 显示第1级的战斗详情
-                        const battleInfo = data[0];
-                        if (battleInfo && battleInfo.battleData && battleInfo.battleData.length > 0) {
-                            // 显示详情容器
-                            document.getElementById('battleDetailContainer').style.display = 'block';
-                            
-                            // 更新标题
-                            document.getElementById('battleDetailTitle').textContent = 
-                                `📊 等级${battleInfo.level}战斗详情 - 回合数: ${battleInfo.rounds} | 生命: ${Math.round(battleInfo.hp)} | 攻击: ${Math.round(battleInfo.damage)}`;
-                            
-                            // 创建详情图表
-                            window.createDetailHpChart(battleInfo.battleData, battleInfo.heroName || '主角', battleInfo.enemyName || '敌人');
-                            window.createDetailDamageChart(battleInfo.battleData, battleInfo.heroName || '主角', battleInfo.enemyName || '敌人');
-                        }
-                    }
-                });
-                
-                // 保存完整的PVE战斗数据
-                window.pveBattleData = pveData;
-                
-                // 调试日志
-                console.log('PVE三线图已生成，数据点数:', pveData.length);
-                // console.log('pveData完整数据（前3个）:', pveData.slice(0, 3));
-                console.log('第一个数据点:', pveData[0]);
-                console.log('第一个数据点的battleData存在?', !!pveData[0]?.battleData);
-                console.log('第一个数据点的battleData长度:', pveData[0]?.battleData?.length);
-                console.log('最后一个数据点的battleData存在?', !!pveData[pveData.length-1]?.battleData);
-                console.log('最后一个数据点的battleData长度:', pveData[pveData.length-1]?.battleData?.length);
-                
-                window.setStatus('success', '✅ PVE三线图生成完成！基于50场实际战斗数据。点击图表上的点查看该等级的战斗详情。');
-            } catch (error) {
-                console.error('生成PVE三线图时出错:', error);
-                window.setStatus('error', '❌ 生成失败: ' + error.message);
+            const outputEl = document.getElementById('output');
+            if (outputEl) {
+                //outputEl.textContent += message + '\n';
+              //  outputEl.scrollTop = outputEl.scrollHeight;
             }
         };
 
-        // 生成PVE测试数据（使用实际战斗数值）
-        // 该函数现在直接调用从 battle-demo.ts 导出的函数
-        window.generatePVEData = async function(onProgress, maxLevel = 50) {
-            // 检查battleDemo模块是否存在
+        // Initialize - auto-run on page load
+        window.addEventListener('DOMContentLoaded', async () => {
+            console.log('Battle simulation system initialized');
+            
             if (typeof window.battleDemo === 'undefined') {
-                throw new Error('战斗演示模块未加载');
-            }
-            
-            // 调用从 battle-demo.ts 导出的 generatePVEData 函数，传递回调函数
-            return await window.battleDemo.generatePVEData(onProgress, maxLevel);
-        };
-
-        // 更新所有PVE图表（渐进式更新）
-        window.updatePVECharts = function(pveData) {
-            if (!pveData || pveData.length === 0) return;
-            
-            const levels = pveData.map(d => d.level);
-            const hpValues = pveData.map(d => d.hp);
-            const damageValues = pveData.map(d => d.damage);
-            const roundsValues = pveData.map(d => d.rounds);
-            
-            // 获取当前选中的等级索引（如果有）
-            const currentLevelIndex = window.currentPVELevel !== undefined ? window.currentPVELevel - 1 : -1;
-            
-            // 更新生命图表，如果不存在则创建
-            if (window.chartInstances.pveHpChart) {
-                const chart = window.chartInstances.pveHpChart;
-                chart.data.labels = levels;
-                chart.data.datasets[0].data = hpValues;
-                
-                // 更新点的样式以突出显示当前等级
-                chart.data.datasets[0].pointRadius = levels.map((_, idx) => idx === currentLevelIndex ? 8 : 4);
-                chart.data.datasets[0].pointBackgroundColor = levels.map((_, idx) => 
-                    idx === currentLevelIndex ? 'rgb(255, 200, 0)' : 'rgb(100, 200, 255)'
-                );
-                chart.data.datasets[0].pointBorderColor = levels.map((_, idx) => 
-                    idx === currentLevelIndex ? 'rgb(255, 150, 0)' : 'rgb(100, 200, 255)'
-                );
-                chart.data.datasets[0].pointBorderWidth = levels.map((_, idx) => idx === currentLevelIndex ? 3 : 2);
-                
-                chart.update('none'); // 使用 'none' 模式快速更新，不带动画
-            } else {
-                window.createPVEHpChart(pveData);
-            }
-            
-            // 更新伤害图表，如果不存在则创建
-            if (window.chartInstances.pveDamageChart) {
-                const chart = window.chartInstances.pveDamageChart;
-                chart.data.labels = levels;
-                chart.data.datasets[0].data = damageValues;
-                
-                // 更新点的样式以突出显示当前等级
-                chart.data.datasets[0].pointRadius = levels.map((_, idx) => idx === currentLevelIndex ? 8 : 4);
-                chart.data.datasets[0].pointBackgroundColor = levels.map((_, idx) => 
-                    idx === currentLevelIndex ? 'rgb(255, 200, 0)' : 'rgb(255, 100, 100)'
-                );
-                chart.data.datasets[0].pointBorderColor = levels.map((_, idx) => 
-                    idx === currentLevelIndex ? 'rgb(255, 150, 0)' : 'rgb(255, 100, 100)'
-                );
-                chart.data.datasets[0].pointBorderWidth = levels.map((_, idx) => idx === currentLevelIndex ? 3 : 2);
-                
-                chart.update('none');
-            } else {
-                window.createPVEDamageChart(pveData);
-            }
-            
-            // 更新回合图表，如果不存在则创建
-            if (window.chartInstances.pveTimeChart) {
-                const chart = window.chartInstances.pveTimeChart;
-                chart.data.labels = levels;
-                chart.data.datasets[0].data = roundsValues;
-                
-                // 更新点的样式以突出显示当前等级
-                chart.data.datasets[0].pointRadius = levels.map((_, idx) => idx === currentLevelIndex ? 8 : 4);
-                chart.data.datasets[0].pointBackgroundColor = levels.map((_, idx) => 
-                    idx === currentLevelIndex ? 'rgb(255, 200, 0)' : 'rgb(100, 150, 255)'
-                );
-                chart.data.datasets[0].pointBorderColor = levels.map((_, idx) => 
-                    idx === currentLevelIndex ? 'rgb(255, 150, 0)' : 'rgb(100, 150, 255)'
-                );
-                chart.data.datasets[0].pointBorderWidth = levels.map((_, idx) => idx === currentLevelIndex ? 3 : 2);
-                
-                chart.update('none');
-            } else {
-                window.createPVETimeChart(pveData);
-            }
-        };
-
-        // 创建PVE生命线图表
-        window.createPVEHpChart = function(pveData) {
-            const ctx = document.getElementById('pveHpChart');
-            if (!ctx) return;
-
-            if (window.chartInstances.pveHpChart) {
-                window.chartInstances.pveHpChart.destroy();
+                window.setStatus('error', '⚠️ Battle module not loaded. Please ensure the project is built correctly.');
+                return;
             }
 
-            // 只有当有数据时才隐藏占位符
-            const placeholder = document.getElementById('pveHpPlaceholder');
-            if (pveData && pveData.length > 0) {
-                if (placeholder) placeholder.classList.add('hidden');
-            }
-
-            const levels = pveData.map(d => d.level);
-            const hpValues = pveData.map(d => d.hp);
-
-            // 获取当前选中的等级索引（如果有）
-            const currentLevelIndex = window.currentPVELevel !== undefined ? window.currentPVELevel - 1 : -1;
-
-            // 为每个点设置不同的样式，突出显示当前等级
-            const pointRadii = levels.map((_, idx) => idx === currentLevelIndex ? 8 : 4);
-            const pointBackgroundColors = levels.map((_, idx) => 
-                idx === currentLevelIndex ? 'rgb(255, 200, 0)' : 'rgb(100, 200, 255)'
-            );
-            const pointBorderColors = levels.map((_, idx) => 
-                idx === currentLevelIndex ? 'rgb(255, 150, 0)' : 'rgb(100, 200, 255)'
-            );
-            const pointBorderWidths = levels.map((_, idx) => idx === currentLevelIndex ? 3 : 2);
-
-            window.chartInstances.pveHpChart = new window.Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: levels,
-                    datasets: [{
-                        label: '生命',
-                        data: hpValues,
-                        borderColor: 'rgb(100, 200, 255)',
-                        backgroundColor: 'rgba(100, 200, 255, 0.1)',
-                        borderWidth: 2,
-                        pointRadius: pointRadii,
-                        pointBackgroundColor: pointBackgroundColors,
-                        pointBorderColor: pointBorderColors,
-                        pointBorderWidth: pointBorderWidths,
-                        pointHoverRadius: 8,
-                        tension: 0.3,
-                        fill: false
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            mode: 'index',
-                            intersect: false,
-                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                            titleColor: '#fff',
-                            bodyColor: '#fff',
-                            borderColor: 'rgb(100, 200, 255)',
-                            borderWidth: 1,
-                            callbacks: {
-                                afterLabel: function(context) {
-                                    return '点击查看该等级战斗详情';
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            grid: {
-                                color: 'rgba(150, 150, 150, 0.15)',
-                                borderDash: [5, 5],
-                                drawBorder: false
-                            },
-                            ticks: {
-                                color: '#999',
-                                font: {
-                                    size: 11
-                                },
-                                callback: function(value) {
-                                    if (value >= 1000) {
-                                        return (value / 1000).toFixed(1) + 'k';
-                                    }
-                                    return value;
-                                }
-                            },
-                            border: {
-                                display: false
-                            }
-                        },
-                        x: {
-                            title: {
-                                display: true,
-                                text: '等级',
-                                color: '#999',
-                                font: {
-                                    size: 12
-                                }
-                            },
-                            grid: {
-                                color: 'rgba(150, 150, 150, 0.15)',
-                                borderDash: [5, 5],
-                                drawBorder: false
-                            },
-                            ticks: {
-                                color: '#999',
-                                font: {
-                                    size: 11
-                                }
-                            },
-                            border: {
-                                display: false
-                            }
-                        }
-                    },
-                    // 添加点击事件处理
-                    onClick: (event, activeElements) => {
-                        if (activeElements.length > 0 && window.pveBattleData) {
-                            const index = activeElements[0].index;
-                            window.showPVEBattleDetail(index);
-                        }
-                    }
-                }
-            });
-        };
-
-        // 创建PVE伤害线图表
-        window.createPVEDamageChart = function(pveData) {
-            const ctx = document.getElementById('pveDamageChart');
-            if (!ctx) return;
-
-            if (window.chartInstances.pveDamageChart) {
-                window.chartInstances.pveDamageChart.destroy();
-            }
-
-            // 只有当有数据时才隐藏占位符
-            const placeholder = document.getElementById('pveDamagePlaceholder');
-            if (pveData && pveData.length > 0) {
-                if (placeholder) placeholder.classList.add('hidden');
-            }
-
-            const levels = pveData.map(d => d.level);
-            const damageValues = pveData.map(d => d.damage);
-
-            // 获取当前选中的等级索引（如果有）
-            const currentLevelIndex = window.currentPVELevel !== undefined ? window.currentPVELevel - 1 : -1;
-
-            // 为每个点设置不同的样式，突出显示当前等级
-            const pointRadii = levels.map((_, idx) => idx === currentLevelIndex ? 8 : 4);
-            const pointBackgroundColors = levels.map((_, idx) => 
-                idx === currentLevelIndex ? 'rgb(255, 200, 0)' : 'rgb(255, 100, 100)'
-            );
-            const pointBorderColors = levels.map((_, idx) => 
-                idx === currentLevelIndex ? 'rgb(255, 150, 0)' : 'rgb(255, 100, 100)'
-            );
-            const pointBorderWidths = levels.map((_, idx) => idx === currentLevelIndex ? 3 : 2);
-
-            window.chartInstances.pveDamageChart = new window.Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: levels,
-                    datasets: [{
-                        label: '攻击',
-                        data: damageValues,
-                        borderColor: 'rgb(255, 100, 100)',
-                        backgroundColor: 'rgba(255, 100, 100, 0.1)',
-                        borderWidth: 2,
-                        pointRadius: pointRadii,
-                        pointBackgroundColor: pointBackgroundColors,
-                        pointBorderColor: pointBorderColors,
-                        pointBorderWidth: pointBorderWidths,
-                        pointHoverRadius: 8,
-                        tension: 0.3,
-                        fill: false
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            mode: 'index',
-                            intersect: false,
-                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                            titleColor: '#fff',
-                            bodyColor: '#fff',
-                            borderColor: 'rgb(255, 100, 100)',
-                            borderWidth: 1,
-                            callbacks: {
-                                afterLabel: function(context) {
-                                    return '点击查看该等级战斗详情';
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            grid: {
-                                color: 'rgba(150, 150, 150, 0.15)',
-                                borderDash: [5, 5],
-                                drawBorder: false
-                            },
-                            ticks: {
-                                color: '#999',
-                                font: {
-                                    size: 11
-                                },
-                                callback: function(value) {
-                                    if (value >= 1000) {
-                                        return (value / 1000).toFixed(1) + 'k';
-                                    }
-                                    return value;
-                                }
-                            },
-                            border: {
-                                display: false
-                            }
-                        },
-                        x: {
-                            title: {
-                                display: true,
-                                text: '等级',
-                                color: '#999',
-                                font: {
-                                    size: 12
-                                }
-                            },
-                            grid: {
-                                color: 'rgba(150, 150, 150, 0.15)',
-                                borderDash: [5, 5],
-                                drawBorder: false
-                            },
-                            ticks: {
-                                color: '#999',
-                                font: {
-                                    size: 11
-                                }
-                            },
-                            border: {
-                                display: false
-                            }
-                        }
-                    },
-                    // 添加点击事件处理
-                    onClick: (event, activeElements) => {
-                        if (activeElements.length > 0 && window.pveBattleData) {
-                            const index = activeElements[0].index;
-                            window.showPVEBattleDetail(index);
-                        }
-                    }
-                }
-            });
-        };
-
-        // 创建PVE时间线图表
-        window.createPVETimeChart = function(pveData) {
-            const ctx = document.getElementById('pveTimeChart');
-            if (!ctx) return;
-
-            if (window.chartInstances.pveTimeChart) {
-                window.chartInstances.pveTimeChart.destroy();
-            }
-
-            // 只有当有数据时才隐藏占位符
-            const placeholder = document.getElementById('pveTimePlaceholder');
-            if (pveData && pveData.length > 0) {
-                if (placeholder) placeholder.classList.add('hidden');
-            }
-
-            const levels = pveData.map(d => d.level);
-            const roundsValues = pveData.map(d => d.rounds);
-
-            // 获取当前选中的等级索引（如果有）
-            const currentLevelIndex = window.currentPVELevel !== undefined ? window.currentPVELevel - 1 : -1;
-
-            // 为每个点设置不同的样式，突出显示当前等级
-            const pointRadii = levels.map((_, idx) => idx === currentLevelIndex ? 8 : 4);
-            const pointBackgroundColors = levels.map((_, idx) => 
-                idx === currentLevelIndex ? 'rgb(255, 200, 0)' : 'rgb(100, 150, 255)'
-            );
-            const pointBorderColors = levels.map((_, idx) => 
-                idx === currentLevelIndex ? 'rgb(255, 150, 0)' : 'rgb(100, 150, 255)'
-            );
-            const pointBorderWidths = levels.map((_, idx) => idx === currentLevelIndex ? 3 : 2);
-
-            window.chartInstances.pveTimeChart = new window.Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: levels,
-                    datasets: [{
-                        label: '回合',
-                        data: roundsValues,
-                        borderColor: 'rgb(100, 150, 255)',
-                        backgroundColor: 'rgba(100, 150, 255, 0.1)',
-                        borderWidth: 2,
-                        pointRadius: pointRadii,
-                        pointBackgroundColor: pointBackgroundColors,
-                        pointBorderColor: pointBorderColors,
-                        pointBorderWidth: pointBorderWidths,
-                        pointHoverRadius: 8,
-                        tension: 0.3,
-                        fill: false
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            mode: 'index',
-                            intersect: false,
-                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                            titleColor: '#fff',
-                            bodyColor: '#fff',
-                            borderColor: 'rgb(100, 150, 255)',
-                            borderWidth: 1,
-                            callbacks: {
-                                afterLabel: function(context) {
-                                    return '点击查看该等级战斗详情';
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            grid: {
-                                color: 'rgba(150, 150, 150, 0.15)',
-                                borderDash: [5, 5],
-                                drawBorder: false
-                            },
-                            ticks: {
-                                color: '#999',
-                                font: {
-                                    size: 11
-                                }
-                            },
-                            border: {
-                                display: false
-                            }
-                        },
-                        x: {
-                            title: {
-                                display: true,
-                                text: '等级',
-                                color: '#999',
-                                font: {
-                                    size: 12
-                                }
-                            },
-                            grid: {
-                                color: 'rgba(150, 150, 150, 0.15)',
-                                borderDash: [5, 5],
-                                drawBorder: false
-                            },
-                            ticks: {
-                                color: '#999',
-                                font: {
-                                    size: 11
-                                }
-                            },
-                            border: {
-                                display: false
-                            }
-                        }
-                    },
-                    // 添加点击事件处理
-                    onClick: (event, activeElements) => {
-                        if (activeElements.length > 0 && window.pveBattleData) {
-                            const index = activeElements[0].index;
-                            window.showPVEBattleDetail(index);
-                        }
-                    }
-                }
-            });
-        };
-
-        // 示例函数（需要在实际项目中从编译后的模块导入）
-        window.runAllExamples = async function() {
-            window.clearOutput();
-            window.setStatus('loading', '🔄 正在运行多场战斗对比示例，请稍候...');
-            
-            try {
-                console.log('开始运行多场战斗对比示例...\n');
-                
-                // 检查 battleDemo 是否已加载
-                if (typeof window.battleDemo !== 'undefined') {
-                    await window.battleDemo.runAllExamples();
-                    window.setStatus('success', '✅ 多场战斗对比示例运行完成！');
-                } else {
-                    throw new Error('战斗演示模块未加载。请确保已正确构建项目。');
-                }
-            } catch (error) {
-                console.error('运行示例时出错:', error);
-                window.setStatus('error', '❌ 运行失败: ' + error.message);
-            }
-        };
-
-        window.runMultipleBattles = async function() {
-            window.clearOutput();
-            window.setStatus('loading', '🔄 正在运行多场战斗对比...');
-            
-            try {
-                if (typeof window.battleDemo !== 'undefined') {
-                    const results = await window.battleDemo.exampleMultipleBattles();
-                    
-                    // 调试：查看返回的结果
-                    console.log('exampleMultipleBattles 返回的结果:', results);
-                    console.log('结果数量:', results.length);
-                    results.forEach((r, i) => {
-                        console.log(`战斗 ${i}:`, r);
-                        console.log(`  battleData存在?`, !!r.battleData);
-                        console.log(`  battleData长度:`, r.battleData ? r.battleData.length : 'undefined');
-                    });
-                    
-                    // 显示图表容器
-                    window.showCharts();
-                    
-                    // 只显示回合数对比图
-                    document.getElementById('roundsChartBox').style.display = 'block';
-                    document.getElementById('battleDetailContainer').style.display = 'none';
-                    
-                    // 重置选中状态
-                    window.selectedBattleIndex = -1;
-                    
-                    // 创建回合数对比图（带点击事件）
-                    window.createRoundsChart(results);
-                    window.setStatus('success', '✅ 多场战斗对比完成！点击柱状图查看该场战斗的详细数据。');
-                } else {
-                    throw new Error('战斗演示模块未加载');
-                }
-            } catch (error) {
-                console.error('运行示例时出错:', error);
-                window.setStatus('error', '❌ 运行失败: ' + error.message);
-            }
-        };
-
-
-        // 页面加载完成后的初始化
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('多场战斗对比演示页面已加载');
-            console.log('请点击按钮运行多场战斗对比示例，或在控制台中直接调用函数。');
-            
-            // 检查是否有 battleDemo
-            if (typeof window.battleDemo === 'undefined') {
-                window.setStatus('error', '⚠️ 战斗演示模块未加载。请确保已正确构建项目并引入相关脚本。');
-                console.warn('提示: 需要先构建项目并引入 battle-demo.js');
-                console.warn('或者在 index.html 中使用此演示页面');
-            } else {
-                window.setStatus('success', '✅ 多场战斗对比系统已就绪！点击按钮开始演示。');
-            }
+            // Auto-run default scenario
+            await selectScenario('pve-growth');
         });
     </script>
 
-    <!-- 注意：实际使用时需要引入编译后的 JS 文件 -->
+    <!-- Load battle demo module -->
     <script type="module" src="./dist/test.js"></script>
 </body>
 </html>
-

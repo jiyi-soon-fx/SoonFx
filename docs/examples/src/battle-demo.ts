@@ -408,6 +408,112 @@ async function exampleMultipleBattles() {
 
 
 /**
+ * 生成指定范围的PVE测试数据（使用实际战斗数值）
+ * 对指定范围的每个等级进行实际战斗模拟
+ * @param onProgress 进度回调函数，每完成一个等级的战斗就调用一次
+ * @param count 等级数量，默认50
+ * @param startLevel 起始等级，默认1
+ */
+async function generatePVEDataRange(onProgress?: (data: any[], level: number, total: number) => void, count: number = 50, startLevel: number = 1) {
+    const data = [];
+    const maxLevel = startLevel + count - 1;
+
+    await init();
+    const seerUtil = FxUtil.getInstance();
+
+    // 对每个等级进行实际战斗模拟
+    for (let level = startLevel; level <= maxLevel; level++) {
+        // 使用 setTimeout 模拟 sleep，避免浏览器卡死
+        await new Promise(resolve => {
+            requestAnimationFrame(() => resolve(true))
+        });
+
+        try {
+            // 创建战斗日志
+            const logger = new BattleLogger();
+
+            // 创建主角
+            const heroData = seerUtil.getInstanceDataByNameAndOccuAndLevel("主角1", 1, level);
+            const hero = new BattleEntity(
+                "Hero",
+                heroData.hp,
+                heroData.attack,
+                heroData.defense,
+                level,
+                1
+            );
+
+            // 创建敌人（同等级）
+            const enemyData = seerUtil.getInstanceDataByNameAndOccuAndLevel("怪物1", 1, level);
+            const enemy = new BattleEntity(
+                "Enemy",
+                enemyData.hp,
+                enemyData.attack,
+                enemyData.defense,
+                level,
+                1
+            );
+
+            // 进行战斗
+            const simulator = new BattleSimulator(hero, enemy, logger);
+            const result = simulator.startBattle();
+
+            // 计算主角输出的平均伤害
+            let totalHeroDamage = 0;
+            let damageCount = 0;
+            if (result.battleData && result.battleData.length > 0) {
+                for (const roundData of result.battleData) {
+                    if (roundData.heroDamageDealt !== undefined) {
+                        totalHeroDamage += roundData.heroDamageDealt;
+                        damageCount++;
+                    }
+                }
+            }
+            const averageHeroDamage = damageCount > 0 ? totalHeroDamage / damageCount : 0;
+
+            // 收集数据
+            const newData = {
+                level: level,
+                hp: hero.currentHp,
+                damage: averageHeroDamage,
+                rounds: result.rounds,
+                battleData: result.battleData,
+                heroName: "Hero",
+                enemyName: "Enemy"
+            };
+
+            data.push(newData);
+
+            // 调用进度回调函数，实现渐进式更新
+            if (onProgress) {
+                onProgress(data, level, maxLevel);
+            }
+
+        } catch (error) {
+            console.error(`Level ${level} battle simulation failed:`, error);
+            // 如果战斗失败，使用默认数据
+            const defaultData = {
+                level: level,
+                hp: 100,
+                damage: 20,
+                rounds: 10,
+                battleData: [],
+                heroName: "Hero",
+                enemyName: "Enemy"
+            };
+            data.push(defaultData);
+
+            if (onProgress) {
+                onProgress(data, level, maxLevel);
+            }
+        }
+    }
+
+    console.log(`PVE data generation complete: ${data.length} levels`);
+    return data;
+}
+
+/**
  * 生成PVE测试数据（使用实际战斗数值）
  * 对每个等级（1-50）进行实际战斗模拟
  * @param onProgress 进度回调函数，每完成一个等级的战斗就调用一次
@@ -434,7 +540,7 @@ async function generatePVEData(onProgress?: (data: any[], level: number, total: 
             // 创建主角
             const heroData = seerUtil.getInstanceDataByNameAndOccuAndLevel("主角1", 1, level);
             const hero = new BattleEntity(
-                "勇者",
+                "Hero",
                 heroData.hp,
                 heroData.attack,
                 heroData.defense,
@@ -445,7 +551,7 @@ async function generatePVEData(onProgress?: (data: any[], level: number, total: 
             // 创建敌人（同等级）
             const enemyData = seerUtil.getInstanceDataByNameAndOccuAndLevel("怪物1", 1, level);
             const enemy = new BattleEntity(
-                "巨龙",
+                "Enemy",
                 enemyData.hp,
                 enemyData.attack,
                 enemyData.defense,
@@ -453,11 +559,6 @@ async function generatePVEData(onProgress?: (data: any[], level: number, total: 
                 1
             );
 
-            console.log('进行战斗', level);
-            console.log('hero', hero);
-            console.log('enemy', enemy);
-
-            // debugger;
             // 进行战斗
             const simulator = new BattleSimulator(hero, enemy, logger);
             const result = simulator.startBattle();
@@ -482,8 +583,8 @@ async function generatePVEData(onProgress?: (data: any[], level: number, total: 
                 damage: averageHeroDamage,  // 战斗中主角输出的伤害平均值
                 rounds: result.rounds,  // 实际战斗回合数
                 battleData: result.battleData,  // 完整的战斗数据（每回合的详细数据）
-                heroName: "勇者",  // 主角名称
-                enemyName: "巨龙"  // 敌人名称
+                heroName: "Hero",  // 主角名称
+                enemyName: "Enemy"  // 敌人名称
             };
 
             // 调试日志
@@ -509,7 +610,7 @@ async function generatePVEData(onProgress?: (data: any[], level: number, total: 
                 console.log(`PVE数据生成进度: ${level}/${maxLevel}`);
             }
         } catch (error) {
-            console.error(`等级${level}战斗模拟失败:`, error);
+            console.error(`Level ${level} battle simulation failed:`, error);
             // 如果战斗失败，使用默认数据
             const defaultData = {
                 level: level,
@@ -517,8 +618,8 @@ async function generatePVEData(onProgress?: (data: any[], level: number, total: 
                 damage: 20,
                 rounds: 10,
                 battleData: [],  // 空数组
-                heroName: "勇者",
-                enemyName: "巨龙"
+                heroName: "Hero",
+                enemyName: "Enemy"
             };
             data.push(defaultData);
 
@@ -529,7 +630,7 @@ async function generatePVEData(onProgress?: (data: any[], level: number, total: 
         }
     }
 
-    console.log('PVE数据生成完成，共', data.length, '个等级');
+    console.log(`PVE data generation complete: ${data.length} levels`);
     return data;
 }
 
@@ -564,7 +665,8 @@ export {
     BattleSimulator,
     exampleMultipleBattles,
     runAllExamples,
-    generatePVEData
+    generatePVEData,
+    generatePVEDataRange
 };
 
 // 如果直接运行此文件，则执行多场战斗对比示例
@@ -573,12 +675,14 @@ if (typeof window !== 'undefined') {
     (window as any).battleDemo = {
         runAllExamples,
         exampleMultipleBattles,
-        generatePVEData
+        generatePVEData,
+        generatePVEDataRange
     };
 
-    console.log('💡 使用方法:');
-    console.log('  - battleDemo.runAllExamples() - 运行多场战斗对比示例');
-    console.log('  - battleDemo.exampleMultipleBattles() - 多场对比');
-    console.log('  - battleDemo.generatePVEData() - 生成PVE测试数据');
+    console.log('💡 Usage:');
+    console.log('  - battleDemo.runAllExamples() - Run multiple battle comparison examples');
+    console.log('  - battleDemo.exampleMultipleBattles() - Multiple battle comparison');
+    console.log('  - battleDemo.generatePVEData() - Generate PVE test data');
+    console.log('  - battleDemo.generatePVEDataRange() - Generate PVE data for specific level range');
 }
 

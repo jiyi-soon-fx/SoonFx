@@ -1,7 +1,7 @@
-var N = Object.defineProperty;
-var M = (e, t, r) => t in e ? N(e, t, { enumerable: !0, configurable: !0, writable: !0, value: r }) : e[t] = r;
-var n = (e, t, r) => M(e, typeof t != "symbol" ? t + "" : t, r);
-var I, MessageList = (I = class {
+var w = Object.defineProperty;
+var $ = (e, t, r) => t in e ? w(e, t, { enumerable: !0, configurable: !0, writable: !0, value: r }) : e[t] = r;
+var n = (e, t, r) => $(e, typeof t != "symbol" ? t + "" : t, r);
+var O, MessageList = (O = class {
   /**
    * 构造函数
    * 初始化消息列表
@@ -17,7 +17,7 @@ var I, MessageList = (I = class {
    * @returns MessageList的单例实例
    */
   static getInstance() {
-    return I._instance == null && (I._instance = new I()), I._instance;
+    return O._instance == null && (O._instance = new O()), O._instance;
   }
   /**
    * 从事件消息列表中移除指定的事件对象
@@ -38,7 +38,7 @@ var I, MessageList = (I = class {
 }, /**
  * 单例实例
  */
-n(I, "_instance", null), I), Call = class {
+n(O, "_instance", null), O), Call = class {
   /**
    * 构造函数
    */
@@ -362,8 +362,8 @@ function getCatchValue(e, t, r, i) {
   let s = 0;
   try {
     s = e.getValue(t, r, i);
-  } catch (l) {
-    console.log(l), s = 0;
+  } catch (u) {
+    console.log(u), s = 0;
   }
   return s;
 }
@@ -510,12 +510,12 @@ var getGlobalThis = () => typeof globalThis < "u" ? globalThis : typeof window <
     var i, s;
     const t = (i = fx.getDataById) == null ? void 0 : i.call(fx, this.id), r = (s = fx.getTreeDataById) == null ? void 0 : s.call(fx, this.id);
     if (t && r) {
-      const l = getGlobalThis();
-      if (l.window && !l.window.updatingSheeData) {
-        const o = `componentDatas.nodeList.props.tree.props.dataSource.${r.dataPath}.showName`;
-        l.window.set_data(
-          l.window.store,
-          o,
+      const u = getGlobalThis();
+      if (u.window && !u.window.updatingSheeData) {
+        const h = `componentDatas.nodeList.props.tree.props.dataSource.${r.dataPath}.showName`;
+        u.window.set_data(
+          u.window.store,
+          h,
           `${this.name}=${e}`
         );
       }
@@ -623,8 +623,8 @@ var getGlobalThis = () => typeof globalThis < "u" ? globalThis : typeof window <
    * @returns 表格值
    */
   getSheetValue(e, t, r) {
-    var i, s, l;
-    return this.value = ((s = (i = this.source) == null ? void 0 : i.sheetData) == null ? void 0 : s.getValue(e, t, r)) || ((l = this.sheetData) == null ? void 0 : l.getValue(e, t, r)) || 0, this.returnFunc(this.value);
+    var i, s, u;
+    return this.value = ((s = (i = this.source) == null ? void 0 : i.sheetData) == null ? void 0 : s.getValue(e, t, r)) || ((u = this.sheetData) == null ? void 0 : u.getValue(e, t, r)) || 0, this.returnFunc(this.value);
   }
   /**
    * 获取逻辑数字列表值
@@ -897,8 +897,8 @@ var getGlobalThis = () => typeof globalThis < "u" ? globalThis : typeof window <
       return 0;
     let e = 0, t = 0;
     const r = getCatchValue(this.tree[0]), i = getCatchValue(this.tree[1]), s = getCatchValue(this.tree[2]);
-    for (let l = r; l <= i; l++)
-      l % s === 1 && e++, t += e + 2;
+    for (let u = r; u <= i; u++)
+      u % s === 1 && e++, t += e + 2;
     return t;
   }
   /**
@@ -1669,8 +1669,8 @@ var getGlobalThis = () => typeof globalThis < "u" ? globalThis : typeof window <
     }
     const r = Math.random() * t;
     for (let i = 1; i < e.length; i += 2) {
-      const s = i > 1 && e[i - 2].indexex || 0, l = e[i].indexex || 0;
-      if (r >= s && r < l)
+      const s = i > 1 && e[i - 2].indexex || 0, u = e[i].indexex || 0;
+      if (r >= s && r < u)
         return this.getTreeValue(e, i - 1);
     }
     return 0;
@@ -1817,9 +1817,9 @@ var getGlobalThis = () => typeof globalThis < "u" ? globalThis : typeof window <
     if (e.length < 4)
       return 0;
     let t = 0, r = 0;
-    const i = this.getTreeValue(e, 0), s = this.getTreeValue(e, 1), l = this.getTreeValue(e, 2), o = this.getTreeValue(e, 3);
-    for (let u = i; u <= s; u++)
-      u % l === 1 && t++, r += t + o;
+    const i = this.getTreeValue(e, 0), s = this.getTreeValue(e, 1), u = this.getTreeValue(e, 2), h = this.getTreeValue(e, 3);
+    for (let o = i; o <= s; o++)
+      o % u === 1 && t++, r += t + h;
     return r;
   }
   arrayAccess(e) {
@@ -1897,8 +1897,8 @@ var getGlobalThis = () => typeof globalThis < "u" ? globalThis : typeof window <
   meleeAttack(e) {
     if (e.length < 5)
       return 0;
-    const t = this.getTreeValue(e, 0), r = this.getTreeValue(e, 1), i = this.getTreeValue(e, 2), s = this.getTreeValue(e, 3), l = this.getTreeValue(e, 4);
-    return t * 2 + Math.pow(t / 10, 2) + r / 5 + i / 5 + l * s;
+    const t = this.getTreeValue(e, 0), r = this.getTreeValue(e, 1), i = this.getTreeValue(e, 2), s = this.getTreeValue(e, 3), u = this.getTreeValue(e, 4);
+    return t * 2 + Math.pow(t / 10, 2) + r / 5 + i / 5 + u * s;
   }
   /**
    * 远程物理攻击力公式
@@ -1912,8 +1912,8 @@ var getGlobalThis = () => typeof globalThis < "u" ? globalThis : typeof window <
   rangedAttack(e) {
     if (e.length < 5)
       return 0;
-    const t = this.getTreeValue(e, 0), r = this.getTreeValue(e, 1), i = this.getTreeValue(e, 2), s = this.getTreeValue(e, 3), l = this.getTreeValue(e, 4);
-    return t * 2 + Math.pow(t / 10, 2) + r / 5 + i / 5 + l * s;
+    const t = this.getTreeValue(e, 0), r = this.getTreeValue(e, 1), i = this.getTreeValue(e, 2), s = this.getTreeValue(e, 3), u = this.getTreeValue(e, 4);
+    return t * 2 + Math.pow(t / 10, 2) + r / 5 + i / 5 + u * s;
   }
   /**
    * 法师物理攻击力公式
@@ -1948,20 +1948,20 @@ var getGlobalThis = () => typeof globalThis < "u" ? globalThis : typeof window <
   finalMeleeAttack(e) {
     if (e.length < 8)
       return 0;
-    const t = this.getTreeValue(e, 0), r = this.getTreeValue(e, 1), i = this.getTreeValue(e, 2), s = this.getTreeValue(e, 3), l = this.getTreeValue(e, 4), o = this.getTreeValue(e, 5), u = this.getTreeValue(e, 6), h = this.getTreeValue(e, 7);
-    return (t * 7 + t / 5 + r / 5 + i / 5 + s + (s + l) * o) * u * h;
+    const t = this.getTreeValue(e, 0), r = this.getTreeValue(e, 1), i = this.getTreeValue(e, 2), s = this.getTreeValue(e, 3), u = this.getTreeValue(e, 4), h = this.getTreeValue(e, 5), o = this.getTreeValue(e, 6), c = this.getTreeValue(e, 7);
+    return (t * 7 + t / 5 + r / 5 + i / 5 + s + (s + u) * h) * o * c;
   }
   finalRangedAttack(e) {
     if (e.length < 8)
       return 0;
-    const t = this.getTreeValue(e, 0), r = this.getTreeValue(e, 1), i = this.getTreeValue(e, 2), s = this.getTreeValue(e, 3), l = this.getTreeValue(e, 4), o = this.getTreeValue(e, 5), u = this.getTreeValue(e, 6), h = this.getTreeValue(e, 7);
-    return (t * 5 + t / 5 + r / 5 + i / 5 + s + (s + l) * o) * u * h;
+    const t = this.getTreeValue(e, 0), r = this.getTreeValue(e, 1), i = this.getTreeValue(e, 2), s = this.getTreeValue(e, 3), u = this.getTreeValue(e, 4), h = this.getTreeValue(e, 5), o = this.getTreeValue(e, 6), c = this.getTreeValue(e, 7);
+    return (t * 5 + t / 5 + r / 5 + i / 5 + s + (s + u) * h) * o * c;
   }
   finalMagicAttack(e) {
     if (e.length < 6)
       return 0;
-    const t = this.getTreeValue(e, 0), r = this.getTreeValue(e, 1), i = this.getTreeValue(e, 2), s = this.getTreeValue(e, 3), l = this.getTreeValue(e, 4), o = this.getTreeValue(e, 5);
-    return (t * 7 + t / 5 + r + (r + i) * s) * l * o;
+    const t = this.getTreeValue(e, 0), r = this.getTreeValue(e, 1), i = this.getTreeValue(e, 2), s = this.getTreeValue(e, 3), u = this.getTreeValue(e, 4), h = this.getTreeValue(e, 5);
+    return (t * 7 + t / 5 + r + (r + i) * s) * u * h;
   }
   physicalDamage(e) {
     if (e.length < 2)
@@ -2162,14 +2162,14 @@ var getGlobalThis = () => typeof globalThis < "u" ? globalThis : typeof window <
   buildIfText(e, t) {
     if (e.length < 4)
       return "参数不匹配,请输入[值,值,值,值]";
-    const [r, i, s, l] = e.map((o) => o.getFormulaTextValue());
-    return `if(${r}${t}${i}){return ${s}}else{return ${l}}`;
+    const [r, i, s, u] = e.map((h) => h.getFormulaTextValue());
+    return `if(${r}${t}${i}){return ${s}}else{return ${u}}`;
   }
   buildForLoopText(e) {
     if (e.length < 4)
       return "参数不匹配,请输入[初始等级,当前等级,间隔值,初始值]";
     const [t, r, i, s] = e.map(
-      (l) => l.getFormulaTextValue()
+      (u) => u.getFormulaTextValue()
     );
     return `for(var i=${t};i<=${r};i++){if(i%${i}==1){a++}c+=a+${s}}`;
   }
@@ -2180,7 +2180,7 @@ var getGlobalThis = () => typeof globalThis < "u" ? globalThis : typeof window <
     const r = t === "mix" ? 3 : 4, i = t === "mix" ? "[值1,值2,混合比例]" : "[x1,y1,x2,y2]";
     if (e.length < r)
       return `参数不匹配,请输入${i}`;
-    const s = e.slice(0, r).map((l) => l.getFormulaTextValue()).join(",");
+    const s = e.slice(0, r).map((u) => u.getFormulaTextValue()).join(",");
     return `${t}(${s})`;
   }
   buildMixText(e) {
@@ -2196,25 +2196,25 @@ var getGlobalThis = () => typeof globalThis < "u" ? globalThis : typeof window <
     if (e.length < 4)
       return "参数不匹配,请输入[基础生命,等级,职业系数A,职业系数B]";
     const [t, r, i, s] = e.map(
-      (l) => l.getFormulaTextValue()
+      (u) => u.getFormulaTextValue()
     );
     return `${t}+${i}*${r}+${s}*(1+${r})*${r}/2`;
   }
   buildMeleeAttackText(e) {
     if (e.length < 5)
       return "参数不匹配,请输入[力量,灵巧,幸运,等级,职业攻击系数]";
-    const [t, r, i, s, l] = e.map(
-      (o) => o.getFormulaTextValue()
+    const [t, r, i, s, u] = e.map(
+      (h) => h.getFormulaTextValue()
     );
-    return `${t}*2+pow((${t}/10),2)+${r}/5+${i}/5+${l}*${s}`;
+    return `${t}*2+pow((${t}/10),2)+${r}/5+${i}/5+${u}*${s}`;
   }
   buildRangedAttackText(e) {
     if (e.length < 5)
       return "参数不匹配,请输入[灵巧,力量,幸运,等级,职业攻击系数]";
-    const [t, r, i, s, l] = e.map(
-      (o) => o.getFormulaTextValue()
+    const [t, r, i, s, u] = e.map(
+      (h) => h.getFormulaTextValue()
     );
-    return `${t}*2+pow((${t}/10),2)+${r}/5+${i}/5+${l}*${s}`;
+    return `${t}*2+pow((${t}/10),2)+${r}/5+${i}/5+${u}*${s}`;
   }
   buildMageAttackText(e) {
     if (e.length < 1)
@@ -2714,15 +2714,15 @@ var getGlobalThis = () => typeof globalThis < "u" ? globalThis : typeof window <
     for (let s = 0; s < this.playerData.formulaTree.length; s++)
       if (this.playerData.formulaTree[s].name == e) {
         fx.enemyBody = t, this.enemyBody = t, r = this.playerData.formulaTree[s].body.getValue();
-        let l = t.isDie;
-        t.getShield() != 0 ? t.minusShield(r) : t.minusHp(r), !l && t.isDie && i++, fx.enemyBody = null;
+        let u = t.isDie;
+        t.getShield() != 0 ? t.minusShield(r) : t.minusHp(r), !u && t.isDie && i++, fx.enemyBody = null;
         break;
       }
     for (let s = 0; s < fx.stageStoragePool.length; s++)
       if (fx.stageStoragePool[s] instanceof FormulaData && fx.stageStoragePool[s].name == e) {
         fx.enemyBody = t, this.enemyBody = t, r = fx.stageStoragePool[s].body.getValue();
-        let l = t.isDie;
-        t.getShield() != 0 ? t.minusShield(r) : t.minusHp(r), !l && t.isDie && i++, fx.enemyBody = null;
+        let u = t.isDie;
+        t.getShield() != 0 ? t.minusShield(r) : t.minusHp(r), !u && t.isDie && i++, fx.enemyBody = null;
       }
     return i > 0 && this.onEnmeyKilled(i), [r, fx.isCrit];
   }
@@ -3016,9 +3016,9 @@ var getGlobalThis = () => typeof globalThis < "u" ? globalThis : typeof window <
     if (!i)
       return !1;
     for (const s of i.parameterInfoArray)
-      for (const l of s.parameter)
-        if (l.path === t)
-          return l.value = r, !0;
+      for (const u of s.parameter)
+        if (u.path === t)
+          return u.value = r, !0;
     return !1;
   }
   /**
@@ -3049,8 +3049,8 @@ var getGlobalThis = () => typeof globalThis < "u" ? globalThis : typeof window <
       return;
     }
     for (const s of i.parameterInfoArray)
-      for (const l of s.parameter)
-        l.path === r.levelPath ? l.value = e : l.path === r.occupationPath && (l.value = t);
+      for (const u of s.parameter)
+        u.path === r.levelPath ? u.value = e : u.path === r.occupationPath && (u.value = t);
     this.level = e, this.gameManualOverrideParameter(i);
   }
   /**
@@ -3063,12 +3063,12 @@ var getGlobalThis = () => typeof globalThis < "u" ? globalThis : typeof window <
     e.parameterInfoArray.forEach((r) => {
       r && t.forEach((i) => {
         r.name === i.name && r.parameter.forEach((s) => {
-          const l = s.path;
-          i.metadataArray.forEach((o) => {
-            const u = [];
-            if (fx.getStepData(o.body.source, u), u.toString() === l) {
-              const d = o.body.getValue(), c = Number(s.value);
-              d !== c && o.body.setGlobalValue(c);
+          const u = s.path;
+          i.metadataArray.forEach((h) => {
+            const o = [];
+            if (fx.getStepData(h.body.source, o), o.toString() === u) {
+              const d = h.body.getValue(), l = Number(s.value);
+              d !== l && h.body.setGlobalValue(l);
             }
           });
         });
@@ -3123,11 +3123,11 @@ var getGlobalThis = () => typeof globalThis < "u" ? globalThis : typeof window <
    */
   pushMetadata(e, t, r, i, s) {
     if (fx.clickBody != null && fx.clickBody instanceof fx.VariableValue && fx.clickBody.type != 5) {
-      const l = new fx.MetadataData(fx.clickBody);
-      l.type = e, l.presentValue = getCatchValue(l.body), l.minValue = t, l.maxValue = r, l.intervalValue = i, l.list = s && s.length ? s.map((o) => ({
-        value: Number(o.value),
-        name: o.name
-      })) : [], this.metadataArray.push(l);
+      const u = new fx.MetadataData(fx.clickBody);
+      u.type = e, u.presentValue = getCatchValue(u.body), u.minValue = t, u.maxValue = r, u.intervalValue = i, u.list = s && s.length ? s.map((h) => ({
+        value: Number(h.value),
+        name: h.name
+      })) : [], this.metadataArray.push(u);
     }
     fx.clickBody = null;
   }
@@ -3249,12 +3249,14 @@ var getGlobalThis = () => typeof globalThis < "u" ? globalThis : typeof window <
    * @returns 返回单元格的值，如果无法获取则返回 0
    */
   getValue(e, t, r) {
-    var d, c, f;
+    var l, p, y;
     if (!(this != null && this.originData) || typeof e > "u" || typeof t > "u" || typeof r > "u")
       return;
-    const s = this.originData.sheets, l = s.find((g) => g.name === e), o = (d = l == null ? void 0 : l.data) == null ? void 0 : d.get(`${t},${r}`), u = o == null ? void 0 : o.cellData;
-    let h = u == null ? void 0 : u.v;
-    return u != null && u.type && (h = (c = o == null ? void 0 : o.source) != null && c.getValue ? (f = o.source) == null ? void 0 : f.getValue() : 0), u != null && u.f && (h = u != null && u.getValue ? u.getValue(s) : u.v), h || 0;
+    const u = this.originData.sheets.find((g) => g.name === e), h = u.uniqueInfo.find(
+      (g) => g.row === t && g.col === r
+    ), o = (l = u == null ? void 0 : u.data) == null ? void 0 : l.get(`${t},${r}`), c = o == null ? void 0 : o.cellData;
+    let d = c == null ? void 0 : c.v;
+    return c != null && c.type && (d = (p = o == null ? void 0 : o.source) != null && p.getValue ? (y = o.source) == null ? void 0 : y.getValue() : 0), (h == null ? void 0 : h.value) || d || 0;
   }
 }, OperationLayerData = class {
   /**
@@ -3325,12 +3327,12 @@ var A = class {
     try {
       if (!t || !t.tree || !Array.isArray(t.tree))
         throw new Error("Invalid object structure for recursive reading");
-      for (let l = 0; l < t.tree.length; l++) {
-        const o = t.tree[l];
-        o != null && (o.isFolder ? this.recursiveDataReading(o, r, i, s) : o.type == 1 ? r.push(o) : o.type == 5 ? i.push(o) : o instanceof a.BillboardLayer && s.push(o));
+      for (let u = 0; u < t.tree.length; u++) {
+        const h = t.tree[u];
+        h != null && (h.isFolder ? this.recursiveDataReading(h, r, i, s) : h.type == 1 ? r.push(h) : h.type == 5 ? i.push(h) : h instanceof a.BillboardLayer && s.push(h));
       }
-    } catch (l) {
-      console.error("Error in recursive data reading:", l);
+    } catch (u) {
+      console.error("Error in recursive data reading:", u);
     }
   }
 }, /** 测试实例 */
@@ -3374,8 +3376,8 @@ n(a, "cross", function(t, r, i, s) {
     if (!a.isNumber(t) || !a.isNumber(r) || !a.isNumber(i) || !a.isNumber(s))
       throw new Error("Invalid parameters for cross function");
     return t * i - r * s;
-  } catch (l) {
-    return console.error("Error in cross function:", l), 0;
+  } catch (u) {
+    return console.error("Error in cross function:", u), 0;
   }
 }), /**
  * 计算向量的点积
@@ -3390,8 +3392,8 @@ n(a, "dot", function(t, r, i, s) {
     if (!a.isNumber(t) || !a.isNumber(r) || !a.isNumber(i) || !a.isNumber(s))
       throw new Error("Invalid parameters for dot function");
     return t * i + r * s;
-  } catch (l) {
-    return console.error("Error in dot function:", l), 0;
+  } catch (u) {
+    return console.error("Error in dot function:", u), 0;
   }
 }), /**
  * 计算两点之间的距离
@@ -3405,10 +3407,10 @@ n(a, "distance", function(t, r, i, s) {
   try {
     if (!a.isNumber(t) || !a.isNumber(r) || !a.isNumber(i) || !a.isNumber(s))
       throw new Error("Invalid parameters for distance function");
-    const l = Math.abs(t - i), o = Math.abs(r - s);
-    return a.length(l, o);
-  } catch (l) {
-    return console.error("Error in distance function:", l), 0;
+    const u = Math.abs(t - i), h = Math.abs(r - s);
+    return a.length(u, h);
+  } catch (u) {
+    return console.error("Error in distance function:", u), 0;
   }
 }), /**
  * 计算向量的长度
@@ -3518,7 +3520,7 @@ n(a, "isCrit", !1), // constructor() { }
  * @returns {*}
  */
 n(a, "distribute", function(t, r) {
-  const i = r.reduce((s, l) => s + l, 0);
+  const i = r.reduce((s, u) => s + u, 0);
   return r.map((s) => t * s / i);
 }), /**
  *
@@ -3530,41 +3532,41 @@ n(a, "distribute", function(t, r) {
  * @param 高指数
  * @returns {[]}
  */
-n(a, "partitionCurve", function(t, r, i, s, l, o) {
-  var u = [], h = [], d = l, c = o;
-  d == null && (d = 0.382), c == null && (c = 0.618);
-  for (var f = 0, g = 1; g <= r; g++) {
-    var p = Math.pow(r, i), v = Math.pow(g, i), D = v / p, y = g * (1e4 * d) / r + D * (1e4 * c);
-    u.push(y), f += y;
+n(a, "partitionCurve", function(t, r, i, s, u, h) {
+  var o = [], c = [], d = u, l = h;
+  d == null && (d = 0.382), l == null && (l = 0.618);
+  for (var p = 0, y = 1; y <= r; y++) {
+    var g = Math.pow(r, i), V = Math.pow(y, i), T = V / g, m = y * (1e4 * d) / r + T * (1e4 * l);
+    o.push(m), p += m;
   }
-  for (var m = 0; m < u.length; m++)
+  for (var D = 0; D < o.length; D++)
     if (s == null)
-      h.push(
-        u[m] / f * t
+      c.push(
+        o[D] / p * t
       );
     else
       switch (s) {
         case 0:
-          h.push(
-            u[m] / f * t
+          c.push(
+            o[D] / p * t
           );
           break;
         case 1:
-          h.push(
+          c.push(
             Math.floor(
-              u[m] / f * t
+              o[D] / p * t
             )
           );
           break;
         case 2:
-          h.push(
+          c.push(
             Math.floor(
-              u[m] / f * t
+              o[D] / p * t
             )
           );
           break;
       }
-  return h;
+  return c;
 }), n(a, "eval", function(t) {
   return a.evaluateExpression(t);
 }), n(a, "recursionLibraryBody", function(t, r, i) {
@@ -3621,36 +3623,36 @@ n(a, "getLibraryBody", function(t, r, i) {
 }), n(a, "mapToJSON", function(t) {
   return t ? JSON.stringify(
     [...t].reduce((r, [i, s]) => {
-      const l = { ...s }, o = l.source;
-      if (o) {
-        const u = a.createVarData(
-          o.TID,
-          o.name,
-          o.value,
-          o.type,
-          o.macros,
-          o.operator,
-          o.enemyFlag,
-          o.source,
-          o.tag,
-          o.statistics,
-          o.upDateValue,
-          o.demoteValue,
-          o.funcType,
+      const u = { ...s }, h = u.source;
+      if (h) {
+        const o = a.createVarData(
+          h.TID,
+          h.name,
+          h.value,
+          h.type,
+          h.macros,
+          h.operator,
+          h.enemyFlag,
+          h.source,
+          h.tag,
+          h.statistics,
+          h.upDateValue,
+          h.demoteValue,
+          h.funcType,
           // 逻辑块数据
-          o.isLogicalOpen,
-          o.isDragging,
-          o.currentStep,
-          o.snNo,
-          o.minValue,
-          o.maxValue,
-          o.step,
-          o.logicalChildArray,
-          o.selectedOutputInfo
+          h.isLogicalOpen,
+          h.isDragging,
+          h.currentStep,
+          h.snNo,
+          h.minValue,
+          h.maxValue,
+          h.step,
+          h.logicalChildArray,
+          h.selectedOutputInfo
         );
-        l.source = u;
+        u.source = o;
       }
-      return r[i] = l, r;
+      return r[i] = u, r;
     }, {})
   ) : "{}";
 }), /**
@@ -3659,11 +3661,11 @@ n(a, "getLibraryBody", function(t, r, i) {
  * @param bodyArray
  */
 n(a, "addLibraryBody", function(t, r) {
-  var h;
+  var c;
   for (var i = 0; i < r.length; i++) {
-    let d = r[i], c = (h = d.sheetData) == null ? void 0 : h.originData;
-    if (c && (c = { ...c }, c.sheets = [
-      ...c.sheets.map((f) => ({ ...f, data: a.mapToJSON(f.data) }))
+    let d = r[i], l = (c = d.sheetData) == null ? void 0 : c.originData;
+    if (l && (l = { ...l }, l.sheets = [
+      ...l.sheets.map((p) => ({ ...p, data: a.mapToJSON(p.data) }))
     ]), d instanceof a.VariableValue) {
       var s = a.createOperationLayerData(
         d.name,
@@ -3672,7 +3674,7 @@ n(a, "addLibraryBody", function(t, r) {
         d,
         d.tag,
         d.isSystemShow,
-        d.sheetData ? JSON.stringify(c) : null,
+        d.sheetData ? JSON.stringify(l) : null,
         d.childCell
       );
       s.id = d.id, t.push(s), a.saveBody(
@@ -3696,30 +3698,30 @@ n(a, "addLibraryBody", function(t, r) {
           d.monitored
         );
         s.id = d.id, t.push(s);
-        for (var l = 0; l < d.operationArray.length; l++) {
-          let g = d.operationArray[l];
-          var o = a.createOperationLayerData(
+        for (var u = 0; u < d.operationArray.length; u++) {
+          let y = d.operationArray[u];
+          var h = a.createOperationLayerData(
+            y.body.name,
+            y.body.type,
+            y.body.value,
+            y.body.source,
+            y.body.tag,
+            y.body.isSystemShow,
+            null,
+            null
+          );
+          h.id = y.body.id, s.operationArray.push(h);
+        }
+        for (var u = 0; u < d.metadataArray.length; u++) {
+          const g = d.metadataArray[u];
+          var o = a.createBillboarMetadataData(
             g.body.name,
             g.body.type,
             g.body.value,
             g.body.source,
-            g.body.tag,
-            g.body.isSystemShow,
-            null,
-            null
+            g
           );
-          o.id = g.body.id, s.operationArray.push(o);
-        }
-        for (var l = 0; l < d.metadataArray.length; l++) {
-          const p = d.metadataArray[l];
-          var u = a.createBillboarMetadataData(
-            p.body.name,
-            p.body.type,
-            p.body.value,
-            p.body.source,
-            p
-          );
-          u.id = p.body.id, s.metadataArray.push(u);
+          o.id = g.body.id, s.metadataArray.push(o);
         }
       }
       if (d instanceof a.ChartsLayer) {
@@ -3735,26 +3737,26 @@ n(a, "addLibraryBody", function(t, r) {
  */
 n(a, "parseLibraryBody", function(t, r) {
   for (var i = 0; i < t.length; i++) {
-    const u = t[i];
-    if (u.type == 5) {
+    const o = t[i];
+    if (o.type == 5) {
       var s = [];
-      a.getLibraryBody(s, a.targetFolder.tree, u.site), a.editBody = s[0], a.selectBody = a.editBody, a.targetStoragePool = a.editBody.childBodyArray, a.editBody.isSystemShow = u.isSystemShow, a.parseStageBody(u.operationArray);
-    } else if (u.type == 0 || u.type == 1 || u.type == 2 || u.type == 3) {
+      a.getLibraryBody(s, a.targetFolder.tree, o.site), a.editBody = s[0], a.selectBody = a.editBody, a.targetStoragePool = a.editBody.childBodyArray, a.editBody.isSystemShow = o.isSystemShow, a.parseStageBody(o.operationArray);
+    } else if (o.type == 0 || o.type == 1 || o.type == 2 || o.type == 3) {
       var s = [];
-      a.getLibraryBody(s, a.targetFolder.tree, u.site), a.editBody = s[0], a.selectBody = a.editBody, a.targetStoragePool = a.stageStoragePool, a.parseStageBody(u.operationArray);
-    } else if (u.isFile == !0) {
+      a.getLibraryBody(s, a.targetFolder.tree, o.site), a.editBody = s[0], a.selectBody = a.editBody, a.targetStoragePool = a.stageStoragePool, a.parseStageBody(o.operationArray);
+    } else if (o.isFile == !0) {
       var s = [];
-      a.getLibraryBody(s, a.targetFolder.tree, u.site), a.editBody = s[0];
-      for (var l = s[0], o = 0; o < u.operationArray.length; o++) {
-        const d = u.operationArray[o];
+      a.getLibraryBody(s, a.targetFolder.tree, o.site), a.editBody = s[0];
+      for (var u = s[0], h = 0; h < o.operationArray.length; h++) {
+        const d = o.operationArray[h];
         if (d.type == 5) {
           var s = [];
           a.getLibraryBody(
             s,
             a.targetFolder.tree,
             d.site
-          ), a.editBody = s[0], a.selectBody = s[0], a.targetStoragePool = s[0].childBodyArray, a.parseStageBody(d.operationArray), a.editBody = l, a.editBody.isSystemShow = d.isSystemShow;
-        } else d.isBoard == !0 ? (a.selectBody = a.editBody, d.index = o, a.Call.send(a.Eve.SHIFT_ADD_BOARD, d, null)) : d.isXlsx == !0 && (a.selectBody = a.editBody, d.index = o, a.Call.send(a.Eve.SHIFT_ADD_CHARTS, d, null));
+          ), a.editBody = s[0], a.selectBody = s[0], a.targetStoragePool = s[0].childBodyArray, a.parseStageBody(d.operationArray), a.editBody = u, a.editBody.isSystemShow = d.isSystemShow;
+        } else d.isBoard == !0 ? (a.selectBody = a.editBody, d.index = h, a.Call.send(a.Eve.SHIFT_ADD_BOARD, d, null)) : d.isXlsx == !0 && (a.selectBody = a.editBody, d.index = h, a.Call.send(a.Eve.SHIFT_ADD_CHARTS, d, null));
         if (d.isFile == !0) {
           var s = [];
           a.getLibraryBody(
@@ -3765,7 +3767,7 @@ n(a, "parseLibraryBody", function(t, r) {
         }
       }
       a.editBody = null;
-    } else u.isBoard == !0 ? (a.selectBody = a.editBody, a.billBoardList.push(u), a.Call.send(a.Eve.SHIFT_ADD_BOARD, u, null)) : u.isXlsx == !0 && (a.selectBody = a.editBody, a.Call.send(a.Eve.SHIFT_ADD_CHARTS, u, null));
+    } else o.isBoard == !0 ? (a.selectBody = a.editBody, a.billBoardList.push(o), a.Call.send(a.Eve.SHIFT_ADD_BOARD, o, null)) : o.isXlsx == !0 && (a.selectBody = a.editBody, a.Call.send(a.Eve.SHIFT_ADD_CHARTS, o, null));
     r && (a.selectBody = null);
   }
 }), /**
@@ -3774,23 +3776,23 @@ n(a, "parseLibraryBody", function(t, r) {
  * @param init
  */
 n(a, "createLibraryBody", function(t, r, i, s) {
-  for (var l = 0; l < t.length; l++) {
-    const c = t[l];
-    if (c.isFile == !0) {
-      var o = new a.Folder(c.name);
-      a.Call.send(a.Eve.CREATE_FILE_DATA, o, null), s != null ? (a.Call.send(a.Eve.ADD_DATABASE_DATA, [o, s], null), a.Call.send(
+  for (var u = 0; u < t.length; u++) {
+    const l = t[u];
+    if (l.isFile == !0) {
+      var h = new a.Folder(l.name);
+      a.Call.send(a.Eve.CREATE_FILE_DATA, h, null), s != null ? (a.Call.send(a.Eve.ADD_DATABASE_DATA, [h, s], null), a.Call.send(
         a.Eve.SHIFT_REFRESH_LIBRARY_COORDINATES,
-        [o, s],
+        [h, s],
         null
-      )) : (a.Call.send(a.Eve.ADD_DATABASE_DATA, [o, a.selectBody], null), a.Call.send(
+      )) : (a.Call.send(a.Eve.ADD_DATABASE_DATA, [h, a.selectBody], null), a.Call.send(
         a.Eve.SHIFT_REFRESH_LIBRARY_COORDINATES,
-        [o, a.selectBody],
+        [h, a.selectBody],
         null
-      )), a.selectBody = o, a.selectBody.absoluteAddress = c.site;
-      for (var u = 0; u < c.operationArray.length; u++) {
-        const f = c.operationArray[u];
-        if (f.type == 5)
-          a.editBody = new a.VariableValue(f.name, null, 5), a.editBody.tag = f.name.tag, a.Call.send(a.Eve.CREATE_OPERATION_DATA, a.editBody, null), a.Call.send(
+      )), a.selectBody = h, a.selectBody.absoluteAddress = l.site;
+      for (var o = 0; o < l.operationArray.length; o++) {
+        const p = l.operationArray[o];
+        if (p.type == 5)
+          a.editBody = new a.VariableValue(p.name, null, 5), a.editBody.tag = p.name.tag, a.Call.send(a.Eve.CREATE_OPERATION_DATA, a.editBody, null), a.Call.send(
             a.Eve.ADD_DATABASE_DATA,
             [a.editBody, a.selectBody],
             null
@@ -3798,14 +3800,14 @@ n(a, "createLibraryBody", function(t, r, i, s) {
             a.Eve.SHIFT_REFRESH_LIBRARY_COORDINATES,
             [a.editBody, a.selectBody],
             null
-          ), a.editBody.absoluteAddress = f.site, a.targetStoragePool = a.editBody.childBodyArray;
-        else if (f.type == 0 || f.type == 1 || f.type == 2 || f.type == 3) {
-          var h = f.name + "=" + f.value, d = new a.VariableValue(
-            h.split("=")[0],
-            h.split("=")[1],
+          ), a.editBody.absoluteAddress = p.site, a.targetStoragePool = a.editBody.childBodyArray;
+        else if (p.type == 0 || p.type == 1 || p.type == 2 || p.type == 3) {
+          var c = p.name + "=" + p.value, d = new a.VariableValue(
+            c.split("=")[0],
+            c.split("=")[1],
             1
           );
-          f.type == 1 && (d.isAI = i || !1), a.editBody = d, a.editBody.tag = f.tag, a.Call.send(a.Eve.CREATE_METADATE_DATA, d, null), a.Call.send(
+          p.type == 1 && (d.isAI = i || !1), a.editBody = d, a.editBody.tag = p.tag, a.Call.send(a.Eve.CREATE_METADATE_DATA, d, null), a.Call.send(
             a.Eve.ADD_DATABASE_DATA,
             [a.editBody, a.selectBody],
             null
@@ -3813,34 +3815,34 @@ n(a, "createLibraryBody", function(t, r, i, s) {
             a.Eve.SHIFT_REFRESH_LIBRARY_COORDINATES,
             [a.editBody, a.selectBody],
             null
-          ), a.editBody.absoluteAddress = f.site, a.targetStoragePool = a.editBody.childBodyArray;
-        } else if (f.type == 11) {
-          var h = f.name, d = new a.VariableValue(
-            h.split("=")[0],
+          ), a.editBody.absoluteAddress = p.site, a.targetStoragePool = a.editBody.childBodyArray;
+        } else if (p.type == 11) {
+          var c = p.name, d = new a.VariableValue(
+            c.split("=")[0],
             void 0,
-            f.type
+            p.type
           );
-          d.selectedOutputInfo = f != null && f.selectedOutputInfo ? JSON.parse(f == null ? void 0 : f.selectedOutputInfo) : null;
-          const v = typeof f.sheetData == "string" ? JSON.parse(f.sheetData) : f.sheetData;
-          v != null && v.sheets && (v.sheets = v.sheets.map((D) => {
-            const y = JSON.parse(D.data);
-            return Object.values(y).forEach((m) => {
-              if (m != null && m.source) {
-                const V = m.source;
-                var T = [];
+          d.selectedOutputInfo = p != null && p.selectedOutputInfo ? JSON.parse(p == null ? void 0 : p.selectedOutputInfo) : null;
+          const V = typeof p.sheetData == "string" ? JSON.parse(p.sheetData) : p.sheetData;
+          V != null && V.sheets && (V.sheets = V.sheets.map((T) => {
+            const m = JSON.parse(T.data);
+            return Object.values(m).forEach((D) => {
+              if (D != null && D.source) {
+                const b = D.source;
+                var f = [];
                 a.getLibraryBody(
-                  T,
+                  f,
                   a.targetFolder.tree,
-                  a.getAbsoluteAddress(V)
+                  a.getAbsoluteAddress(b)
                 );
-                var b = T[0];
-                m.source = b.copy();
+                var x = f[0];
+                D.source = x.copy();
               }
             }), {
-              ...D,
-              data: new Map(Object.entries(y))
+              ...T,
+              data: new Map(Object.entries(m))
             };
-          })), d.setSheetData(v), d.childCell = f.childCell, a.editBody = d, a.editBody.tag = f.tag, a.Call.send(
+          })), d.setSheetData(V), d.childCell = p.childCell, a.editBody = d, a.editBody.tag = p.tag, a.Call.send(
             a.Eve.ADD_DATABASE_DATA,
             [a.editBody, a.selectBody],
             null
@@ -3848,30 +3850,30 @@ n(a, "createLibraryBody", function(t, r, i, s) {
             a.Eve.SHIFT_REFRESH_LIBRARY_COORDINATES,
             [a.editBody, a.selectBody],
             null
-          ), a.editBody.absoluteAddress = f.site, a.targetStoragePool = a.editBody.childBodyArray;
+          ), a.editBody.absoluteAddress = p.site, a.targetStoragePool = a.editBody.childBodyArray;
         }
-        if (f.isFile == !0) {
-          var o = new a.Folder(f.name);
-          a.Call.send(a.Eve.CREATE_FILE_DATA, o, null), a.Call.send(
+        if (p.isFile == !0) {
+          var h = new a.Folder(p.name);
+          a.Call.send(a.Eve.CREATE_FILE_DATA, h, null), a.Call.send(
             a.Eve.ADD_DATABASE_DATA,
-            [o, a.selectBody],
+            [h, a.selectBody],
             null
           ), a.Call.send(
             a.Eve.SHIFT_REFRESH_LIBRARY_COORDINATES,
-            [o, a.selectBody],
+            [h, a.selectBody],
             null
-          ), a.selectBody = o, a.selectBody.absoluteAddress = f.site, a.createLibraryBody(
-            f.operationArray,
+          ), a.selectBody = h, a.selectBody.absoluteAddress = p.site, a.createLibraryBody(
+            p.operationArray,
             !1,
             !1,
-            o
-          ), a.selectBody = o.parentFolder;
+            h
+          ), a.selectBody = h.parentFolder;
         }
       }
-      a.selectBody = o.parentFolder;
+      a.selectBody = h.parentFolder;
     }
-    if (c.type == 5)
-      a.editBody = new a.VariableValue(c.name, null, 5), a.editBody.tag = c.tag, a.editBody.isSystemShow = c.isSystemShow, a.Call.send(a.Eve.CREATE_OPERATION_DATA, a.editBody, null), a.Call.send(
+    if (l.type == 5)
+      a.editBody = new a.VariableValue(l.name, null, 5), a.editBody.tag = l.tag, a.editBody.isSystemShow = l.isSystemShow, a.Call.send(a.Eve.CREATE_OPERATION_DATA, a.editBody, null), a.Call.send(
         a.Eve.ADD_DATABASE_DATA,
         [a.editBody, a.selectBody],
         null
@@ -3879,14 +3881,14 @@ n(a, "createLibraryBody", function(t, r, i, s) {
         a.Eve.SHIFT_REFRESH_LIBRARY_COORDINATES,
         [a.editBody, a.selectBody],
         null
-      ), a.editBody.absoluteAddress = c.site, a.targetStoragePool = a.editBody.childBodyArray;
-    else if (c.type == 0 || c.type == 1 || c.type == 2 || c.type == 3) {
-      var h = c.name + "=" + c.value, d = new a.VariableValue(
-        h.split("=")[0],
-        h.split("=")[1],
+      ), a.editBody.absoluteAddress = l.site, a.targetStoragePool = a.editBody.childBodyArray;
+    else if (l.type == 0 || l.type == 1 || l.type == 2 || l.type == 3) {
+      var c = l.name + "=" + l.value, d = new a.VariableValue(
+        c.split("=")[0],
+        c.split("=")[1],
         1
       );
-      c.type == 1 && (d.isAI = i || !1), a.editBody = d, a.editBody.tag = c.tag, a.Call.send(a.Eve.CREATE_METADATE_DATA, d, null), a.Call.send(
+      l.type == 1 && (d.isAI = i || !1), a.editBody = d, a.editBody.tag = l.tag, a.Call.send(a.Eve.CREATE_METADATE_DATA, d, null), a.Call.send(
         a.Eve.ADD_DATABASE_DATA,
         [a.editBody, a.selectBody],
         null
@@ -3894,34 +3896,34 @@ n(a, "createLibraryBody", function(t, r, i, s) {
         a.Eve.SHIFT_REFRESH_LIBRARY_COORDINATES,
         [a.editBody, a.selectBody],
         null
-      ), a.editBody.absoluteAddress = c.site, a.targetStoragePool = a.editBody.childBodyArray;
-    } else if (c.type == 11) {
-      var h = c.name, d = new a.VariableValue(
-        h.split("=")[0],
+      ), a.editBody.absoluteAddress = l.site, a.targetStoragePool = a.editBody.childBodyArray;
+    } else if (l.type == 11) {
+      var c = l.name, d = new a.VariableValue(
+        c.split("=")[0],
         void 0,
-        c.type
+        l.type
       );
-      d.selectedOutputInfo = c != null && c.selectedOutputInfo ? JSON.parse(c == null ? void 0 : c.selectedOutputInfo) : null;
-      const p = typeof c.sheetData == "string" ? JSON.parse(c.sheetData) : c.sheetData;
-      p != null && p.sheets && (p.sheets = p.sheets.map((v) => {
-        const D = JSON.parse(v.data);
-        return Object.values(D).forEach((y) => {
-          if (y != null && y.source) {
-            const b = y.source;
-            var m = [];
+      d.selectedOutputInfo = l != null && l.selectedOutputInfo ? JSON.parse(l == null ? void 0 : l.selectedOutputInfo) : null;
+      const g = typeof l.sheetData == "string" ? JSON.parse(l.sheetData) : l.sheetData;
+      g != null && g.sheets && (g.sheets = g.sheets.map((V) => {
+        const T = JSON.parse(V.data);
+        return Object.values(T).forEach((m) => {
+          if (m != null && m.source) {
+            const x = m.source;
+            var D = [];
             a.getLibraryBody(
-              m,
+              D,
               a.targetFolder.tree,
-              a.getAbsoluteAddress(b)
+              a.getAbsoluteAddress(x)
             );
-            var T = m[0];
-            y.source = T.copy();
+            var f = D[0];
+            m.source = f.copy();
           }
         }), {
-          ...v,
-          data: new Map(Object.entries(D))
+          ...V,
+          data: new Map(Object.entries(T))
         };
-      })), d.setSheetData(p), d.childCell = c.childCell, a.editBody = d, a.editBody.tag = c.tag, a.Call.send(
+      })), d.setSheetData(g), d.childCell = l.childCell, a.editBody = d, a.editBody.tag = l.tag, a.Call.send(
         a.Eve.ADD_DATABASE_DATA,
         [a.editBody, a.selectBody],
         null
@@ -3929,7 +3931,7 @@ n(a, "createLibraryBody", function(t, r, i, s) {
         a.Eve.SHIFT_REFRESH_LIBRARY_COORDINATES,
         [a.editBody, a.selectBody],
         null
-      ), a.editBody.absoluteAddress = c.site, a.targetStoragePool = a.editBody.childBodyArray;
+      ), a.editBody.absoluteAddress = l.site, a.targetStoragePool = a.editBody.childBodyArray;
     }
     r && (a.selectBody = null);
   }
@@ -3948,48 +3950,48 @@ n(a, "getBody", function(t, r, i) {
     if (a.isNumber(s))
       i.push(Number(s));
     else {
-      const l = i.pop(), o = i.pop();
-      let u;
-      if (o !== void 0 && l !== void 0)
+      const u = i.pop(), h = i.pop();
+      let o;
+      if (h !== void 0 && u !== void 0)
         switch (s) {
           case "+":
-            u = o + l;
+            o = h + u;
             break;
           case "-":
-            u = o - l;
+            o = h - u;
             break;
           case "*":
-            u = o * l;
+            o = h * u;
             break;
           case "/":
-            u = o / l;
+            o = h / u;
             break;
           case "%":
-            u = o % l;
+            o = h % u;
             break;
           case "^":
-            u = Math.pow(o, l);
+            o = Math.pow(h, u);
             break;
           case ">":
-            u = o > l;
+            o = h > u;
             break;
           case "<":
-            u = o < l;
+            o = h < u;
             break;
           case ">=":
-            u = o >= l;
+            o = h >= u;
             break;
           case "<=":
-            u = o <= l;
+            o = h <= u;
             break;
           case "==":
-            u = o === l;
+            o = h === u;
             break;
           case "!=":
-            u = o !== l;
+            o = h !== u;
             break;
         }
-      i.push(u);
+      i.push(o);
     }
   return i.pop();
 }), // 将自然表达式转换为逆波兰表达式
@@ -4009,40 +4011,40 @@ n(a, "toRPN", function(t) {
     "==": 4,
     "!=": 4
   }, i = [], s = [];
-  function l(f) {
-    i.push(f);
+  function u(p) {
+    i.push(p);
   }
-  function o() {
-    var f = s.pop();
-    f && l(f);
+  function h() {
+    var p = s.pop();
+    p && u(p);
   }
-  function u(f) {
-    return r.hasOwnProperty(f);
+  function o(p) {
+    return r.hasOwnProperty(p);
   }
-  function h(f, g) {
-    return f === "-" && g === 0 || f === "-" && !a.isNumber(t[g - 1]) && t[g - 1] !== ")";
+  function c(p, y) {
+    return p === "-" && y === 0 || p === "-" && !a.isNumber(t[y - 1]) && t[y - 1] !== ")";
   }
-  for (let f = 0; f < t.length; f++) {
-    var d = t[f];
-    if (a.isNumber(d) || h(d, f)) {
-      let g = d, p = f + 1;
-      for (; p < t.length && (a.isNumber(t[p]) || t[p] === "."); )
-        g += t[p], p++;
-      l(g), f = p - 1;
-    } else if (u(d)) {
-      for (var c = s[s.length - 1]; u(c) && (r[d] <= r[c] && d !== "^" || r[d] < r[c] && d === "^"); )
-        o(), c = s[s.length - 1];
+  for (let p = 0; p < t.length; p++) {
+    var d = t[p];
+    if (a.isNumber(d) || c(d, p)) {
+      let y = d, g = p + 1;
+      for (; g < t.length && (a.isNumber(t[g]) || t[g] === "."); )
+        y += t[g], g++;
+      u(y), p = g - 1;
+    } else if (o(d)) {
+      for (var l = s[s.length - 1]; o(l) && (r[d] <= r[l] && d !== "^" || r[d] < r[l] && d === "^"); )
+        h(), l = s[s.length - 1];
       s.push(d);
     } else if (d === "(")
       s.push(d);
     else if (d === ")") {
-      for (var c = s[s.length - 1]; c !== "(" && c !== void 0; )
-        o(), c = s[s.length - 1];
+      for (var l = s[s.length - 1]; l !== "(" && l !== void 0; )
+        h(), l = s[s.length - 1];
       s.pop();
     }
   }
   for (; s.length > 0; )
-    o();
+    h();
   return i;
 }), n(a, "Rectangle", class {
   constructor(r, i) {
@@ -4108,131 +4110,131 @@ n(a, "recursionGetBillboard", function(t, r) {
  */
 n(a, "saveBody", function(t, r) {
   for (var i = 0; i < r.length; i++) {
-    const g = r[i];
-    if (g.type == "OperationBody") {
-      var s = 0, l = 0;
-      g.view != null && (s = g.view.getX(), l = g.view.getY());
-      var o = a.createBodyData(
-        g.type,
-        g.isFunction,
-        g.isBindingOperation,
+    const y = r[i];
+    if (y.type == "OperationBody") {
+      var s = 0, u = 0;
+      y.view != null && (s = y.view.getX(), u = y.view.getY());
+      var h = a.createBodyData(
+        y.type,
+        y.isFunction,
+        y.isBindingOperation,
         s,
-        l,
-        g.isWeight,
-        g.isAdvance,
-        g.funcType
+        u,
+        y.isWeight,
+        y.isAdvance,
+        y.funcType
       );
-      g.isBindingFormula && (o.isFormula = !0, o.formulaName = g.formulaBody.name, o.formulaX = g.formulaBody.x, o.formulaY = g.formulaBody.y), o.id = g.id, t.push(o);
-      for (var u = 0; u < g.tree.length; u++) {
-        const p = g.tree[u];
-        let v = a.createVarData(
-          p.TID,
-          p.name,
-          p.value,
-          p.type,
-          p.macros,
-          p.operator,
-          p.enemyFlag,
-          p.source,
-          p.tag,
-          p.statistics,
-          p.upDateValue,
-          p.demoteValue,
-          p.funcType,
+      y.isBindingFormula && (h.isFormula = !0, h.formulaName = y.formulaBody.name, h.formulaX = y.formulaBody.x, h.formulaY = y.formulaBody.y), h.id = y.id, t.push(h);
+      for (var o = 0; o < y.tree.length; o++) {
+        const g = y.tree[o];
+        let V = a.createVarData(
+          g.TID,
+          g.name,
+          g.value,
+          g.type,
+          g.macros,
+          g.operator,
+          g.enemyFlag,
+          g.source,
+          g.tag,
+          g.statistics,
+          g.upDateValue,
+          g.demoteValue,
+          g.funcType,
           // 逻辑块数据
-          p.isLogicalOpen,
-          p.isDragging,
-          p.currentStep,
-          p.snNo,
-          p.minValue,
-          p.maxValue,
-          p.step,
-          p.logicalChildArray,
-          p.selectedOutputInfo
+          g.isLogicalOpen,
+          g.isDragging,
+          g.currentStep,
+          g.snNo,
+          g.minValue,
+          g.maxValue,
+          g.step,
+          g.logicalChildArray,
+          g.selectedOutputInfo
         );
-        v.id = p.id, o.tree.push(v);
+        V.id = g.id, h.tree.push(V);
       }
-    } else if (g.type == "SymbolBody") {
-      var s = 0, l = 0;
-      g.view != null && (s = g.view.getX(), l = g.view.getY());
-      var h = a.createSymbolData(
-        g.type,
-        g.operator,
-        g.isFunctionId,
-        g.isBindingOperation,
+    } else if (y.type == "SymbolBody") {
+      var s = 0, u = 0;
+      y.view != null && (s = y.view.getX(), u = y.view.getY());
+      var c = a.createSymbolData(
+        y.type,
+        y.operator,
+        y.isFunctionId,
+        y.isBindingOperation,
         s,
-        l,
-        g.isWeight,
-        g.funcType
+        u,
+        y.isWeight,
+        y.funcType
       );
-      g.isBindingFormula && (h.isFormula = !0, h.formulaName = g.formulaBody.name, h.formulaX = g.formulaBody.x, h.formulaY = g.formulaBody.y), h.id = g.id, t.push(h);
-      for (var u = 0; u < g.tree.length; u++) {
-        const y = g.tree[u];
-        switch (y.type) {
+      y.isBindingFormula && (c.isFormula = !0, c.formulaName = y.formulaBody.name, c.formulaX = y.formulaBody.x, c.formulaY = y.formulaBody.y), c.id = y.id, t.push(c);
+      for (var o = 0; o < y.tree.length; o++) {
+        const m = y.tree[o];
+        switch (m.type) {
           case "OperationBody":
-            var s = 0, l = 0;
-            y.view != null && (s = y.view.getX(), l = y.view.getY());
-            var c = a.createBodyData(
-              y.type,
-              y.isFunction,
-              y.isBindingOperation,
+            var s = 0, u = 0;
+            m.view != null && (s = m.view.getX(), u = m.view.getY());
+            var l = a.createBodyData(
+              m.type,
+              m.isFunction,
+              m.isBindingOperation,
               s,
-              l,
-              y.isWeight,
-              y.isAdvance,
-              y.funcType
+              u,
+              m.isWeight,
+              m.isAdvance,
+              m.funcType
             );
-            c.id = y.id, h.tree.push(c);
-            for (var d = 0; d < y.tree.length; d++) {
-              const b = y.tree[d];
-              let V = a.createVarData(
-                b.TID,
-                b.name,
-                b.value,
-                b.type,
-                b.macros,
-                b.operator,
-                b.enemyFlag,
-                b.source,
-                b.tag,
-                b.statistics,
-                b.upDateValue,
-                b.demoteValue,
-                b.funcType,
+            l.id = m.id, c.tree.push(l);
+            for (var d = 0; d < m.tree.length; d++) {
+              const x = m.tree[d];
+              let b = a.createVarData(
+                x.TID,
+                x.name,
+                x.value,
+                x.type,
+                x.macros,
+                x.operator,
+                x.enemyFlag,
+                x.source,
+                x.tag,
+                x.statistics,
+                x.upDateValue,
+                x.demoteValue,
+                x.funcType,
                 // 逻辑块数据
-                b.isLogicalOpen,
-                b.isDragging,
-                b.currentStep,
-                b.snNo,
-                b.minValue,
-                b.maxValue,
-                b.step,
-                b.logicalChildArray,
-                b.selectedOutputInfo
+                x.isLogicalOpen,
+                x.isDragging,
+                x.currentStep,
+                x.snNo,
+                x.minValue,
+                x.maxValue,
+                x.step,
+                x.logicalChildArray,
+                x.selectedOutputInfo
               );
-              V.id = b.id, c.tree.push(V);
+              b.id = x.id, l.tree.push(b);
             }
             break;
           case "SymbolBody":
-            var s = 0, l = 0;
-            y.view != null && (s = y.view.getX(), l = y.view.getY());
-            var c = a.createSymbolData(
-              y.type,
-              y.operator,
-              y.isFunctionId,
-              y.isBindingOperation,
+            var s = 0, u = 0;
+            m.view != null && (s = m.view.getX(), u = m.view.getY());
+            var l = a.createSymbolData(
+              m.type,
+              m.operator,
+              m.isFunctionId,
+              m.isBindingOperation,
               s,
-              l,
-              y.isWeight,
-              y.funcType
+              u,
+              m.isWeight,
+              m.funcType
             );
-            c.id = y.id, h.tree.push(c), a.recursionSeekBody(c.tree, y.tree);
+            l.id = m.id, c.tree.push(l), a.recursionSeekBody(l.tree, m.tree);
             break;
         }
       }
-    } else if (g.type == "Bookmark") {
-      var f = a.createBookmarkData(g);
-      f.id = g.id, t.push(f);
+    } else if (y.type == "Bookmark") {
+      var p = a.createBookmarkData(y);
+      p.id = y.id, t.push(p);
     }
   }
 }), n(a, "coordinateDetection", function(t) {
@@ -4244,63 +4246,63 @@ n(a, "saveBody", function(t, r) {
  */
 n(a, "recursionSeekBody", function(t, r) {
   for (var i = 0; i < r.length; i++) {
-    const u = r[i];
-    switch (u.type) {
+    const o = r[i];
+    switch (o.type) {
       case "OperationBody":
-        var l = a.coordinateDetection(u.view), o = a.createBodyData(
-          u.type,
-          u.isFunction,
-          u.isBindingOperation,
-          l.x,
-          l.y,
-          u.isWeight,
-          u.isAdvance,
-          u.funcType
+        var u = a.coordinateDetection(o.view), h = a.createBodyData(
+          o.type,
+          o.isFunction,
+          o.isBindingOperation,
+          u.x,
+          u.y,
+          o.isWeight,
+          o.isAdvance,
+          o.funcType
         );
-        t.push(o);
-        for (var s = 0; s < u.tree.length; s++) {
-          const h = u.tree[s];
-          o.tree.push(
+        t.push(h);
+        for (var s = 0; s < o.tree.length; s++) {
+          const c = o.tree[s];
+          h.tree.push(
             a.createVarData(
-              h.TID,
-              h.name,
-              h.value,
-              h.type,
-              h.macros,
-              h.operator,
-              h.enemyFlag,
-              h.source,
-              h.tag,
-              h.statistics,
-              h.upDateValue,
-              h.demoteValue,
-              h.funcType,
+              c.TID,
+              c.name,
+              c.value,
+              c.type,
+              c.macros,
+              c.operator,
+              c.enemyFlag,
+              c.source,
+              c.tag,
+              c.statistics,
+              c.upDateValue,
+              c.demoteValue,
+              c.funcType,
               // 逻辑块数据
-              h.isLogicalOpen,
-              h.isDragging,
-              h.currentStep,
-              h.snNo,
-              h.minValue,
-              h.maxValue,
-              h.step,
-              h.logicalChildArray,
-              h.selectedOutputInfo
+              c.isLogicalOpen,
+              c.isDragging,
+              c.currentStep,
+              c.snNo,
+              c.minValue,
+              c.maxValue,
+              c.step,
+              c.logicalChildArray,
+              c.selectedOutputInfo
             )
           );
         }
         break;
       case "SymbolBody":
-        var l = a.coordinateDetection(u.view), o = a.createSymbolData(
-          u.type,
-          u.operator,
-          u.isFunctionId,
-          u.isBindingOperation,
-          l.x,
-          l.y,
-          u.isWeight,
-          u.funcType
+        var u = a.coordinateDetection(o.view), h = a.createSymbolData(
+          o.type,
+          o.operator,
+          o.isFunctionId,
+          o.isBindingOperation,
+          u.x,
+          u.y,
+          o.isWeight,
+          o.funcType
         );
-        t.push(o), a.recursionSeekBody(o.tree, u.tree);
+        t.push(h), a.recursionSeekBody(h.tree, o.tree);
         break;
     }
   }
@@ -4312,20 +4314,14 @@ n(a, "recursionSeekBody", function(t, r) {
 n(a, "getAbsoluteAddress", function(t, r) {
   if (r) {
     var i = [];
-    a.getStepData(t, i, r);
-    for (var s = "", l = 0; l < i.length; l++)
-      s += i[l];
-    return s;
+    return a.getStepData(t, i, r), i.join(",");
   }
-  if (t.site != null && t.site != null)
-    return t.site;
-  if (t.parentFolder == null)
-    return t.source != null ? t.source.absoluteAddress : t.name;
-  var i = [];
-  a.getStepData(t, i, r);
-  for (var s = "", l = 0; l < i.length; l++)
-    s += i[l];
-  return s;
+  {
+    if (t.parentFolder == null)
+      return t.source != null ? t.source.absoluteAddress : t.name;
+    var i = [];
+    return a.getStepData(t, i, r), i.join(",");
+  }
 }), n(a, "copyHeadFun", function(t) {
   return t.copyHead ? !0 : t.parentFolder != null && t.parentFolder.name != null ? a.copyHeadFun(t.parentFolder) : !1;
 }), /**
@@ -4353,34 +4349,34 @@ n(a, "getStepDataAll", function(t, r) {
  * @param address
  * @returns {{}}
  */
-n(a, "createVarData", function(t, r, i, s, l, o, u, h, d, c, f, g, p, v, D, y, m, T, b, V, x, O) {
+n(a, "createVarData", function(t, r, i, s, u, h, o, c, d, l, p, y, g, V, T, m, D, f, x, b, v, S) {
   var F = {};
-  return a.code, F.TID = t, F.name = r, F.value = i, F.type = s, F.macros = l, F.operator = o, F.enemy = u, F.tag = d, F.site = a.getAbsoluteAddress(h), F.statistics = c, F.upDateValue = f, F.demoteValue = g, F.funcType = p, F.isLogicalOpen = v, F.isDragging = D, F.currentStep = y, F.snNo = m, F.minValue = T, F.maxValue = b, F.step = V, F.logicalChildArray = [], F.selectedOutputInfo = typeof O == "object" ? JSON.stringify(O) : "", x && x.length && x.forEach((C) => {
-    const S = a.createVarData(
-      C.TID,
-      C.name,
-      C.value,
-      C.type,
-      C.macros,
-      C.operator,
-      C.enemyFlag,
-      C.source,
-      C.tag,
-      C.statistics,
-      C.upDateValue,
-      C.demoteValue,
-      C.funcType,
+  return a.code, F.TID = t, F.name = r, F.value = i, F.type = s, F.macros = u, F.operator = h, F.enemy = o, F.tag = d, F.site = a.getAbsoluteAddress(c), F.statistics = l, F.upDateValue = p, F.demoteValue = y, F.funcType = g, F.isLogicalOpen = V, F.isDragging = T, F.currentStep = m, F.snNo = D, F.minValue = f, F.maxValue = x, F.step = b, F.logicalChildArray = [], F.selectedOutputInfo = typeof S == "object" ? JSON.stringify(S) : "", v && v.length && v.forEach((I) => {
+    const N = a.createVarData(
+      I.TID,
+      I.name,
+      I.value,
+      I.type,
+      I.macros,
+      I.operator,
+      I.enemyFlag,
+      I.source,
+      I.tag,
+      I.statistics,
+      I.upDateValue,
+      I.demoteValue,
+      I.funcType,
       // 逻辑块数据
-      C.isLogicalOpen,
-      C.isDragging,
-      C.currentStep,
-      C.snNo,
-      C.minValue,
-      C.maxValue,
-      C.step,
-      C.logicalChildArray
+      I.isLogicalOpen,
+      I.isDragging,
+      I.currentStep,
+      I.snNo,
+      I.minValue,
+      I.maxValue,
+      I.step,
+      I.logicalChildArray
     );
-    F.logicalChildArray.push(S);
+    F.logicalChildArray.push(N);
   }), F;
 }), /**
  * 创建运算体存储数据
@@ -4391,9 +4387,9 @@ n(a, "createVarData", function(t, r, i, s, l, o, u, h, d, c, f, g, p, v, D, y, m
  * @param y
  * @returns {{}}
  */
-n(a, "createBodyData", function(t, r, i, s, l, o, u, h) {
+n(a, "createBodyData", function(t, r, i, s, u, h, o, c) {
   var d = {};
-  return d.tree = [], d.type = t, d.isFunction = r, d.isBoundOutput = i, d.x = s, d.y = l, d.isWeight = o, d.isAdvance = u, d.funcType = h, d;
+  return d.tree = [], d.type = t, d.isFunction = r, d.isBoundOutput = i, d.x = s, d.y = u, d.isWeight = h, d.isAdvance = o, d.funcType = c, d;
 }), /**
  * 创建符号体存储数据
  * @param type
@@ -4404,9 +4400,9 @@ n(a, "createBodyData", function(t, r, i, s, l, o, u, h) {
  * @param y
  * @returns {{}}
  */
-n(a, "createSymbolData", function(t, r, i, s, l, o, u, h) {
+n(a, "createSymbolData", function(t, r, i, s, u, h, o, c) {
   var d = {};
-  return d.tree = [], d.type = t, d.operator = r, d.isFunctionId = i, d.isBoundOutput = s, d.x = l, d.y = o, d.isWeight = u, d.funcType = h, d;
+  return d.tree = [], d.type = t, d.operator = r, d.isFunctionId = i, d.isBoundOutput = s, d.x = u, d.y = h, d.isWeight = o, d.funcType = c, d;
 }), /**
  * 创建标签存储数据
  * @param name
@@ -4431,10 +4427,10 @@ n(a, "createChartData", function(t) {
       );
   (t.body != null || t.metadata != null) && (r.metadata = a.getAbsoluteAddress(t.metadata.source));
   for (var i = 0, s = t.metadataArray.length; i < s; i++) {
-    var l = t.metadataArray[i], o = l.source, u = {
-      site: a.getAbsoluteAddress(o)
+    var u = t.metadataArray[i], h = u.source, o = {
+      site: a.getAbsoluteAddress(h)
     };
-    l.minValue != 1 && (u.minValue = l.minValue), l.intervalValue != 1 && (u.intervalValue = l.intervalValue), r.metadataArray.push(u);
+    u.minValue != 1 && (o.minValue = u.minValue), u.intervalValue != 1 && (o.intervalValue = u.intervalValue), r.metadataArray.push(o);
   }
   return r.site = a.getAbsoluteAddress(t), r;
 }), /**
@@ -4444,14 +4440,14 @@ n(a, "createChartData", function(t) {
  */
 n(a, "seekSource", function(t) {
   for (var r = [], i = 0; i < t.length; i++) {
-    const l = t[i];
-    if (l.parent == null) {
+    const u = t[i];
+    if (u.parent == null) {
       if (r.length == 0)
-        r.push(l);
+        r.push(u);
       else
         for (var s = 0; s < r.length; s++)
-          if (r[s] != l) {
-            r.push(l);
+          if (r[s] != u) {
+            r.push(u);
             break;
           }
     }
@@ -4466,9 +4462,9 @@ n(a, "seekSource", function(t) {
  * @param module
  * @returns {{}}
  */
-n(a, "createBillboarMetadataData", function(t, r, i, s, l) {
-  var o = {};
-  return o.name = t, o.type = r, o.value = i, o.site = a.getAbsoluteAddress(s), o.componentType = l.type, o.componentValue = l.body.value, o.componentMinValue = l.minValue, o.componentMaxValue = l.maxValue, o.componentIntervalValue = l.intervalValue, o.list = l.list, o;
+n(a, "createBillboarMetadataData", function(t, r, i, s, u) {
+  var h = {};
+  return h.name = t, h.type = r, h.value = i, h.site = a.getAbsoluteAddress(s), h.componentType = u.type, h.componentValue = u.body.value, h.componentMinValue = u.minValue, h.componentMaxValue = u.maxValue, h.componentIntervalValue = u.intervalValue, h.list = u.list, h;
 }), /**
  * 创建运算层存储数据
  * @param name
@@ -4477,9 +4473,9 @@ n(a, "createBillboarMetadataData", function(t, r, i, s, l) {
  * @param address
  * @returns {{}}
  */
-n(a, "createOperationLayerData", function(t, r, i, s, l, o, u, h) {
+n(a, "createOperationLayerData", function(t, r, i, s, u, h, o, c) {
   var d = {};
-  return d.name = t, d.type = r, d.value = i, d.site = a.getAbsoluteAddress(s), d.tag = l, d.operationArray = [], r === 11 && u && (d.sheetData = u, d.childCell = h), d.isSystemShow = o, d;
+  return d.name = t, d.type = r, d.value = i, d.site = a.getAbsoluteAddress(s), d.tag = u, d.operationArray = [], r === 11 && o && (d.sheetData = o, d.childCell = c), d.isSystemShow = h, d;
 }), /**
  * 创建看板存储数据
  * @param name
@@ -4509,9 +4505,9 @@ n(a, "getBout", function(t) {
     if (t.tree[0].getValue() != 0 && t.tree[1].getValue() != 0 && Number(t.tree[0].getValue()) > Number(t.tree[1].getValue())) {
       for (var r = Number(t.tree[0].getValue()), i = 0, s = 1; s < t.tree.length; s++)
         i += Number(t.treeItem.getValue());
-      for (var l = 0, o = 0; r >= i; )
-        o += i, r -= i, l++;
-      return [l, o / l];
+      for (var u = 0, h = 0; r >= i; )
+        h += i, r -= i, u++;
+      return [u, h / u];
     }
     return [0, 0];
   }
@@ -4542,319 +4538,398 @@ n(a, "copy", function(t) {
  * @param 是否是场景
  */
 n(a, "parseStageBody", function(t, r, i, s) {
-  for (var l = null, o = 0; o < t.length; o++) {
-    const y = t[o];
-    if (i == null && y.parent != null)
+  for (var u = null, h = 0; h < t.length; h++) {
+    const m = t[h];
+    if (i == null && m.parent != null)
       return;
-    if (y.type == "OperationBody" || y.type == "运算体类") {
-      var u;
-      if (y.isFunction) {
-        u = a.createOperationBody(
-          a.coordinate(t[o], i)[0],
-          a.coordinate(t[o], i)[1],
+    if (m.type == "OperationBody" || m.type == "运算体类") {
+      var o;
+      if (m.isFunction) {
+        o = a.createOperationBody(
+          a.coordinate(t[h], i)[0],
+          a.coordinate(t[h], i)[1],
           1,
-          y.isWeight,
-          y.isAdvance,
-          y.funcType
-        ), u.isBindingOperation = a.getIsBoundOutput(
-          t[o],
+          m.isWeight,
+          m.isAdvance,
+          m.funcType
+        ), o.isBindingOperation = a.getIsBoundOutput(
+          t[h],
           i
-        ), a.operationBindBody(u), l == null && (l = u);
-        for (var h = 0; h < y.tree.length; h++) {
-          const m = y.tree[h];
-          if (m.type == 4) {
+        ), a.operationBindBody(o), u == null && (u = o);
+        for (var c = 0; c < m.tree.length; c++) {
+          const D = m.tree[c];
+          if (D.type == 4) {
             var d = new a.VariableValue(
-              m.name,
+              D.name,
               null,
-              m.type
+              D.type
             );
-            d.TID = m.TID, d.TID == null && (d.TID = (/* @__PURE__ */ new Date()).getTime() + a.functionAddIndex, a.functionAddIndex++);
-            var c = a.createFunctionBody(u, d);
-            c.setMacros(a.amendMacros(m)), c.enemyFlag = m.enemy, c.funcType = m.funcType, c.funcType == null && (c.funcType = 0), c.statistics = m.statistics, c.upDateValue = m.upDateValue, c.demoteValue = m.demoteValue, a.symbolicLink(c, m.operator), a.Call.send(
+            d.TID = D.TID, d.TID == null && (d.TID = (/* @__PURE__ */ new Date()).getTime() + a.functionAddIndex, a.functionAddIndex++);
+            var l = a.createFunctionBody(o, d);
+            l.setMacros(a.amendMacros(D)), l.enemyFlag = D.enemy, l.funcType = D.funcType, l.funcType == null && (l.funcType = 0), l.statistics = D.statistics, l.upDateValue = D.upDateValue, l.demoteValue = D.demoteValue, a.symbolicLink(l, D.operator), a.Call.send(
               a.Eve.SHIFT_SHOW_VIEW,
-              [c, m.operator, r],
+              [l, D.operator, r],
               null
             );
           } else if ([
             12,
             16,
-            NodeType.LogicalList,
-            NodeType.LogicalNumberList,
             14
             /* LogicalSlider */
-          ].includes(m.type)) {
+          ].includes(D.type)) {
             var d = new a.VariableValue(
-              m.name,
-              m.value,
-              m.type
+              D.name,
+              D.value,
+              D.type
             );
-            d.TID = m.TID, d.TID == null && (d.TID = (/* @__PURE__ */ new Date()).getTime() + a.functionAddIndex, a.functionAddIndex++);
-            var c = a.createFunctionBody(u, d);
-            c.enemyFlag = m.enemy, c.funcType = m.funcType, c.funcType == null && (c.funcType = 0), m.type == 11 && (c.selectedOutputInfo = m.selectedOutputInfo ? JSON.parse(m.selectedOutputInfo) : ""), c.statistics = m.statistics, c.upDateValue = m.upDateValue, c.demoteValue = m.demoteValue, c.isLogicalOpen = m.isLogicalOpen, c.isDragging = m.isDragging, c.snNo = m.snNo, c.logicalNumberList = m.logicalNumberList, c.currentStep = m.currentStep, c.snNo = m.snNo, c.minValue = m.minValue, c.maxValue = m.maxValue, c.step = m.step, c.logicalChildArray = [], m.logicalChildArray.forEach((V) => {
-              var x = [];
+            d.TID = D.TID, d.TID == null && (d.TID = (/* @__PURE__ */ new Date()).getTime() + a.functionAddIndex, a.functionAddIndex++);
+            var l = a.createFunctionBody(o, d);
+            l.enemyFlag = D.enemy, l.funcType = D.funcType, l.funcType == null && (l.funcType = 0), D.type == 11 && (l.selectedOutputInfo = D.selectedOutputInfo ? JSON.parse(D.selectedOutputInfo) : ""), l.statistics = D.statistics, l.upDateValue = D.upDateValue, l.demoteValue = D.demoteValue, l.isLogicalOpen = D.isLogicalOpen, l.isDragging = D.isDragging, l.snNo = D.snNo, l.logicalNumberList = D.logicalNumberList, l.currentStep = D.currentStep, l.snNo = D.snNo, l.minValue = D.minValue, l.maxValue = D.maxValue, l.step = D.step, l.logicalChildArray = [], D.logicalChildArray.forEach((b) => {
+              var v = [];
               a.getLibraryBody(
-                x,
+                v,
                 a.targetFolder.tree,
-                a.getAbsoluteAddress(V)
+                a.getAbsoluteAddress(b)
               );
-              var O = x[0], F = O.copy();
-              F.enemyFlag = m.enemy, F.funcType = m.funcType, F.funcType == null && (F.funcType = 0), F.statistics = m.statistics, F.upDateValue = m.upDateValue, F.demoteValue = m.demoteValue, c.logicalChildArray.push(F);
-            }), a.symbolicLink(c, m.operator), a.Call.send(
+              var S = v[0], F = S.copy();
+              F.enemyFlag = D.enemy, F.funcType = D.funcType, F.funcType == null && (F.funcType = 0), F.statistics = D.statistics, F.upDateValue = D.upDateValue, F.demoteValue = D.demoteValue, l.logicalChildArray.push(F);
+            }), a.symbolicLink(l, D.operator), a.Call.send(
               a.Eve.SHIFT_SHOW_VIEW,
-              [c, m.operator, r],
+              [l, D.operator, r],
               null
             );
           } else {
-            var f = [];
+            var p = [];
             s ? a.getLibraryBody(
-              f,
+              p,
               a.targetFolder.tree,
-              a.getAbsoluteAddress(m.source)
+              a.getAbsoluteAddress(D.source)
             ) : a.getLibraryBody(
-              f,
+              p,
               a.targetFolder.tree,
-              a.getAbsoluteAddress(m)
+              a.getAbsoluteAddress(D)
             );
-            var g = f[0], c = a.createVariableBody(u, g);
-            c.enemyFlag = m.enemy, c.funcType = m.funcType, c.funcType == null && (c.funcType = 0), m.type == 11 && (c.selectedOutputInfo = m.selectedOutputInfo ? JSON.parse(m.selectedOutputInfo) : ""), c.statistics = m.statistics, c.upDateValue = m.upDateValue, c.demoteValue = m.demoteValue, a.symbolicLink(c, m.operator), a.Call.send(
+            var y = p[0], l = a.createVariableBody(o, y);
+            l.enemyFlag = D.enemy, l.funcType = D.funcType, l.funcType == null && (l.funcType = 0), D.type == 11 && (l.selectedOutputInfo = D.selectedOutputInfo ? JSON.parse(D.selectedOutputInfo) : ""), l.statistics = D.statistics, l.upDateValue = D.upDateValue, l.demoteValue = D.demoteValue, a.symbolicLink(l, D.operator), a.Call.send(
               a.Eve.SHIFT_SHOW_VIEW,
-              [c, m.operator, r],
+              [l, D.operator, r],
               null
             );
           }
         }
-        a.Call.send(a.Eve.SHIFT_SHOW_VIEW_ON, [u, r], null);
+        a.Call.send(a.Eve.SHIFT_SHOW_VIEW_ON, [o, r], null);
       } else {
-        u = a.createOperationBody(
-          a.coordinate(t[o], i)[0],
-          a.coordinate(t[o], i)[1],
+        o = a.createOperationBody(
+          a.coordinate(t[h], i)[0],
+          a.coordinate(t[h], i)[1],
           0,
-          y.isWeight,
-          y.isAdvance,
-          y.funcType
-        ), u.isBindingOperation = a.getIsBoundOutput(
-          t[o],
+          m.isWeight,
+          m.isAdvance,
+          m.funcType
+        ), o.isBindingOperation = a.getIsBoundOutput(
+          t[h],
           i
-        ), a.operationBindBody(u), l == null && (l = u);
-        for (var h = 0; h < y.tree.length; h++) {
-          const T = y.tree[h];
-          if (T.type == 4) {
+        ), a.operationBindBody(o), u == null && (u = o);
+        for (var c = 0; c < m.tree.length; c++) {
+          const f = m.tree[c];
+          if (f.type == 4) {
             var d = new a.VariableValue(
-              T.name,
+              f.name,
               null,
-              T.type
+              f.type
             );
-            d.TID = T.TID, d.TID == null && (d.TID = (/* @__PURE__ */ new Date()).getTime() + a.functionAddIndex, a.functionAddIndex++);
-            var c = a.createFunctionBody(u, d);
-            c.setMacros(a.amendMacros(T)), c.enemyFlag = T.enemy, c.funcType = T.funcType, c.funcType == null && (c.funcType = 0), c.statistics = T.statistics, c.upDateValue = T.upDateValue, c.demoteValue = T.demoteValue, a.symbolicLink(c, T.operator), a.Call.send(
+            d.TID = f.TID, d.TID == null && (d.TID = (/* @__PURE__ */ new Date()).getTime() + a.functionAddIndex, a.functionAddIndex++);
+            var l = a.createFunctionBody(o, d);
+            l.setMacros(a.amendMacros(f)), l.enemyFlag = f.enemy, l.funcType = f.funcType, l.funcType == null && (l.funcType = 0), l.statistics = f.statistics, l.upDateValue = f.upDateValue, l.demoteValue = f.demoteValue, a.symbolicLink(l, f.operator), a.Call.send(
               a.Eve.SHIFT_SHOW_VIEW,
-              [c, T.operator, r],
+              [l, f.operator, r],
+              null
+            );
+          } else if ([
+            12,
+            16,
+            14
+            /* LogicalSlider */
+          ].includes(f.type)) {
+            var d = new a.VariableValue(
+              f.name,
+              f.value,
+              f.type
+            );
+            d.TID = f.TID, d.TID == null && (d.TID = (/* @__PURE__ */ new Date()).getTime() + a.functionAddIndex, a.functionAddIndex++);
+            var l = a.createFunctionBody(o, d);
+            l.enemyFlag = f.enemy, l.funcType = f.funcType, l.funcType == null && (l.funcType = 0), f.type == 11 && (l.selectedOutputInfo = f.selectedOutputInfo ? JSON.parse(f.selectedOutputInfo) : ""), l.statistics = f.statistics, l.upDateValue = f.upDateValue, l.demoteValue = f.demoteValue, l.isLogicalOpen = f.isLogicalOpen, l.isDragging = f.isDragging, l.snNo = f.snNo, l.logicalNumberList = f.logicalNumberList, l.currentStep = f.currentStep, l.snNo = f.snNo, l.minValue = f.minValue, l.maxValue = f.maxValue, l.step = f.step, l.logicalChildArray = [], f.logicalChildArray.forEach((v) => {
+              var S = [];
+              a.getLibraryBody(
+                S,
+                a.targetFolder.tree,
+                a.getAbsoluteAddress(v)
+              );
+              var F = S[0], I = F.copy();
+              I.enemyFlag = f.enemy, I.funcType = f.funcType, I.funcType == null && (I.funcType = 0), I.statistics = f.statistics, I.upDateValue = f.upDateValue, I.demoteValue = f.demoteValue, l.logicalChildArray.push(I);
+            }), a.symbolicLink(l, f.operator), a.Call.send(
+              a.Eve.SHIFT_SHOW_VIEW,
+              [l, f.operator, r],
               null
             );
           } else {
-            var f = [];
-            s || T.source ? a.getLibraryBody(
-              f,
+            var p = [];
+            s || f.source ? a.getLibraryBody(
+              p,
               a.targetFolder.tree,
-              a.getAbsoluteAddress(T.source)
+              a.getAbsoluteAddress(f.source)
             ) : a.getLibraryBody(
-              f,
+              p,
               a.targetFolder.tree,
-              a.getAbsoluteAddress(T)
+              a.getAbsoluteAddress(f)
             );
-            var g = f[0], c = a.createVariableBody(u, g);
-            c.enemyFlag = T.enemy, c.funcType = T.funcType, c.funcType == null && (c.funcType = 0), T.type == 11 && (c.selectedOutputInfo = T.selectedOutputInfo ? JSON.parse(T.selectedOutputInfo) : ""), c.statistics = T.statistics, c.upDateValue = T.upDateValue, c.demoteValue = T.demoteValue, a.symbolicLink(c, T.operator), a.Call.send(
+            var y = p[0], l = a.createVariableBody(o, y);
+            l.enemyFlag = f.enemy, l.funcType = f.funcType, l.funcType == null && (l.funcType = 0), f.type == 11 && (l.selectedOutputInfo = f.selectedOutputInfo ? JSON.parse(f.selectedOutputInfo) : ""), l.statistics = f.statistics, l.upDateValue = f.upDateValue, l.demoteValue = f.demoteValue, a.symbolicLink(l, f.operator), a.Call.send(
               a.Eve.SHIFT_SHOW_VIEW,
-              [c, T.operator, r],
+              [l, f.operator, r],
               null
             );
           }
         }
-        a.Call.send(a.Eve.SHIFT_SHOW_VIEW_ON, [u, r], null);
+        a.Call.send(a.Eve.SHIFT_SHOW_VIEW_ON, [o, r], null);
       }
-      if (y.isFormula) {
-        var p = new a.FormulaData(
-          y.formulaName,
-          y.formulaX,
-          y.formulaY
+      if (m.isFormula) {
+        var g = new a.FormulaData(
+          m.formulaName,
+          m.formulaX,
+          m.formulaY
         );
-        p.body = u, p.body.isBindingFormula = !0, u.formulaBody = p, a.Call.send(
+        g.body = o, g.body.isBindingFormula = !0, o.formulaBody = g, a.Call.send(
           a.Eve.SHIFT_ADD_FORMULA,
-          [p, u.view, r],
+          [g, o.view, r],
           null
         );
       }
-    } else if (y.type == "SymbolBody" || y.type == "符号运算体类") {
-      var v = a.createSymbolBody(
+    } else if (m.type == "SymbolBody" || m.type == "符号运算体类") {
+      var V = a.createSymbolBody(
         null,
         null,
-        y.operator,
-        y.isFunctionId,
-        y.isWeight,
-        y.funcType
+        m.operator,
+        m.isFunctionId,
+        m.isWeight,
+        m.funcType
       );
-      v.isBindingOperation = a.getIsBoundOutput(
-        t[o],
+      V.isBindingOperation = a.getIsBoundOutput(
+        t[h],
         i
-      ), a.operationBindBody(v), l == null && (l = v), v.view != null && (v.view.setX(a.coordinate(t[o], i)[0]), v.view.setY(a.coordinate(t[o], i)[1]));
-      for (var h = 0; h < y.tree.length; h++) {
-        const T = y.tree[h];
-        if (T.type == "OperationBody" || T.type == "运算体类")
-          if (T.isFunction) {
-            var u = a.createOperationBody(
-              a.coordinate(T, i)[0],
-              a.coordinate(T, i)[1],
+      ), a.operationBindBody(V), u == null && (u = V), V.view != null && (V.view.setX(a.coordinate(t[h], i)[0]), V.view.setY(a.coordinate(t[h], i)[1]));
+      for (var c = 0; c < m.tree.length; c++) {
+        const f = m.tree[c];
+        if (f.type == "OperationBody" || f.type == "运算体类")
+          if (f.isFunction) {
+            var o = a.createOperationBody(
+              a.coordinate(f, i)[0],
+              a.coordinate(f, i)[1],
               1,
-              T.isWeight,
-              T.isAdvance,
-              T.funcType
+              f.isWeight,
+              f.isAdvance,
+              f.funcType
             );
-            u.isBindingOperation = a.getIsBoundOutput(
-              T,
+            o.isBindingOperation = a.getIsBoundOutput(
+              f,
               i
-            ), a.operationBindBody(u), a.addBody(v, u, !1);
-            for (var D = 0; D < T.tree.length; D++) {
-              const V = T.tree[D];
-              if (V.type == 4) {
+            ), a.operationBindBody(o), a.addBody(V, o, !1);
+            for (var T = 0; T < f.tree.length; T++) {
+              const b = f.tree[T];
+              if (b.type == 4) {
                 var d = new a.VariableValue(
-                  V.name,
+                  b.name,
                   null,
                   4
                 );
-                d.TID = V.TID, d.TID == null && (d.TID = (/* @__PURE__ */ new Date()).getTime() + a.functionAddIndex, a.functionAddIndex++);
-                var c = a.createFunctionBody(u, d);
-                c.macros = a.amendMacros(V), c.enemyFlag = V.enemy, c.funcType = V.funcType, c.funcType == null && (c.funcType = 0), c.statistics = V.statistics, c.upDateValue = V.upDateValue, c.demoteValue = V.demoteValue, a.symbolicLink(c, V.operator), a.Call.send(
+                d.TID = b.TID, d.TID == null && (d.TID = (/* @__PURE__ */ new Date()).getTime() + a.functionAddIndex, a.functionAddIndex++);
+                var l = a.createFunctionBody(o, d);
+                l.macros = a.amendMacros(b), l.enemyFlag = b.enemy, l.funcType = b.funcType, l.funcType == null && (l.funcType = 0), l.statistics = b.statistics, l.upDateValue = b.upDateValue, l.demoteValue = b.demoteValue, a.symbolicLink(l, b.operator), a.Call.send(
                   a.Eve.SHIFT_SHOW_VIEW,
-                  [c, V.operator, r],
+                  [l, b.operator, r],
+                  null
+                );
+              } else if ([
+                12,
+                16,
+                14
+                /* LogicalSlider */
+              ].includes(b.type)) {
+                var d = new a.VariableValue(
+                  f.name,
+                  f.value,
+                  f.type
+                );
+                d.TID = f.TID, d.TID == null && (d.TID = (/* @__PURE__ */ new Date()).getTime() + a.functionAddIndex, a.functionAddIndex++);
+                var l = a.createFunctionBody(o, d);
+                l.enemyFlag = f.enemy, l.funcType = f.funcType, l.funcType == null && (l.funcType = 0), f.type == 11 && (l.selectedOutputInfo = f.selectedOutputInfo ? JSON.parse(f.selectedOutputInfo) : ""), l.statistics = f.statistics, l.upDateValue = f.upDateValue, l.demoteValue = f.demoteValue, l.isLogicalOpen = f.isLogicalOpen, l.isDragging = f.isDragging, l.snNo = f.snNo, l.logicalNumberList = f.logicalNumberList, l.currentStep = f.currentStep, l.snNo = f.snNo, l.minValue = f.minValue, l.maxValue = f.maxValue, l.step = f.step, l.logicalChildArray = [], f.logicalChildArray.forEach((F) => {
+                  var I = [];
+                  a.getLibraryBody(
+                    I,
+                    a.targetFolder.tree,
+                    a.getAbsoluteAddress(F)
+                  );
+                  var N = I[0], C = N.copy();
+                  C.enemyFlag = f.enemy, C.funcType = f.funcType, C.funcType == null && (C.funcType = 0), C.statistics = f.statistics, C.upDateValue = f.upDateValue, C.demoteValue = f.demoteValue, l.logicalChildArray.push(C);
+                }), a.symbolicLink(l, f.operator), a.Call.send(
+                  a.Eve.SHIFT_SHOW_VIEW,
+                  [l, f.operator, r],
                   null
                 );
               } else {
-                var f = [];
+                var p = [];
                 s ? a.getLibraryBody(
-                  f,
+                  p,
                   a.targetFolder.tree,
-                  a.getAbsoluteAddress(V.source)
+                  a.getAbsoluteAddress(b.source)
                 ) : a.getLibraryBody(
-                  f,
+                  p,
                   a.targetFolder.tree,
-                  a.getAbsoluteAddress(V)
+                  a.getAbsoluteAddress(b)
                 );
-                var g = f[0], c = a.createVariableBody(
-                  u,
-                  g
+                var y = p[0], l = a.createVariableBody(
+                  o,
+                  y
                 );
-                c.enemyFlag = V.enemy, c.funcType = V.funcType, c.funcType == null && (c.funcType = 0), V.type == 11 && (c.selectedOutputInfo = V.selectedOutputInfo ? JSON.parse(V.selectedOutputInfo) : ""), c.statistics = V.statistics, c.upDateValue = V.upDateValue, c.demoteValue = V.demoteValue, a.symbolicLink(c, V.operator), a.Call.send(
+                l.enemyFlag = b.enemy, l.funcType = b.funcType, l.funcType == null && (l.funcType = 0), b.type == 11 && (l.selectedOutputInfo = b.selectedOutputInfo ? JSON.parse(b.selectedOutputInfo) : ""), l.statistics = b.statistics, l.upDateValue = b.upDateValue, l.demoteValue = b.demoteValue, a.symbolicLink(l, b.operator), a.Call.send(
                   a.Eve.SHIFT_SHOW_VIEW,
-                  [c, V.operator, r],
+                  [l, b.operator, r],
                   null
                 );
               }
             }
             a.Call.send(
               a.Eve.SHIFT_SHOW_VIEW_ON,
-              [u, r],
+              [o, r],
               null
             );
           } else {
-            var u = a.createOperationBody(
-              a.coordinate(T, i)[0],
-              a.coordinate(T, i)[1],
+            var o = a.createOperationBody(
+              a.coordinate(f, i)[0],
+              a.coordinate(f, i)[1],
               0,
-              T.isWeight,
-              T.isAdvance,
-              T.funcType
+              f.isWeight,
+              f.isAdvance,
+              f.funcType
             );
-            if (u.isBindingOperation = a.getIsBoundOutput(
-              T,
+            if (o.isBindingOperation = a.getIsBoundOutput(
+              f,
               i
-            ), a.operationBindBody(u), a.addBody(v, u, !1), T.tree == null)
+            ), a.operationBindBody(o), a.addBody(V, o, !1), f.tree == null)
               return null;
-            for (var D = 0; D < T.tree.length; D++) {
-              const x = T.tree[D];
-              if (x.type == 4) {
+            for (var T = 0; T < f.tree.length; T++) {
+              const v = f.tree[T];
+              if (v.type == 4) {
                 var d = new a.VariableValue(
-                  x.name,
+                  v.name,
                   null,
-                  x.type
+                  v.type
                 );
-                d.TID = x.TID, d.TID == null && (d.TID = (/* @__PURE__ */ new Date()).getTime() + a.functionAddIndex, a.functionAddIndex++);
-                var c = a.createFunctionBody(u, d);
-                c.setMacros(a.amendMacros(x)), c.enemyFlag = x.enemy, c.funcType = x.funcType, c.funcType == null && (c.funcType = 0), c.statistics = x.statistics, c.upDateValue = x.upDateValue, c.demoteValue = x.demoteValue, a.symbolicLink(c, x.operator), a.Call.send(
+                d.TID = v.TID, d.TID == null && (d.TID = (/* @__PURE__ */ new Date()).getTime() + a.functionAddIndex, a.functionAddIndex++);
+                var l = a.createFunctionBody(o, d);
+                l.setMacros(a.amendMacros(v)), l.enemyFlag = v.enemy, l.funcType = v.funcType, l.funcType == null && (l.funcType = 0), l.statistics = v.statistics, l.upDateValue = v.upDateValue, l.demoteValue = v.demoteValue, a.symbolicLink(l, v.operator), a.Call.send(
                   a.Eve.SHIFT_SHOW_VIEW,
-                  [c, x.operator, r],
+                  [l, v.operator, r],
+                  null
+                );
+              } else if ([
+                12,
+                16,
+                14
+                /* LogicalSlider */
+              ].includes(v.type)) {
+                var d = new a.VariableValue(
+                  v.name,
+                  v.value,
+                  v.type
+                );
+                d.TID = v.TID, d.TID == null && (d.TID = (/* @__PURE__ */ new Date()).getTime() + a.functionAddIndex, a.functionAddIndex++);
+                var l = a.createFunctionBody(o, d);
+                l.enemyFlag = v.enemy, l.funcType = v.funcType, l.funcType == null && (l.funcType = 0), v.type == 11 && (l.selectedOutputInfo = v.selectedOutputInfo ? JSON.parse(v.selectedOutputInfo) : ""), l.statistics = v.statistics, l.upDateValue = v.upDateValue, l.demoteValue = v.demoteValue, l.isLogicalOpen = v.isLogicalOpen, l.isDragging = v.isDragging, l.snNo = v.snNo, l.logicalNumberList = v.logicalNumberList, l.currentStep = v.currentStep, l.snNo = v.snNo, l.minValue = v.minValue, l.maxValue = v.maxValue, l.step = v.step, l.logicalChildArray = [], v.logicalChildArray.forEach((I) => {
+                  var N = [];
+                  a.getLibraryBody(
+                    N,
+                    a.targetFolder.tree,
+                    a.getAbsoluteAddress(I)
+                  );
+                  var C = N[0], L = C.copy();
+                  L.enemyFlag = v.enemy, L.funcType = v.funcType, L.funcType == null && (L.funcType = 0), L.statistics = v.statistics, L.upDateValue = v.upDateValue, L.demoteValue = v.demoteValue, l.logicalChildArray.push(L);
+                }), a.symbolicLink(l, v.operator), a.Call.send(
+                  a.Eve.SHIFT_SHOW_VIEW,
+                  [l, v.operator, r],
                   null
                 );
               } else {
-                var f = [];
-                s || x.source ? a.getLibraryBody(
-                  f,
+                var p = [];
+                s || v.source ? a.getLibraryBody(
+                  p,
                   a.targetFolder.tree,
-                  a.getAbsoluteAddress(x.source)
+                  a.getAbsoluteAddress(v.source)
                 ) : a.getLibraryBody(
-                  f,
+                  p,
                   a.targetFolder.tree,
-                  a.getAbsoluteAddress(x)
+                  a.getAbsoluteAddress(v)
                 );
-                var g = f[0], c = a.createVariableBody(
-                  u,
-                  g
+                var y = p[0], l = a.createVariableBody(
+                  o,
+                  y
                 );
-                c.enemyFlag = x.enemy, c.funcType = x.funcType, c.funcType == null && (c.funcType = 0), x.type == 11 && (c.selectedOutputInfo = x.selectedOutputInfo ? JSON.parse(x.selectedOutputInfo) : ""), c.statistics = x.statistics, c.upDateValue = x.upDateValue, c.demoteValue = x.demoteValue, a.symbolicLink(c, x.operator), a.Call.send(
+                l.enemyFlag = v.enemy, l.funcType = v.funcType, l.funcType == null && (l.funcType = 0), v.type == 11 && (l.selectedOutputInfo = v.selectedOutputInfo ? JSON.parse(v.selectedOutputInfo) : ""), l.statistics = v.statistics, l.upDateValue = v.upDateValue, l.demoteValue = v.demoteValue, a.symbolicLink(l, v.operator), a.Call.send(
                   a.Eve.SHIFT_SHOW_VIEW,
-                  [c, x.operator, r],
+                  [l, v.operator, r],
                   null
                 );
               }
             }
             a.Call.send(
               a.Eve.SHIFT_SHOW_VIEW_ON,
-              [u, r],
+              [o, r],
               null
             );
           }
-        else if (T.type == "SymbolBody" || T.type == "符号运算体类") {
-          var u = a.createSymbolBody(
+        else if (f.type == "SymbolBody" || f.type == "符号运算体类") {
+          var o = a.createSymbolBody(
             null,
             null,
-            T.operator,
-            T.isFunctionId,
-            T.isWeight,
-            T.funcType
+            f.operator,
+            f.isFunctionId,
+            f.isWeight,
+            f.funcType
           );
-          u.isBindingOperation = a.getIsBoundOutput(
-            T,
+          o.isBindingOperation = a.getIsBoundOutput(
+            f,
             i
-          ), a.operationBindBody(u), u.view != null && (u.view.setX(a.coordinate(T, i)[0]), u.view.setY(a.coordinate(T, i)[1])), a.loopGenerateBody(u, T.tree, r), a.addBody(v, u, !1), a.Call.send(
+          ), a.operationBindBody(o), o.view != null && (o.view.setX(a.coordinate(f, i)[0]), o.view.setY(a.coordinate(f, i)[1])), a.loopGenerateBody(o, f.tree, r), a.addBody(V, o, !1), a.Call.send(
             a.Eve.SHIFT_SHOW_VIEW_ON,
-            [u, r],
+            [o, r],
             null
           );
         }
       }
-      if (a.Call.send(a.Eve.SHIFT_SHOW_VIEW_ON, [v, r], null), y.isFormula) {
-        var p = new a.FormulaData(
-          y.formulaName,
-          y.formulaX,
-          y.formulaY
+      if (a.Call.send(a.Eve.SHIFT_SHOW_VIEW_ON, [V, r], null), m.isFormula) {
+        var g = new a.FormulaData(
+          m.formulaName,
+          m.formulaX,
+          m.formulaY
         );
-        p.body = v, p.body.isBindingFormula = !0, v.formulaBody = p, a.Call.send(
+        g.body = V, g.body.isBindingFormula = !0, V.formulaBody = g, a.Call.send(
           a.Eve.SHIFT_ADD_FORMULA,
-          [p, v.view, r],
+          [g, V.view, r],
           null
         );
       }
-    } else if (y.type == "Bookmark") {
-      var u = a.createBookmark(
-        y.x,
-        y.y,
-        y.width,
-        y.height,
-        y.text
+    } else if (m.type == "Bookmark") {
+      var o = a.createBookmark(
+        m.x,
+        m.y,
+        m.width,
+        m.height,
+        m.text
       );
-      a.Call.send(a.Eve.SHIFT_SHOW_VIEW_ON, [u, r], null);
+      a.Call.send(a.Eve.SHIFT_SHOW_VIEW_ON, [o, r], null);
     }
   }
-  return l;
+  return u;
 }), n(a, "amendMacros", function(t) {
   return t.macros == null ? t.macro : t.macros;
 }), /**
@@ -4891,7 +4966,7 @@ n(a, "replaceVariableBody", function(t, r, i) {
   return t.replace(s, i), a.Call.send(
     a.Eve.SHIFT_ADD_VARIABLEBODY,
     [t, s],
-    (function(l) {
+    (function(u) {
     }).bind(this)
   ), s;
 }), /**
@@ -4933,7 +5008,7 @@ n(a, "replaceFunctionBody", function(t, r, i) {
   return t.replace(s, i), a.Call.send(
     a.Eve.SHIFT_ADD_FUNCTION,
     [t, s],
-    (function(l) {
+    (function(u) {
     }).bind(this)
   ), s;
 }), /**
@@ -4943,17 +5018,17 @@ n(a, "replaceFunctionBody", function(t, r, i) {
  * @param type
  * @returns {*}
  */
-n(a, "createOperationBody", function(t, r, i, s, l, o) {
-  var u = new a.OperationBody();
-  u.isFunction = !!i, a.targetStoragePool.push(u), u.isWeight = s, u.isAdvance = l, u.funcType = o, (u.funcType == null || u.funcType == null) && (u.funcType = 0), u.x = t, u.y = r;
-  var h = null;
+n(a, "createOperationBody", function(t, r, i, s, u, h) {
+  var o = new a.OperationBody();
+  o.isFunction = !!i, a.targetStoragePool.push(o), o.isWeight = s, o.isAdvance = u, o.funcType = h, (o.funcType == null || o.funcType == null) && (o.funcType = 0), o.x = t, o.y = r;
+  var c = null;
   return a.Call.send(
     a.Eve.SHIFT_ADD_OPERATIONBODY,
-    [t, r, i, u],
+    [t, r, i, o],
     (function(d) {
-      h = d, s && h && h.openWeight(), l && h && h.openAdvance();
+      c = d, s && c && c.openWeight(), u && c && c.openAdvance();
     }).bind(this)
-  ), u;
+  ), o;
 }), /**
  * 生成书签
  * @param x
@@ -4961,14 +5036,14 @@ n(a, "createOperationBody", function(t, r, i, s, l, o) {
  * @param type
  * @returns {*}
  */
-n(a, "createBookmark", function(t, r, i, s, l) {
-  var o = new a.Bookmark();
-  return o.x = t, o.y = r, o.width = i, o.id = ++EventManager.IDINDEX, o.width == null && (o.width = 256), o.height = s, o.height == null && (o.height = 256), o.text = l, a.targetStoragePool.push(o), a.Call.send(
+n(a, "createBookmark", function(t, r, i, s, u) {
+  var h = new a.Bookmark();
+  return h.x = t, h.y = r, h.width = i, h.id = ++EventManager.IDINDEX, h.width == null && (h.width = 256), h.height = s, h.height == null && (h.height = 256), h.text = u, a.targetStoragePool.push(h), a.Call.send(
     a.Eve.SHIFT_ADD_BOOKMARK,
-    [o],
-    (function(u) {
+    [h],
+    (function(o) {
     }).bind(this)
-  ), o;
+  ), h;
 }), /**
  * 生成符号体
  * @param lbody
@@ -4977,13 +5052,13 @@ n(a, "createBookmark", function(t, r, i, s, l) {
  * @param fid
  * @returns {*}
  */
-n(a, "createSymbolBody", function(t, r, i, s, l, o) {
-  var u = new a.SymbolBody();
-  return u.isWeight = l, u.isFunctionId = s, u.funcType = o, (u.funcType == null || u.funcType == null) && (u.funcType = 0), u.operator = i, u.isFunctionId == null && (u.isFunctionId = 1), t != null && u.addBody(t), r != null && u.addBody(r), a.targetStoragePool.push(u), a.Call.send(
+n(a, "createSymbolBody", function(t, r, i, s, u, h) {
+  var o = new a.SymbolBody();
+  return o.isWeight = u, o.isFunctionId = s, o.funcType = h, (o.funcType == null || o.funcType == null) && (o.funcType = 0), o.operator = i, o.isFunctionId == null && (o.isFunctionId = 1), t != null && o.addBody(t), r != null && o.addBody(r), a.targetStoragePool.push(o), a.Call.send(
     a.Eve.SHIFT_ADD_SYMBOLBODY,
-    [t, r, i, s, u],
+    [t, r, i, s, o],
     null
-  ), u;
+  ), o;
 }), /**
  * 运算层绑定运算体操作
  * @param body
@@ -5007,35 +5082,62 @@ n(a, "symbolicLink", function(t, r) {
   r != null && (r == "删除符号" || r == "删除运算体" || r == "导出公式" || r == "敌方标记" || (t.operator = r));
 }), n(a, "loopGenerateBody", function(t, r, i) {
   for (var s = 0; s < r.length; s++) {
-    const g = r[s];
-    switch (g.type) {
+    const y = r[s];
+    switch (y.type) {
       case "OperationBody":
-        if (g.isFunction) {
-          var l = a.createOperationBody(
+        if (y.isFunction) {
+          var u = a.createOperationBody(
             a.coordinate(r[s])[0],
             a.coordinate(r[s])[1],
             1,
-            g.isWeight,
-            g.isAdvance,
-            g.funcType
+            y.isWeight,
+            y.isAdvance,
+            y.funcType
           );
-          l.isBindingOperation = a.getIsBoundOutput(r[s]), a.operationBindBody(l), a.addBody(t, l, !1);
-          for (var o = 0; o < g.tree.length; o++) {
-            const p = g.tree[o];
-            if (p.type == 4) {
-              var u = new a.VariableValue(
-                p.name,
+          u.isBindingOperation = a.getIsBoundOutput(r[s]), a.operationBindBody(u), a.addBody(t, u, !1);
+          for (var h = 0; h < y.tree.length; h++) {
+            const g = y.tree[h];
+            if (g.type == 4) {
+              var o = new a.VariableValue(
+                g.name,
                 null,
-                p.type
+                g.type
               );
-              u.TID = p.TID, u.TID == null && (u.TID = (/* @__PURE__ */ new Date()).getTime() + a.functionAddIndex, a.functionAddIndex++);
-              var h = a.createFunctionBody(
-                l,
-                u
+              o.TID = g.TID, o.TID == null && (o.TID = (/* @__PURE__ */ new Date()).getTime() + a.functionAddIndex, a.functionAddIndex++);
+              var c = a.createFunctionBody(
+                u,
+                o
               );
-              h.macros = a.amendMacros(p), h.enemyFlag = p.enemy, h.funcType = p.funcType, h.funcType == null && (h.funcType = 0), h.statistics = p.statistics, h.upDateValue = p.upDateValue, h.demoteValue = p.demoteValue, a.symbolicLink(h, p.operator), a.clickBody = h, a.Call.send(
+              c.macros = a.amendMacros(g), c.enemyFlag = g.enemy, c.funcType = g.funcType, c.funcType == null && (c.funcType = 0), c.statistics = g.statistics, c.upDateValue = g.upDateValue, c.demoteValue = g.demoteValue, a.symbolicLink(c, g.operator), a.clickBody = c, a.Call.send(
                 a.Eve.SHIFT_SHOW_VIEW,
-                [h, p.operator, i],
+                [c, g.operator, i],
+                null
+              );
+            } else if ([
+              12,
+              16,
+              14
+              /* LogicalSlider */
+            ].includes(g.type)) {
+              var o = new a.VariableValue(
+                g.name,
+                g.value,
+                g.type
+              );
+              o.TID = g.TID, o.TID == null && (o.TID = (/* @__PURE__ */ new Date()).getTime() + a.functionAddIndex, a.functionAddIndex++);
+              var c = a.createFunctionBody(u, o);
+              c.enemyFlag = g.enemy, c.funcType = g.funcType, c.funcType == null && (c.funcType = 0), g.type == 11 && (c.selectedOutputInfo = g.selectedOutputInfo ? JSON.parse(g.selectedOutputInfo) : ""), c.statistics = g.statistics, c.upDateValue = g.upDateValue, c.demoteValue = g.demoteValue, c.isLogicalOpen = g.isLogicalOpen, c.isDragging = g.isDragging, c.snNo = g.snNo, c.logicalNumberList = g.logicalNumberList, c.currentStep = g.currentStep, c.snNo = g.snNo, c.minValue = g.minValue, c.maxValue = g.maxValue, c.step = g.step, c.logicalChildArray = [], g.logicalChildArray.forEach((m) => {
+                var D = [];
+                a.getLibraryBody(
+                  D,
+                  a.targetFolder.tree,
+                  a.getAbsoluteAddress(m)
+                );
+                var f = D[0], x = f.copy();
+                x.enemyFlag = g.enemy, x.funcType = g.funcType, x.funcType == null && (x.funcType = 0), x.statistics = g.statistics, x.upDateValue = g.upDateValue, x.demoteValue = g.demoteValue, c.logicalChildArray.push(x);
+              }), a.symbolicLink(c, g.operator), a.Call.send(
+                a.Eve.SHIFT_SHOW_VIEW,
+                [c, g.operator, i],
                 null
               );
             } else {
@@ -5043,50 +5145,77 @@ n(a, "symbolicLink", function(t, r) {
               a.getLibraryBody(
                 d,
                 a.targetFolder.tree,
-                a.getAbsoluteAddress(p)
+                a.getAbsoluteAddress(g)
               );
-              var c = d[0], h = a.createVariableBody(
-                l,
-                c
+              var l = d[0], c = a.createVariableBody(
+                u,
+                l
               );
-              h.enemyFlag = p.enemy, h.funcType = p.funcType, h.funcType == null && (h.funcType = 0), p.type == 11 && (h.selectedOutputInfo = p.selectedOutputInfo ? JSON.parse(p.selectedOutputInfo) : ""), h.statistics = p.statistics, h.upDateValue = p.upDateValue, h.demoteValue = p.demoteValue, a.symbolicLink(h, p.operator), a.Call.send(
+              c.enemyFlag = g.enemy, c.funcType = g.funcType, c.funcType == null && (c.funcType = 0), g.type == 11 && (c.selectedOutputInfo = g.selectedOutputInfo ? JSON.parse(g.selectedOutputInfo) : ""), c.statistics = g.statistics, c.upDateValue = g.upDateValue, c.demoteValue = g.demoteValue, a.symbolicLink(c, g.operator), a.Call.send(
                 a.Eve.SHIFT_SHOW_VIEW,
-                [h, p.operator, i],
+                [c, g.operator, i],
                 null
               );
             }
           }
           a.Call.send(
             a.Eve.SHIFT_SHOW_VIEW_ON,
-            [l, i],
+            [u, i],
             null
           );
         } else {
-          var l = a.createOperationBody(
+          var u = a.createOperationBody(
             a.coordinate(r[s])[0],
             a.coordinate(r[s])[1],
             0,
-            g.isWeight,
-            g.isAdvance,
-            g.funcType
+            y.isWeight,
+            y.isAdvance,
+            y.funcType
           );
-          l.isBindingOperation = a.getIsBoundOutput(r[s]), a.operationBindBody(l), a.addBody(t, l, !1);
-          for (var o = 0; o < g.tree.length; o++) {
-            const D = g.tree[o];
-            if (D.type == 4) {
-              var u = new a.VariableValue(
-                D.name,
+          u.isBindingOperation = a.getIsBoundOutput(r[s]), a.operationBindBody(u), a.addBody(t, u, !1);
+          for (var h = 0; h < y.tree.length; h++) {
+            const T = y.tree[h];
+            if (T.type == 4) {
+              var o = new a.VariableValue(
+                T.name,
                 null,
-                D.type
+                T.type
               );
-              u.TID = D.TID, u.TID == null && (u.TID = (/* @__PURE__ */ new Date()).getTime() + a.functionAddIndex, a.functionAddIndex++);
-              var h = a.createFunctionBody(
-                l,
-                u
+              o.TID = T.TID, o.TID == null && (o.TID = (/* @__PURE__ */ new Date()).getTime() + a.functionAddIndex, a.functionAddIndex++);
+              var c = a.createFunctionBody(
+                u,
+                o
               );
-              h.setMacros(a.amendMacros(D)), h.enemyFlag = D.enemy, h.funcType = D.funcType, h.funcType == null && (h.funcType = 0), h.statistics = D.statistics, h.upDateValue = D.upDateValue, h.demoteValue = D.demoteValue, a.symbolicLink(h, D.operator), a.Call.send(
+              c.setMacros(a.amendMacros(T)), c.enemyFlag = T.enemy, c.funcType = T.funcType, c.funcType == null && (c.funcType = 0), c.statistics = T.statistics, c.upDateValue = T.upDateValue, c.demoteValue = T.demoteValue, a.symbolicLink(c, T.operator), a.Call.send(
                 a.Eve.SHIFT_SHOW_VIEW,
-                [h, D.operator, i],
+                [c, T.operator, i],
+                null
+              );
+            } else if ([
+              12,
+              16,
+              14
+              /* LogicalSlider */
+            ].includes(T.type)) {
+              var o = new a.VariableValue(
+                T.name,
+                T.value,
+                T.type
+              );
+              o.TID = T.TID, o.TID == null && (o.TID = (/* @__PURE__ */ new Date()).getTime() + a.functionAddIndex, a.functionAddIndex++);
+              var c = a.createFunctionBody(u, o);
+              c.enemyFlag = T.enemy, c.funcType = T.funcType, c.funcType == null && (c.funcType = 0), T.type == 11 && (c.selectedOutputInfo = T.selectedOutputInfo ? JSON.parse(T.selectedOutputInfo) : ""), c.statistics = T.statistics, c.upDateValue = T.upDateValue, c.demoteValue = T.demoteValue, c.isLogicalOpen = T.isLogicalOpen, c.isDragging = T.isDragging, c.snNo = T.snNo, c.logicalNumberList = T.logicalNumberList, c.currentStep = T.currentStep, c.snNo = T.snNo, c.minValue = T.minValue, c.maxValue = T.maxValue, c.step = T.step, c.logicalChildArray = [], T.logicalChildArray.forEach((f) => {
+                var x = [];
+                a.getLibraryBody(
+                  x,
+                  a.targetFolder.tree,
+                  a.getAbsoluteAddress(f)
+                );
+                var b = x[0], v = b.copy();
+                v.enemyFlag = T.enemy, v.funcType = T.funcType, v.funcType == null && (v.funcType = 0), v.statistics = T.statistics, v.upDateValue = T.upDateValue, v.demoteValue = T.demoteValue, c.logicalChildArray.push(v);
+              }), a.symbolicLink(c, T.operator), a.Call.send(
+                a.Eve.SHIFT_SHOW_VIEW,
+                [c, T.operator, i],
                 null
               );
             } else {
@@ -5094,38 +5223,38 @@ n(a, "symbolicLink", function(t, r) {
               a.getLibraryBody(
                 d,
                 a.targetFolder.tree,
-                a.getAbsoluteAddress(D)
+                a.getAbsoluteAddress(T)
               );
-              var c = d[0], h = a.createVariableBody(
-                l,
-                c
+              var l = d[0], c = a.createVariableBody(
+                u,
+                l
               );
-              h.enemyFlag = D.enemy, h.funcType = D.funcType, h.funcType == null && (h.funcType = 0), D.type == 11 && (h.selectedOutputInfo = D.selectedOutputInfo ? JSON.parse(D.selectedOutputInfo) : ""), h.statistics = D.statistics, h.upDateValue = D.upDateValue, h.demoteValue = D.demoteValue, a.symbolicLink(h, D.operator), a.Call.send(
+              c.enemyFlag = T.enemy, c.funcType = T.funcType, c.funcType == null && (c.funcType = 0), T.type == 11 && (c.selectedOutputInfo = T.selectedOutputInfo ? JSON.parse(T.selectedOutputInfo) : ""), c.statistics = T.statistics, c.upDateValue = T.upDateValue, c.demoteValue = T.demoteValue, a.symbolicLink(c, T.operator), a.Call.send(
                 a.Eve.SHIFT_SHOW_VIEW,
-                [h, D.operator, i],
+                [c, T.operator, i],
                 null
               );
             }
           }
           a.Call.send(
             a.Eve.SHIFT_SHOW_VIEW_ON,
-            [l, i],
+            [u, i],
             null
           );
         }
         break;
       case "SymbolBody":
-        var f = a.createSymbolBody(
+        var p = a.createSymbolBody(
           null,
           null,
-          g.operator,
-          g.isFunctionId,
-          g.isWeight,
-          g.funcType
+          y.operator,
+          y.isFunctionId,
+          y.isWeight,
+          y.funcType
         );
-        f.isBindingOperation = a.getIsBoundOutput(r[s]), a.operationBindBody(f), f.view != null && (f.view.setX(a.coordinate(r[s])[0]), f.view.setY(a.coordinate(r[s])[1])), a.loopGenerateBody(f, g.tree, i), a.addBody(t, f, !1), a.Call.send(
+        p.isBindingOperation = a.getIsBoundOutput(r[s]), a.operationBindBody(p), p.view != null && (p.view.setX(a.coordinate(r[s])[0]), p.view.setY(a.coordinate(r[s])[1])), a.loopGenerateBody(p, y.tree, i), a.addBody(t, p, !1), a.Call.send(
           a.Eve.SHIFT_SHOW_VIEW_ON,
-          [f, i],
+          [p, i],
           null
         );
         break;
@@ -5134,35 +5263,35 @@ n(a, "symbolicLink", function(t, r) {
 }), n(a, "saveFXTree", function(t, r) {
   if (t != null)
     for (var i = 0; i < t.length; i++) {
-      const l = t[i];
-      if (l.type == 4) {
+      const u = t[i];
+      if (u.type == 4) {
         var s = {
-          TID: l.TID,
-          name: l.name,
-          code: l.macros
+          TID: u.TID,
+          name: u.name,
+          code: u.macros
         };
         r.push(s);
       } else
-        a.saveFXTree(l.tree, r);
+        a.saveFXTree(u.tree, r);
     }
 }), n(a, "recursiveStorage", function(t, r) {
   if (t.operationArray != null)
     for (var i = 0; i < t.operationArray.length; i++) {
-      const o = t.operationArray[i];
-      if (o.tree != null)
-        for (var s = 0; s < o.tree.length; s++) {
-          const u = o.tree[s];
-          if (u.type == 4) {
-            var l = {
-              TID: u.TID,
-              name: u.name,
-              code: u.macros
+      const h = t.operationArray[i];
+      if (h.tree != null)
+        for (var s = 0; s < h.tree.length; s++) {
+          const o = h.tree[s];
+          if (o.type == 4) {
+            var u = {
+              TID: o.TID,
+              name: o.name,
+              code: o.macros
             };
-            r.push(l);
+            r.push(u);
           } else
-            a.saveFXTree(u.tree, r);
+            a.saveFXTree(o.tree, r);
         }
-      o.operationArray != null && a.recursiveStorage(o, r);
+      h.operationArray != null && a.recursiveStorage(h, r);
     }
 }), /**
  * 初始化系统
@@ -5179,7 +5308,7 @@ n(a, "init", function() {
 }();
 globalThis_2.fx = fx;
 globalThis_2.seer = fx;
-const L = class L {
+const M = class M {
   constructor() {
     /** Fx配置数据 */
     n(this, "_fxData");
@@ -5193,7 +5322,7 @@ const L = class L {
    * @returns {FxUtil} FxUtil实例
    */
   static getInstance() {
-    return this._instance || (this._instance = new L()), this._instance;
+    return this._instance || (this._instance = new M()), this._instance;
   }
   /**
    * 获取玩家实例
@@ -5239,83 +5368,83 @@ const L = class L {
     i.stage.operationArray;
     var s = i.library.operationArray;
     fx.createLibraryBody(s, !0), this._fxPlayer = Player, this.playerList = [];
-    let l = new fx.CallCenter();
-    l.addEventListener(EventManager.SHIFT_ADD_BOARD, (h) => {
-      let d = new BillboardLayer(h.name);
-      d.monitored = h.monitored;
-      let c = d;
-      for (var f = 0; f < h.operationArray.length; f++) {
-        var g = [];
+    let u = new fx.CallCenter();
+    u.addEventListener(EventManager.SHIFT_ADD_BOARD, (c) => {
+      let d = new BillboardLayer(c.name);
+      d.monitored = c.monitored;
+      let l = d;
+      for (var p = 0; p < c.operationArray.length; p++) {
+        var y = [];
         fx.getLibraryBody(
-          g,
+          y,
           fx.targetFolder.tree,
-          h.operationArray[f].site
-        ), fx.clickBody = g[0], c.pushOperationLayer(), fx.clickBody = null;
+          c.operationArray[p].site
+        ), fx.clickBody = y[0], l.pushOperationLayer(), fx.clickBody = null;
       }
-      for (var f = 0; f < h.metadataArray.length; f++) {
-        var g = [];
+      for (var p = 0; p < c.metadataArray.length; p++) {
+        var y = [];
         fx.getLibraryBody(
-          g,
+          y,
           fx.targetFolder.tree,
-          h.metadataArray[f].site
-        ), fx.clickBody = g[0];
-        let D = h.metadataArray[f];
-        c.pushMetadata(
-          D.componentType,
-          D.componentMinValue,
-          D.componentMaxValue,
-          D.componentIntervalValue
+          c.metadataArray[p].site
+        ), fx.clickBody = y[0];
+        let T = c.metadataArray[p];
+        l.pushMetadata(
+          T.componentType,
+          T.componentMinValue,
+          T.componentMaxValue,
+          T.componentIntervalValue
         ), fx.clickBody = null;
       }
       fx.Call.send(fx.Eve.ADD_DATABASE_DATA, [
-        c,
+        l,
         fx.selectBody,
-        h.index
+        c.index
       ]), fx.Call.send(fx.Eve.SHIFT_REFRESH_LIBRARY_COORDINATES, [
-        c,
+        l,
         fx.selectBody
       ]);
-    }), l.addEventListener(EventManager.SHIFT_ADD_CHARTS, (h) => {
-      var d = new ChartsLayer(h.name);
-      let c = d;
-      for (var f = 0; f < h.operationlayer.length; f++) {
-        var g = [];
+    }), u.addEventListener(EventManager.SHIFT_ADD_CHARTS, (c) => {
+      var d = new ChartsLayer(c.name);
+      let l = d;
+      for (var p = 0; p < c.operationlayer.length; p++) {
+        var y = [];
         fx.getLibraryBody(
-          g,
+          y,
           fx.targetFolder.tree,
-          h.operationlayer[f]
-        ), c.operationArray.push(g[0].copy());
+          c.operationlayer[p]
+        ), l.operationArray.push(y[0].copy());
       }
-      var g = [];
-      c.minValue = h.minValue, c.intervalValue = h.intervalValue, c.maxValue = h.maxValue, h.metadataArray || (h.metadataArray = []), h.metadata && (h.metadataArray = [
+      var y = [];
+      l.minValue = c.minValue, l.intervalValue = c.intervalValue, l.maxValue = c.maxValue, c.metadataArray || (c.metadataArray = []), c.metadata && (c.metadataArray = [
         {
-          site: h.metadata,
-          intervalValue: c.intervalValue,
-          minValue: c.minValue
+          site: c.metadata,
+          intervalValue: l.intervalValue,
+          minValue: l.minValue
         }
-      ], h.metadata = null);
-      for (var f = 0; f < h.metadataArray.length; f++) {
-        var g = [], p = h.metadataArray[f];
-        fx.getLibraryBody(g, fx.targetFolder.tree, p.site);
-        var v = g[0].copy();
-        v.intervalValue = p.intervalValue || 1, v.minValue = p.minValue || 1, c.metadataArray.push(v), c.metadata = v;
+      ], c.metadata = null);
+      for (var p = 0; p < c.metadataArray.length; p++) {
+        var y = [], g = c.metadataArray[p];
+        fx.getLibraryBody(y, fx.targetFolder.tree, g.site);
+        var V = y[0].copy();
+        V.intervalValue = g.intervalValue || 1, V.minValue = g.minValue || 1, l.metadataArray.push(V), l.metadata = V;
       }
       Call.send(fx.Eve.ADD_DATABASE_DATA, [
-        c,
+        l,
         fx.selectBody,
-        h.index
+        c.index
       ]), fx.Call.send(fx.Eve.SHIFT_REFRESH_LIBRARY_COORDINATES, [
-        c,
+        l,
         fx.selectBody
       ]), fx.clickBody = null;
     }), fx.parseLibraryBody(s, !0), fx.recursionSyncBody(fx.targetFolder.tree);
-    let o = i.entity.operationArray;
-    this._fxData = o;
-    let u = this.createPlayersFromEntityArray(o);
-    console.log("-------------------"), u.forEach((h) => {
-      let d = h.getFormula("攻击"), c = h.getFormula("生命"), f = h.getFormula("防御");
-      console.log("name", h.name), console.log("attack", d), console.log("hp", c), console.log("defense", f);
-    }), this.playerList = u;
+    let h = i.entity.operationArray;
+    this._fxData = h;
+    let o = this.createPlayersFromEntityArray(h);
+    console.log("-------------------"), o.forEach((c) => {
+      let d = c.getFormula("攻击"), l = c.getFormula("生命"), p = c.getFormula("防御");
+      console.log("name", c.name), console.log("attack", d), console.log("hp", l), console.log("defense", p);
+    }), this.playerList = o;
   }
   /**
    * 根据职业和等级获取数据
@@ -5325,8 +5454,8 @@ const L = class L {
    */
   getDataByOccuAndLevel(t, r) {
     this._fxPlayer.changePlayerLevelAndOccupation(r, t);
-    let i = this._fxPlayer.getFormula("攻击1"), s = this._fxPlayer.getFormula("生命"), l = this._fxPlayer.getFormula("防御");
-    return { attack: i, hp: s, defense: l };
+    let i = this._fxPlayer.getFormula("攻击1"), s = this._fxPlayer.getFormula("生命"), u = this._fxPlayer.getFormula("防御");
+    return { attack: i, hp: s, defense: u };
   }
   /**
    * 根据名称、职业和等级获取实例数据
@@ -5336,12 +5465,12 @@ const L = class L {
    * @returns {object} 包含攻击力、生命值、防御力的对象
    */
   getInstanceDataByNameAndOccuAndLevel(t, r, i) {
-    let s = this.playerList.find((h) => h.name === t);
+    let s = this.playerList.find((c) => c.name === t);
     if (!s)
       throw new Error(`未找到名称为 "${t}" 的玩家`);
     s.changeLevelAndOccupation(i, r);
-    let l = s.getFormula("攻击"), o = s.getFormula("生命"), u = s.getFormula("防御");
-    return { attack: l, hp: o, defense: u };
+    let u = s.getFormula("攻击"), h = s.getFormula("生命"), o = s.getFormula("防御");
+    return { attack: u, hp: h, defense: o };
   }
   /**
    * 根据实体数组创建玩家实例列表
@@ -5352,8 +5481,8 @@ const L = class L {
   createPlayersFromEntityArray(t) {
     let r = [];
     for (var i = 0; i < t.length; i++) {
-      let s = t[i], l = this.getInstanceByName(s.name);
-      l ? r.push(l) : console.warn(`创建玩家实例失败: ${s.name}`);
+      let s = t[i], u = this.getInstanceByName(s.name);
+      u ? r.push(u) : console.warn(`创建玩家实例失败: ${s.name}`);
     }
     return r;
   }
@@ -5364,22 +5493,22 @@ const L = class L {
    * @returns {any} 表格的原始数据
    */
   getSheetDataByPath(t) {
-    var l;
+    var u;
     let r = t.split("."), i = fx.targetFolder, s;
-    for (let o = 0; o < r.length; o++) {
-      let u;
+    for (let h = 0; h < r.length; h++) {
+      let o;
       if (i.isFolder) {
-        if (u = i.tree.find((h) => h.name == r[o]), !u)
-          throw new Error("getSheetDataByPath - 路径未找到: " + r[o]);
+        if (o = i.tree.find((c) => c.name == r[h]), !o)
+          throw new Error("getSheetDataByPath - 路径未找到: " + r[h]);
       } else
         s = i;
-      i = u, o == r.length - 1 && (s = i);
+      i = o, h == r.length - 1 && (s = i);
     }
-    return (l = s == null ? void 0 : s.sheetData) == null ? void 0 : l.originData;
+    return (u = s == null ? void 0 : s.sheetData) == null ? void 0 : u.originData;
   }
 };
-n(L, "_instance");
-let FxUtil = L;
+n(M, "_instance");
+let FxUtil = M;
 window.FxUtil = FxUtil;
 class BattleLogger {
   constructor() {
@@ -5442,7 +5571,7 @@ class BattleLogger {
 }
 class BattleEntity {
   // 职业
-  constructor(t, r, i, s, l = 1, o = 1) {
+  constructor(t, r, i, s, u = 1, h = 1) {
     n(this, "name");
     // 角色名称
     n(this, "maxHp");
@@ -5456,7 +5585,7 @@ class BattleEntity {
     n(this, "level");
     // 等级
     n(this, "occupation");
-    this.name = t, this.maxHp = r, this.currentHp = r, this.attack = i, this.defense = s, this.level = l, this.occupation = o;
+    this.name = t, this.maxHp = r, this.currentHp = r, this.attack = i, this.defense = s, this.level = u, this.occupation = h;
   }
   /**
    * 判断角色是否存活
@@ -5601,31 +5730,31 @@ async function exampleMultipleBattles() {
   for (const i of r) {
     console.log(`
 🏆 战斗场景: ${i.name}`), console.log(`主角等级: ${i.heroLevel} | 敌人等级: ${i.enemyLevel}`);
-    const s = new BattleLogger(), l = e.getInstanceDataByNameAndOccuAndLevel("主角1", 1, i.heroLevel), o = new BattleEntity(
+    const s = new BattleLogger(), u = e.getInstanceDataByNameAndOccuAndLevel("主角1", 1, i.heroLevel), h = new BattleEntity(
       "勇者",
-      l.hp,
-      l.attack,
-      l.defense,
-      i.heroLevel,
-      1
-    ), u = e.getInstanceDataByNameAndOccuAndLevel("怪物1", 2, i.enemyLevel), h = new BattleEntity(
-      "巨龙",
       u.hp,
       u.attack,
       u.defense,
+      i.heroLevel,
+      1
+    ), o = e.getInstanceDataByNameAndOccuAndLevel("怪物1", 2, i.enemyLevel), c = new BattleEntity(
+      "巨龙",
+      o.hp,
+      o.attack,
+      o.defense,
       i.enemyLevel,
       1
-    ), c = new BattleSimulator(o, h, s).startBattle();
-    console.log(`[调试] ${i.name} 战斗结束`), console.log("[调试] result.battleData 存在?", !!c.battleData), console.log("[调试] result.battleData 长度:", c.battleData ? c.battleData.length : "undefined"), console.log("[调试] result.battleData 内容:", c.battleData), t.push({
+    ), l = new BattleSimulator(h, c, s).startBattle();
+    console.log(`[调试] ${i.name} 战斗结束`), console.log("[调试] result.battleData 存在?", !!l.battleData), console.log("[调试] result.battleData 长度:", l.battleData ? l.battleData.length : "undefined"), console.log("[调试] result.battleData 内容:", l.battleData), t.push({
       场景: i.name,
       主角等级: i.heroLevel,
       敌人等级: i.enemyLevel,
-      胜利者: c.winner,
-      回合数: c.rounds,
-      主角最终HP: o.currentHp,
-      敌人最终HP: h.currentHp,
+      胜利者: l.winner,
+      回合数: l.rounds,
+      主角最终HP: h.currentHp,
+      敌人最终HP: c.currentHp,
       // 新增：保存详细的战斗数据
-      battleData: c.battleData,
+      battleData: l.battleData,
       heroName: "勇者",
       enemyName: "巨龙"
     });
@@ -5636,74 +5765,126 @@ async function exampleMultipleBattles() {
     console.log(`  结果 ${s}: 场景="${i.场景}", battleData长度=${i.battleData ? i.battleData.length : "undefined"}`);
   }), t;
 }
+async function generatePVEDataRange(e, t = 50, r = 1) {
+  const i = [], s = r + t - 1;
+  await init();
+  const u = FxUtil.getInstance();
+  for (let h = r; h <= s; h++) {
+    await new Promise((o) => {
+      requestAnimationFrame(() => o(!0));
+    });
+    try {
+      const o = new BattleLogger(), c = u.getInstanceDataByNameAndOccuAndLevel("主角1", 1, h), d = new BattleEntity(
+        "Hero",
+        c.hp,
+        c.attack,
+        c.defense,
+        h,
+        1
+      ), l = u.getInstanceDataByNameAndOccuAndLevel("怪物1", 1, h), p = new BattleEntity(
+        "Enemy",
+        l.hp,
+        l.attack,
+        l.defense,
+        h,
+        1
+      ), g = new BattleSimulator(d, p, o).startBattle();
+      let V = 0, T = 0;
+      if (g.battleData && g.battleData.length > 0)
+        for (const f of g.battleData)
+          f.heroDamageDealt !== void 0 && (V += f.heroDamageDealt, T++);
+      const m = T > 0 ? V / T : 0, D = {
+        level: h,
+        hp: d.currentHp,
+        damage: m,
+        rounds: g.rounds,
+        battleData: g.battleData,
+        heroName: "Hero",
+        enemyName: "Enemy"
+      };
+      i.push(D), e && e(i, h, s);
+    } catch (o) {
+      console.error(`Level ${h} battle simulation failed:`, o);
+      const c = {
+        level: h,
+        hp: 100,
+        damage: 20,
+        rounds: 10,
+        battleData: [],
+        heroName: "Hero",
+        enemyName: "Enemy"
+      };
+      i.push(c), e && e(i, h, s);
+    }
+  }
+  return console.log(`PVE data generation complete: ${i.length} levels`), i;
+}
 async function generatePVEData(e, t = 50) {
   var s;
   const r = [];
   await init();
   const i = FxUtil.getInstance();
-  for (let l = 1; l <= t; l++) {
-    await new Promise((o) => {
-      requestAnimationFrame(() => o(!0));
+  for (let u = 1; u <= t; u++) {
+    await new Promise((h) => {
+      requestAnimationFrame(() => h(!0));
     });
     try {
-      const o = new BattleLogger(), u = i.getInstanceDataByNameAndOccuAndLevel("主角1", 1, l), h = new BattleEntity(
-        "勇者",
-        u.hp,
-        u.attack,
-        u.defense,
-        l,
+      const h = new BattleLogger(), o = i.getInstanceDataByNameAndOccuAndLevel("主角1", 1, u), c = new BattleEntity(
+        "Hero",
+        o.hp,
+        o.attack,
+        o.defense,
+        u,
         1
-      ), d = i.getInstanceDataByNameAndOccuAndLevel("怪物1", 1, l), c = new BattleEntity(
-        "巨龙",
+      ), d = i.getInstanceDataByNameAndOccuAndLevel("怪物1", 1, u), l = new BattleEntity(
+        "Enemy",
         d.hp,
         d.attack,
         d.defense,
-        l,
+        u,
         1
-      );
-      console.log("进行战斗", l), console.log("hero", h), console.log("enemy", c);
-      const g = new BattleSimulator(h, c, o).startBattle();
-      let p = 0, v = 0;
-      if (g.battleData && g.battleData.length > 0)
-        for (const m of g.battleData)
-          m.heroDamageDealt !== void 0 && (p += m.heroDamageDealt, v++);
-      const D = v > 0 ? p / v : 0, y = {
-        level: l,
-        hp: h.currentHp,
+      ), y = new BattleSimulator(c, l, h).startBattle();
+      let g = 0, V = 0;
+      if (y.battleData && y.battleData.length > 0)
+        for (const D of y.battleData)
+          D.heroDamageDealt !== void 0 && (g += D.heroDamageDealt, V++);
+      const T = V > 0 ? g / V : 0, m = {
+        level: u,
+        hp: c.currentHp,
         // 主角剩余的血量
-        damage: D,
+        damage: T,
         // 战斗中主角输出的伤害平均值
-        rounds: g.rounds,
+        rounds: y.rounds,
         // 实际战斗回合数
-        battleData: g.battleData,
+        battleData: y.battleData,
         // 完整的战斗数据（每回合的详细数据）
-        heroName: "勇者",
+        heroName: "Hero",
         // 主角名称
-        enemyName: "巨龙"
+        enemyName: "Enemy"
         // 敌人名称
       };
-      (l === 1 || l === 10 || l === 50) && console.log(`[调试] 等级${l}数据:`, {
-        level: y.level,
-        rounds: y.rounds,
-        battleDataLength: (s = y.battleData) == null ? void 0 : s.length,
-        battleDataExists: !!y.battleData
-      }), r.push(y), e && e(r, l, t), l % 10 === 0 && console.log(`PVE数据生成进度: ${l}/${t}`);
-    } catch (o) {
-      console.error(`等级${l}战斗模拟失败:`, o);
-      const u = {
-        level: l,
+      (u === 1 || u === 10 || u === 50) && console.log(`[调试] 等级${u}数据:`, {
+        level: m.level,
+        rounds: m.rounds,
+        battleDataLength: (s = m.battleData) == null ? void 0 : s.length,
+        battleDataExists: !!m.battleData
+      }), r.push(m), e && e(r, u, t), u % 10 === 0 && console.log(`PVE数据生成进度: ${u}/${t}`);
+    } catch (h) {
+      console.error(`Level ${u} battle simulation failed:`, h);
+      const o = {
+        level: u,
         hp: 100,
         damage: 20,
         rounds: 10,
         battleData: [],
         // 空数组
-        heroName: "勇者",
-        enemyName: "巨龙"
+        heroName: "Hero",
+        enemyName: "Enemy"
       };
-      r.push(u), e && e(r, l, t);
+      r.push(o), e && e(r, u, t);
     }
   }
-  return console.log("PVE数据生成完成，共", r.length, "个等级"), r;
+  return console.log(`PVE data generation complete: ${r.length} levels`), r;
 }
 async function runAllExamples() {
   console.log(`
@@ -5721,13 +5902,15 @@ async function runAllExamples() {
 typeof window < "u" && (window.battleDemo = {
   runAllExamples,
   exampleMultipleBattles,
-  generatePVEData
-}, console.log("💡 使用方法:"), console.log("  - battleDemo.runAllExamples() - 运行多场战斗对比示例"), console.log("  - battleDemo.exampleMultipleBattles() - 多场对比"), console.log("  - battleDemo.generatePVEData() - 生成PVE测试数据"));
+  generatePVEData,
+  generatePVEDataRange
+}, console.log("💡 Usage:"), console.log("  - battleDemo.runAllExamples() - Run multiple battle comparison examples"), console.log("  - battleDemo.exampleMultipleBattles() - Multiple battle comparison"), console.log("  - battleDemo.generatePVEData() - Generate PVE test data"), console.log("  - battleDemo.generatePVEDataRange() - Generate PVE data for specific level range"));
 export {
   BattleEntity,
   BattleLogger,
   BattleSimulator,
   exampleMultipleBattles,
   generatePVEData,
+  generatePVEDataRange,
   runAllExamples
 };

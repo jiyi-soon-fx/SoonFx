@@ -1,7 +1,7 @@
 {
-  "name": "@soonfx/fx",
-  "version": "1.0.10101",
-  "description": "SoonFx 游戏数值引擎 - 强大的游戏数值引擎运行库",
+  "name": "@soonfx/engine",
+  "version": "1.0.0",
+  "description": "TypeScript game numeric engine for RPG and strategy games - formula parsing, battle simulation, zero dependencies",
   "scripts": {
     "build:types": "tsc",
     "build": "npm run build:esm && npm run build:cjs",
@@ -25,16 +25,52 @@
     "clean": "rimraf --glob \"build/fx/lib/*\" && rimraf test-local test-tgz-install && rimraf --glob \"*.tgz\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "typescript",
+    "javascript",
+    "nodejs",
+    "game-development",
+    "game-engine",
+    "rpg",
+    "strategy-game",
+    "turn-based",
+    "formula-engine",
+    "expression-parser",
+    "battle-system",
+    "damage-calculation",
+    "numerical-computation",
+    "zero-dependency",
+    "type-safe",
+    "lightweight",
+    "cross-platform",
+    "game-math",
+    "character-attributes",
+    "game-logic"
+  ],
+  "author": {
+    "name": "SoonFx Team",
+    "email": "jiyisoon@163.com",
+    "url": "https://soonfx.dev"
+  },
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/soonfx-engine/core.git"
+  },
+  "bugs": {
+    "url": "https://github.com/soonfx-engine/core/issues"
+  },
+  "homepage": "https://soonfx.dev",
+ 
   "devDependencies": {
     "@swc/cli": "^0.1.62",
     "@swc/core": "^1.3.78",
+    "@types/node": "^20.5.1",
     "dts-gen": "^0.10.3",
     "esbuild": "^0.19.2",
     "rimraf": "^5.0.1",
-    "typescript": "^5.5.2"
+    "typescript": "^5.5.2",
+    "undici-types": "^5.26.5"
   },
   "dependencies": {
     "dts-bundle-generator": "^9.5.1",
