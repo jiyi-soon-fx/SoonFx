@@ -227,9 +227,10 @@
   resolved "https://registry.npmmirror.com/@rollup/rollup-win32-x64-msvc/-/rollup-win32-x64-msvc-4.52.5.tgz"
   integrity sha512-TAcgQh2sSkykPRWLrdyy2AiceMckNf5loITqXxFI5VuQjS5tSuw3WlwdN8qv8vzjLAUTvYaH/mVjSFpbkFbpTg==
 
-"@soonfx/fx@../../soonfx-engine-1.0.20251121.tgz":
-  version "1.0.20251121"
-  resolved "../../soonfx-engine-1.0.20251121.tgz#563d23c122dccaf20c1082fc0cf5a77f2d2e057e"
+"@soonfx/engine@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.npmmirror.com/@soonfx/engine/-/engine-2.0.0.tgz#5bba68874e405b913bbb4efde284aa56f9af24e0"
+  integrity sha512-VzM+W5VAqH6+hCFszTuSiKG8xHXhBDwF4yQxr530n1jadRNAJhD6W5v9aETP9VOSBmMey08IBNoeUtFpTab99A==
 
 "@types/estree@1.0.8":
   version "1.0.8"

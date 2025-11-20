@@ -1,4 +1,4 @@
-import "@soonfx/fx";
+import "@soonfx/engine";
 import FxUtil from "./FxUtil";
 
 /**

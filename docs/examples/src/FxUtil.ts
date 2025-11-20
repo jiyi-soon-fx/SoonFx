@@ -1,4 +1,4 @@
-import { Player, Eve, ChartsLayer, FXCentre, BillboardLayer, fx, Call } from "@soonfx/fx";
+import { Player, Eve, ChartsLayer, FXCentre, BillboardLayer, fx, Call } from "@soonfx/engine";
 
 /**
  * Fx系统工具类 - 单例模式

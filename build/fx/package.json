@@ -1,6 +1,6 @@
 {
     "name": "@soonfx/engine",
-    "version": "1.0.20251121",
+    "version": "2.0.0",
     "description": "TypeScript game numeric engine for RPG and strategy games - formula parsing, battle simulation, zero dependencies",
     "main": "lib/index.mjs",
     "module": "lib/index.mjs",

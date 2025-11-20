@@ -1,6 +1,6 @@
 {
   "name": "@soonfx/engine",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "TypeScript game numeric engine for RPG and strategy games - formula parsing, battle simulation, zero dependencies",
   "scripts": {
     "build:types": "tsc",
@@ -50,7 +50,7 @@
   "author": {
     "name": "SoonFx Team",
     "email": "jiyisoon@163.com",
-    "url": "https://soonfx.dev"
+    "url": "https://soonfx.dev/examples"
   },
   "license": "Apache-2.0",
   "repository": {
@@ -60,7 +60,7 @@
   "bugs": {
     "url": "https://github.com/soonfx-engine/core/issues"
   },
-  "homepage": "https://soonfx.dev",
+  "homepage": "https://soonfx.dev/examples",
  
   "devDependencies": {
     "@swc/cli": "^0.1.62",

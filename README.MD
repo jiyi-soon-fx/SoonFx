@@ -11,7 +11,7 @@
 
 **A lightweight, type-safe formula engine designed for game developers who need reliable battle calculations, character attributes, and expression parsing - with zero dependencies.**
 
-[Installation](#-installation) · [Quick Start](#-quick-start) · [Documentation](#-core-api) · [Examples](docs/examples) · [Live Demo](https://soonfx-engine.github.io/core)
+[Installation](#-installation) · [Quick Start](#-quick-start) · [Documentation](#-core-api) · [Examples](docs/examples) · [Online Demo](https://soonfx.dev/examples)
 
 [English](README.md) | [简体中文](README.zh-CN.md)
 
@@ -284,7 +284,7 @@ This project is licensed under the [Apache 2.0 License](LICENSE). You are free t
 
 - 📦 [npm Package](https://www.npmjs.com/package/@soonfx/engine)
 - 💻 [GitHub Repository](https://github.com/soonfx-engine/core)
-- 📖 [Online Documentation](https://soonfx.dev)
+- 📖 [Online Demo](https://soonfx.dev/examples)
 - 🐛 [Issue Tracker](https://github.com/soonfx-engine/core/issues)
 - 💬 [Discussions](https://github.com/soonfx-engine/core/discussions)
 

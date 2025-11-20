@@ -4316,12 +4316,12 @@ n(a, "getAbsoluteAddress", function(t, r) {
     var i = [];
     return a.getStepData(t, i, r), i.join(",");
   }
-  {
-    if (t.parentFolder == null)
-      return t.source != null ? t.source.absoluteAddress : t.name;
-    var i = [];
-    return a.getStepData(t, i, r), i.join(",");
-  }
+  if (t.site != null && t.site != null)
+    return t.site;
+  if (t.parentFolder == null)
+    return t.source != null ? t.source.absoluteAddress : t.name;
+  var i = [];
+  return a.getStepData(t, i, r), i.join(",");
 }), n(a, "copyHeadFun", function(t) {
   return t.copyHead ? !0 : t.parentFolder != null && t.parentFolder.name != null ? a.copyHeadFun(t.parentFolder) : !1;
 }), /**
