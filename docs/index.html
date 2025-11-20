@@ -415,14 +415,6 @@
                         <span class="label">⚔️ Mid-Game Challenge (Lv 20-30)</span>
                         <span class="desc">Intermediate difficulty battles</span>
                     </button>
-                    <button class="scenario-btn" data-scenario="boss" onclick="selectScenario('boss')">
-                        <span class="label">👹 Boss Battle (Lv 50)</span>
-                        <span class="desc">Epic end-game encounter</span>
-                    </button>
-                    <button class="scenario-btn" data-scenario="stress" onclick="selectScenario('stress')">
-                        <span class="label">🔥 Stress Test (Lv 100)</span>
-                        <span class="desc">Extreme performance test</span>
-                    </button>
                 </div>
 
                 <div class="info-box" style="margin-top: 1.5rem;">
@@ -533,14 +525,6 @@
             'mid-game': {
                 title: '⚔️ Rising Challenge',
                 desc: 'The hero has grown stronger (Lv 20-30) and now faces tougher enemies in the Dark Forest...'
-            },
-            'boss': {
-                title: '👹 The Final Confrontation',
-                desc: 'At level 50, the hero challenges the Ancient Dragon in an epic boss battle...'
-            },
-            'stress': {
-                title: '🔥 Legendary Power',
-                desc: 'Testing the limits: a maxed-out level 100 warrior against ultimate foes...'
             }
         };
 
@@ -592,12 +576,6 @@
                     case 'mid-game':
                         await showPVEGrowthCurve(11, 20);
                         break;
-                    case 'boss':
-                        await showBossBattle();
-                        break;
-                    case 'stress':
-                        await showStressTest();
-                        break;
                 }
 
                 window.setStatus('success', '✅ Simulation complete! Click on any chart point to see detailed battle data.');
@@ -629,16 +607,6 @@
 
             window.pveBattleData = pveData;
             console.log(`Growth curve generated with ${pveData.length} data points`);
-        }
-
-        // Show boss battle
-        async function showBossBattle() {
-            await showPVEGrowthCurve(1, 50);
-        }
-
-        // Show stress test
-        async function showStressTest() {
-            await showPVEGrowthCurve(1, 100);
         }
 
         // Generate PVE data
