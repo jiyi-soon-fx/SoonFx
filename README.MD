@@ -19,6 +19,10 @@
 
 ---
 
+## 📸 Demo
+
+![Demo](docs/assets/demo.png)
+
 ## ✨ Features
 
 - ⚡ **Zero Dependencies** - Lightweight and fast, less than 50KB minified

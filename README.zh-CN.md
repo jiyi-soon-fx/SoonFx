@@ -17,6 +17,10 @@
 
 ---
 
+## 📸 演示
+
+![Demo](docs/assets/demo.png)
+
 ## ✨ 核心特性
 
 - 🎯 **TypeScript 支持** - 类型定义，智能提示和类型检查
