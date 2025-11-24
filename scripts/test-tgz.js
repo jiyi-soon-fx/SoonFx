@@ -7,7 +7,7 @@ const path = require('path');
 console.log('🧪 测试 .tgz 包安装...');
 
 const testDir = path.join(__dirname, '../test-tgz-install');
-const tgzPath = path.join(__dirname, '../soonfx-engine-1.0.20251121.tgz');
+const tgzPath = path.join(__dirname, '../soonfx-engine-2.0.0.tgz');
 
 // 清理旧的测试目录
 if (fs.existsSync(testDir)) {

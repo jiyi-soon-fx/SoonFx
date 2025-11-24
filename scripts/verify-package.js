@@ -79,7 +79,7 @@ if (fs.existsSync(path.join(buildDir, 'package.json'))) {
         ['description', packageInfo.description, packageInfo.description && packageInfo.description.length > 10],
         ['main', packageInfo.main, packageInfo.main === 'lib/index.mjs'],
         ['types', packageInfo.types, packageInfo.types === 'lib/index.d.ts'],
-        ['license', packageInfo.license, packageInfo.license === 'MIT'],
+        ['license', packageInfo.license, packageInfo.license === 'Apache-2.0'],
         ['keywords', JSON.stringify(packageInfo.keywords), Array.isArray(packageInfo.keywords) && packageInfo.keywords.length > 0],
         ['files', JSON.stringify(packageInfo.files), Array.isArray(packageInfo.files)]
     ];

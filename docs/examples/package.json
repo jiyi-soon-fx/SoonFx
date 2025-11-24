@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "npm run build && vite",
     "build": "vite build",
+    "build:minify": "vite build --minify",
     "preview": "vite preview",
     "type-check": "tsc --noEmit"
   },
@@ -14,6 +15,7 @@
   "devDependencies": {
     "@types/node": "^20.0.0",
     "typescript": "^5.0.0",
-    "vite": "^5.0.0"
+    "vite": "^5.0.0",
+    "terser": "^5.24.0"
   }
 }
