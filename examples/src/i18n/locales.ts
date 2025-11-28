@@ -21,6 +21,10 @@ export const en = {
       label: "⚔️ Mid-Game Challenge (Lv 20-30)",
       desc: "Intermediate difficulty battles"
     },
+    custom: {
+      label: "🔧 Custom Simulation",
+      desc: "Adjust stats and fight!"
+    },
     tip: {
       label: "💡 Tip:",
       text: "Click on any data point in the charts to see detailed battle information for that level."
@@ -50,6 +54,37 @@ export const en = {
     midGame: {
       title: "⚔️ Rising Challenge",
       desc: "The hero has grown stronger (Lv 20-30) and now faces tougher enemies in the Dark Forest..."
+    },
+    custom: {
+      title: "🔧 Custom Battle Simulation",
+      desc: "Manually configure hero and enemy attributes to test specific combat scenarios."
+    }
+  },
+  custom: {
+    title: "⚙️ Battle Configuration",
+    start: "⚔️ Start Battle",
+    simCount: "Simulations:",
+    hero: "🦸 Hero",
+    enemy: "👹 Enemy",
+    level: "Level",
+    hp: "HP",
+    attack: "Attack",
+    defense: "Defense",
+    presets: {
+      balanced: "⚖️ Balanced",
+      heroStrong: "💪 Strong Hero",
+      enemyStrong: "👹 Strong Enemy",
+      tank: "🛡️ Tank Build",
+      glass: "🗡️ Glass Cannon"
+    },
+    report: {
+      title: "📊 Batch Simulation Report ({count} runs)",
+      winRate: "Win Rate: {rate}%",
+      avgRounds: "Avg Rounds: {rounds}",
+      avgHeroHp: "Avg Hero Remaining HP: {hp}",
+      losses: "Losses: {count}",
+      minRounds: "Min Rounds: {rounds}",
+      maxRounds: "Max Rounds: {rounds}"
     }
   },
   status: {
@@ -90,6 +125,10 @@ export const zhCN = {
       label: "⚔️ 中期挑战 (Lv 20-30)",
       desc: "面对更强大的敌人"
     },
+    custom: {
+      label: "🔧 自定义模拟",
+      desc: "调整属性并战斗！"
+    },
     tip: {
       label: "💡 提示:",
       text: "点击图表中的任意数据点查看该等级的详细战斗信息。"
@@ -119,6 +158,37 @@ export const zhCN = {
     midGame: {
       title: "⚔️ 挑战升级",
       desc: "英雄变强了 (Lv 20-30)，现在要在黑暗森林中面对更棘手的敌人..."
+    },
+    custom: {
+      title: "🔧 自定义战斗模拟",
+      desc: "手动配置英雄和敌人的属性以测试特定的战斗场景。"
+    }
+  },
+  custom: {
+    title: "⚙️ 战斗配置",
+    start: "⚔️ 开始战斗",
+    simCount: "模拟次数:",
+    hero: "🦸 英雄",
+    enemy: "👹 敌人",
+    level: "等级",
+    hp: "生命值",
+    attack: "攻击力",
+    defense: "防御力",
+    presets: {
+      balanced: "⚖️ 平衡",
+      heroStrong: "💪 英雄强",
+      enemyStrong: "👹 敌人强",
+      tank: "🛡️ 坦克型",
+      glass: "🗡️ 玻璃炮"
+    },
+    report: {
+      title: "📊 批量模拟报告 (运行 {count} 次)",
+      winRate: "胜率: {rate}%",
+      avgRounds: "平均回合: {rounds}",
+      avgHeroHp: "平均英雄剩余HP: {hp}",
+      losses: "失败次数: {count}",
+      minRounds: "最少回合: {rounds}",
+      maxRounds: "最多回合: {rounds}"
     }
   },
   status: {

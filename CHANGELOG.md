@@ -20,3 +20,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Turn-based battle simulation support.
 - TypeScript-first architecture with full type safety.
 
+

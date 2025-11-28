@@ -4,6 +4,11 @@
 export class BattleLogger {
     private logs: string[] = [];
     private battleData: any[] = [];
+    private silent: boolean;
+
+    constructor(silent: boolean = false) {
+        this.silent = silent;
+    }
 
     /**
      * 添加日志信息
@@ -13,7 +18,9 @@ export class BattleLogger {
         const timestamp = new Date().toLocaleTimeString('zh-CN');
         const logMessage = `[${timestamp}] ${message}`;
         this.logs.push(logMessage);
-        console.log(logMessage);
+        if (!this.silent) {
+            console.log(logMessage);
+        }
     }
 
     /**

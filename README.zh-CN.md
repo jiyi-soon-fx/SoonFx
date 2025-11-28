@@ -1,6 +1,9 @@
 <div align="center">
 
-# SoonFX 游戏数值引擎
+# SoonFx 运行时
+
+> SoonFx：TypeScript 优先的 RPG 和策略游戏数值引擎。
+  此 GitHub 项目托管了使用 [SoonFx 编辑器](https://github.com/soonfx-engine/editor) 数据所需的 SoonFx 编辑器运行时。
 
 [![npm version](https://img.shields.io/npm/v/@soonfx/engine.svg)](https://www.npmjs.com/package/@soonfx/engine)
 [![npm downloads](https://img.shields.io/npm/dm/@soonfx/engine.svg)](https://www.npmjs.com/package/@soonfx/engine)
@@ -9,6 +12,8 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue.svg)](https://www.typescriptlang.org/)
 
 **基于TypeScript开发的 游戏数值计算和公式系统**
+
+此 GitHub 项目托管了使用 [SoonFx 编辑器](https://github.com/soonfx-engine/editor) 数据所需的 SoonFx 编辑器运行时。
 
 [安装](#-安装) · [快速开始](#-快速开始) · [文档](#-核心-api) · [示例项目](examples) · [路线图](ROADMAP.md) · [在线演示](https://soonfx.dev)
 

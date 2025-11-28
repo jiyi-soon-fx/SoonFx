@@ -1,8 +1,10 @@
 <div align="center">
 
-# SoonFx
+# SoonFx Runtime
 
-> TypeScript-first game numeric engine for RPG and strategy games
+> SoonFx：TypeScript-first game numeric engine for RPG and strategy games. 
+  This GitHub project hosts the SoonFx Editor Runtimes which are needed to use [SoonFx Editor](https://github.com/soonfx-engine/editor) data.
+
 
 [![npm version](https://img.shields.io/npm/v/@soonfx/engine.svg)](https://www.npmjs.com/package/@soonfx/engine)
 [![npm downloads](https://img.shields.io/npm/dm/@soonfx/engine.svg)](https://www.npmjs.com/package/@soonfx/engine)
@@ -11,6 +13,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue.svg)](https://www.typescriptlang.org/)
 
 **A lightweight, type-safe formula engine designed for game developers who need reliable battle calculations, character attributes, and expression parsing - with zero dependencies.**
+
 
 [Installation](#-installation) · [Quick Start](#-quick-start) · [Documentation](#-core-api) · [Examples](examples) · [Roadmap](ROADMAP.md) · [Online Demo](https://soonfx.dev)
 
