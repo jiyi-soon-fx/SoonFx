@@ -28,3 +28,10 @@ jobs:
       - name: Type check
         run: npx tsc --noEmit
 
+      - name: Install Example Dependencies
+        working-directory: ./examples
+        run: npm install
+
+      - name: Build Examples
+        working-directory: ./examples
+        run: npm run build
