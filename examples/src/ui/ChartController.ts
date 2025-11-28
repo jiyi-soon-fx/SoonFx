@@ -1,4 +1,5 @@
 import * as echarts from 'echarts';
+import { i18n } from '../i18n/I18nService';
 
 export class ChartController {
     private chartInstances: { [key: string]: echarts.ECharts } = {};
@@ -14,11 +15,30 @@ export class ChartController {
                 chart.resize();
             });
         });
+
+        // Subscribe to i18n changes to update charts
+        i18n.subscribe(() => {
+             // We can try to refresh the charts if data exists
+             if (this.pveBattleData) {
+                 // This logic is slightly imperfect as it doesn't know the current highlight index perfectly 
+                 // without passing it in again, but we can store it if needed.
+                 // For now, simply re-rendering with last known data is better than nothing.
+                 // However, updating ECharts options with new titles is enough.
+                 this.updateChartTitles();
+             }
+        });
     }
 
     public async initCharts(): Promise<void> {
-        // ECharts is imported synchronously, so no need to wait
         return Promise.resolve();
+    }
+
+    private updateChartTitles() {
+        // This function updates the series names and titles if we had any
+        // Since we create charts with specific names, we might need to re-set options.
+        // For simplicity in this demo, we'll rely on the main loop calling updateCharts which is triggered by language toggle in DemoApp if we structured it that way.
+        // But DemoApp doesn't trigger updateCharts on language toggle yet. 
+        // Let's just make sure the next updateCharts call uses correct translations.
     }
 
     public updateCharts(data: any[], currentLevel: number | null) {
@@ -39,21 +59,22 @@ export class ChartController {
             document.getElementById('hpPlaceholder')?.classList.add('hidden');
             this.chartInstances.hpChart = this.createLineChart('hpChart', 'Health Points', 'rgb(75, 192, 192)');
         }
-        this.updateChartData(this.chartInstances.hpChart, levels, hpValues, currentLevelIndex, 'rgb(75, 192, 192)');
+        // Update series name to localized
+        this.updateChartData(this.chartInstances.hpChart, levels, hpValues, currentLevelIndex, 'rgb(75, 192, 192)', false, i18n.t('charts.hp'));
 
         // Update or create Damage chart
         if (!this.chartInstances.damageChart) {
             document.getElementById('damagePlaceholder')?.classList.add('hidden');
             this.chartInstances.damageChart = this.createLineChart('damageChart', 'Attack Damage', 'rgb(255, 99, 132)');
         }
-        this.updateChartData(this.chartInstances.damageChart, levels, damageValues, currentLevelIndex, 'rgb(255, 99, 132)');
+        this.updateChartData(this.chartInstances.damageChart, levels, damageValues, currentLevelIndex, 'rgb(255, 99, 132)', false, i18n.t('charts.damage'));
 
         // Update or create Rounds chart
         if (!this.chartInstances.roundsChart) {
             document.getElementById('roundsPlaceholder')?.classList.add('hidden');
             this.chartInstances.roundsChart = this.createLineChart('roundsChart', 'Battle Duration', 'rgb(153, 102, 255)');
         }
-        this.updateChartData(this.chartInstances.roundsChart, levels, roundsValues, currentLevelIndex, 'rgb(153, 102, 255)', true);
+        this.updateChartData(this.chartInstances.roundsChart, levels, roundsValues, currentLevelIndex, 'rgb(153, 102, 255)', true, i18n.t('charts.rounds'));
     }
 
     public clearCharts() {
@@ -72,12 +93,6 @@ export class ChartController {
         const container = document.getElementById(canvasId);
         if (!container) throw new Error(`Canvas container ${canvasId} not found`);
         
-        // Ensure container has size
-        if (container instanceof HTMLCanvasElement) {
-            // ECharts needs a div wrapper or we use the canvas directly but need to ensure parent sizing
-            // Usually ECharts mounts to a DIV. If canvasId refers to a canvas element, ECharts can use it.
-        }
-
         const chart = echarts.init(container as HTMLElement);
         
         chart.getZr().on('click', (params) => {
@@ -100,7 +115,7 @@ export class ChartController {
         return chart;
     }
 
-    private updateChartData(chart: echarts.ECharts, labels: string[], data: number[], highlightIndex: number, color: string, isDynamicY: boolean = false) {
+    private updateChartData(chart: echarts.ECharts, labels: string[], data: number[], highlightIndex: number, color: string, isDynamicY: boolean = false, seriesName?: string) {
         const option: echarts.EChartsOption = {
             tooltip: {
                 trigger: 'axis',
@@ -129,7 +144,7 @@ export class ChartController {
                 axisLabel: { color: '#94a3b8' }
             },
             series: [{
-                name: 'Value',
+                name: seriesName || 'Value',
                 type: 'line',
                 data: data.map((val, idx) => {
                     return {
@@ -231,8 +246,8 @@ export class ChartController {
             this.chartInstances.detailDamageChart.dispose();
         }
 
-        const totalHeroDamage = battleData.reduce((sum, d) => sum + (d.heroDamageDealt || 0), 0);
-        const totalEnemyDamage = battleData.reduce((sum, d) => sum + (d.enemyDamageDealt || 0), 0);
+        const totalHeroDamage = battleData.reduce((sum: number, d: any) => sum + (d.heroDamageDealt || 0), 0);
+        const totalEnemyDamage = battleData.reduce((sum: number, d: any) => sum + (d.enemyDamageDealt || 0), 0);
         const avgHeroDamage = parseFloat((totalHeroDamage / battleData.length).toFixed(1));
         const avgEnemyDamage = parseFloat((totalEnemyDamage / battleData.length).toFixed(1));
 

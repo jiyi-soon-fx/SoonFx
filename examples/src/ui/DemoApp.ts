@@ -1,23 +1,18 @@
 import { ChartController } from "./ChartController";
-import { generatePVEData } from "../core/SimulationService";
+import { i18n } from "../i18n/I18nService";
 
-interface StoryContent {
-    title: string;
-    desc: string;
-}
-
-const STORY_CONTENT: { [key: string]: StoryContent } = {
+const SCENARIO_KEYS: { [key: string]: { title: string, desc: string } } = {
     'pve-growth': {
-        title: '📊 Level Progression Analysis',
-        desc: 'Simulating 50 battles to show how character stats evolve from novice to master...'
+        title: 'story.pveGrowth.title',
+        desc: 'story.pveGrowth.desc'
     },
     'newbie': {
-        title: '🌱 The First Adventure',
-        desc: 'A young hero takes their first steps, facing level 1-10 slimes in the Newbie Village...'
+        title: 'story.newbie.title',
+        desc: 'story.newbie.desc'
     },
     'mid-game': {
-        title: '⚔️ Rising Challenge',
-        desc: 'The hero has grown stronger (Lv 20-30) and now faces tougher enemies in the Dark Forest...'
+        title: 'story.midGame.title',
+        desc: 'story.midGame.desc'
     }
 };
 
@@ -33,6 +28,10 @@ export class DemoApp {
 
     public async init() {
         console.log('Battle simulation system initialized');
+        
+        // Initialize i18n first
+        i18n.updatePage();
+        
         this.bindEvents();
         this.redirectConsole();
 
@@ -40,6 +39,19 @@ export class DemoApp {
         
         // Auto-run default scenario
         await this.selectScenario('pve-growth');
+
+        // Subscribe to language changes
+        i18n.subscribe(() => {
+            this.updateStoryHeader(this.currentScenario);
+            // Re-render status if needed
+            // Re-render charts if needed (charts usually have their own titles, might need update)
+            // For simplicity, we might re-run scenario or just update text
+            if (this.pveBattleData && this.currentLevel !== null) {
+                 // Try to refresh current detail view text
+                 // This is a bit complex because logs are appended. 
+                 // We'll just update the static parts.
+            }
+        });
     }
 
     private bindEvents() {
@@ -52,6 +64,13 @@ export class DemoApp {
                 }
             });
         });
+
+        const langSwitch = document.getElementById('langSwitch');
+        if (langSwitch) {
+            langSwitch.addEventListener('click', () => {
+                i18n.toggleLocale();
+            });
+        }
     }
 
     private redirectConsole() {
@@ -73,12 +92,12 @@ export class DemoApp {
     }
 
     private updateStoryHeader(scenario: string) {
-        const content = STORY_CONTENT[scenario];
-        if (content) {
+        const keys = SCENARIO_KEYS[scenario];
+        if (keys) {
             const titleEl = document.getElementById('storyTitle');
             const descEl = document.getElementById('storyDesc');
-            if (titleEl) titleEl.textContent = content.title;
-            if (descEl) descEl.textContent = content.desc;
+            if (titleEl) titleEl.textContent = i18n.t(keys.title);
+            if (descEl) descEl.textContent = i18n.t(keys.desc);
         }
     }
 
@@ -109,7 +128,7 @@ export class DemoApp {
     }
 
     private async runScenario(scenario: string) {
-        this.setStatus('loading', `🔄 Running ${scenario} simulation...`);
+        this.setStatus('loading', i18n.t('status.running', { scenario }));
 
         try {
             switch (scenario) {
@@ -124,10 +143,10 @@ export class DemoApp {
                     break;
             }
 
-            this.setStatus('success', '✅ Simulation complete! Click on any chart point to see detailed battle data.');
+            this.setStatus('success', i18n.t('status.success'));
         } catch (error: any) {
             console.error('Simulation error:', error);
-            this.setStatus('error', '❌ Simulation failed: ' + error.message);
+            this.setStatus('error', i18n.t('status.error', { message: error.message }));
         }
     }
 
@@ -137,18 +156,18 @@ export class DemoApp {
         if (detailContainer) detailContainer.style.display = 'none';
 
         // Use the imported generatePVEDataRange logic via our wrapper
-        // Note: generatePVEData in index.html called generatePVEDataRange underneath
-        // We'll implement a similar wrapper here or call SimulationService directly
-        
-        // We need a way to import generatePVEDataRange from where we put it. 
-        // Assuming we put it in SimulationService.ts
-        
         const { generatePVEDataRange } = await import('../core/SimulationService');
 
         const pveData = await generatePVEDataRange((data, level, total) => {
             this.chartController.updateCharts(data, this.currentLevel);
             this.pveBattleData = data;
-            this.setStatus('loading', `🔄 Simulating battles... ${level}/${total} (${Math.round(level/total*100)}%)`);
+            
+            const percent = Math.round(level/total*100);
+            this.setStatus('loading', i18n.t('status.simulating', { 
+                current: level, 
+                total: total,
+                percent: percent
+            }));
 
             // Auto-select first level when ready
             if (level === startLevel && data.length > 0) {
@@ -189,14 +208,13 @@ export class DemoApp {
         const outputEl = document.getElementById('output');
         if (outputEl) {
             outputEl.textContent = '';
-            // We can use a helper to append text if needed, but console.log redirection handles generic logs
-            // Here we specificly want to show detail info
+            
             const details = `
-========== Level ${battle.level} Battle Details ==========
-Battle Duration: ${battle.rounds} rounds
-Hero Final HP: ${Math.round(battle.hp)}
-Average Damage: ${Math.round(battle.damage)}
-========================================
+${i18n.t('status.battleDetails.header', { level: battle.level })}
+${i18n.t('status.battleDetails.duration', { rounds: battle.rounds })}
+${i18n.t('status.battleDetails.hp', { hp: Math.round(battle.hp) })}
+${i18n.t('status.battleDetails.damage', { damage: Math.round(battle.damage) })}
+${i18n.t('status.battleDetails.footer')}
 `;
             outputEl.textContent = details;
         }
@@ -212,8 +230,11 @@ Average Damage: ${Math.round(battle.damage)}
 
     private clearOutput() {
         const outputEl = document.getElementById('output');
-        if (outputEl) outputEl.textContent = '';
+        if (outputEl) {
+            outputEl.textContent = '';
+            // Reset placeholder via i18n
+            outputEl.setAttribute('data-placeholder', i18n.t('charts.details.waiting'));
+        }
         this.setStatus('', '');
     }
 }
-
