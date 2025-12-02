@@ -64,7 +64,8 @@ export const en = {
   },
   custom: {
     title: "⚙️ Battle Configuration",
-    start: "⚔️ Start Battle",
+    start: "Start Battle",
+    running: "Fighting...",
     simCount: "Simulations:",
     hero: "🦸 Hero",
     enemy: "👹 Enemy",
@@ -170,7 +171,8 @@ export const zhCN = {
   },
   custom: {
     title: "⚙️ 战斗配置",
-    start: "⚔️ 开始战斗",
+    start: "开始战斗",
+    running: "战斗中...",
     simCount: "模拟次数:",
     hero: "🦸 英雄",
     enemy: "👹 敌人",

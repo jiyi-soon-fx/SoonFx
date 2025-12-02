@@ -76,7 +76,7 @@ export class DemoApp {
         await this.chartController.initCharts();
         
         // Auto-run default scenario
-        await this.selectScenario('pve-growth');
+        await this.selectScenario('custom-battle');
 
         // Subscribe to language changes
         i18n.subscribe(() => {
@@ -220,6 +220,12 @@ export class DemoApp {
                 const characterContainer = document.getElementById('characterViewContainer');
                 if (characterContainer) characterContainer.style.display = 'block';
             }
+            // Auto-start battle when switching to custom-battle
+            setTimeout(() => {
+                if (!this.isRunning) {
+                    this.runCustomBattle();
+                }
+            }, 100);
         } else {
             if (configPanel) configPanel.style.display = 'none';
             // Hide character view
@@ -320,6 +326,13 @@ export class DemoApp {
         this.isRunning = true;
         this.setStatus('loading', i18n.t('status.running', { scenario: 'Custom' }));
         this.clearOutput();
+
+        // Update button state to show running
+        const startBtn = document.getElementById('startCustomBattle');
+        if (startBtn) {
+            startBtn.classList.add('running');
+            startBtn.querySelector('.label')!.textContent = '⚔️ ' + i18n.t('custom.running');
+        }
 
         // Show and update character view
         if (this.characterView) {
@@ -487,6 +500,12 @@ ${i18n.t('status.battleDetails.hp', { hp: Math.round(lastResult.battleData[lastR
              if (progressContainer) progressContainer.style.display = 'none';
         } finally {
             this.isRunning = false;
+            // Reset button state
+            const startBtn = document.getElementById('startCustomBattle');
+            if (startBtn) {
+                startBtn.classList.remove('running');
+                startBtn.querySelector('.label')!.textContent = '⚔️ ' + i18n.t('custom.start');
+            }
         }
     }
 
