@@ -1,4 +1,5 @@
 import { ChartController } from "./ChartController";
+import { CharacterView } from "./CharacterView";
 import { i18n } from "../i18n/I18nService";
 
 const SCENARIO_KEYS: { [key: string]: { title: string, desc: string } } = {
@@ -22,6 +23,7 @@ const SCENARIO_KEYS: { [key: string]: { title: string, desc: string } } = {
 
 export class DemoApp {
     private chartController: ChartController;
+    private characterView: CharacterView | null = null;
     private currentScenario: string = 'pve-growth';
     private pveBattleData: any[] | null = null;
     private currentLevel: number | null = null;
@@ -53,6 +55,12 @@ export class DemoApp {
 
     constructor() {
         this.chartController = new ChartController((index) => this.showBattleDetail(index));
+        try {
+            this.characterView = new CharacterView('characterViewContainer');
+            this.characterView.init();
+        } catch (e) {
+            console.warn('CharacterView container not found, character view disabled');
+        }
     }
 
     public async init() {
@@ -186,8 +194,20 @@ export class DemoApp {
             document.getElementById('hpPlaceholder')?.classList.add('hidden');
             document.getElementById('damagePlaceholder')?.classList.add('hidden');
             document.getElementById('roundsPlaceholder')?.classList.add('hidden');
+            // Show character view
+            if (this.characterView) {
+                this.characterView.setVisible(true);
+                const characterContainer = document.getElementById('characterViewContainer');
+                if (characterContainer) characterContainer.style.display = 'block';
+            }
         } else {
             if (configPanel) configPanel.style.display = 'none';
+            // Hide character view
+            if (this.characterView) {
+                this.characterView.setVisible(false);
+                const characterContainer = document.getElementById('characterViewContainer');
+                if (characterContainer) characterContainer.style.display = 'none';
+            }
             // Run simulation
             await this.runScenario(scenario);
         }
@@ -236,6 +256,14 @@ export class DemoApp {
         setValue('enemyHp', preset.enemy.hp);
         setValue('enemyAtk', preset.enemy.atk);
         setValue('enemyDef', preset.enemy.def);
+
+        // Update character view if visible
+        if (this.characterView && this.currentScenario === 'custom-battle') {
+            this.characterView.updateCharacters(
+                { name: 'Hero', level: preset.hero.level, hp: preset.hero.hp, maxHp: preset.hero.hp, attack: preset.hero.atk, defense: preset.hero.def },
+                { name: 'Enemy Boss', level: preset.enemy.level, hp: preset.enemy.hp, maxHp: preset.enemy.hp, attack: preset.enemy.atk, defense: preset.enemy.def }
+            );
+        }
     }
 
     private async runCustomBattle() {
@@ -272,6 +300,23 @@ export class DemoApp {
         this.isRunning = true;
         this.setStatus('loading', i18n.t('status.running', { scenario: 'Custom' }));
         this.clearOutput();
+
+        // Show and update character view
+        if (this.characterView) {
+            this.characterView.setVisible(true);
+            const characterContainer = document.getElementById('characterViewContainer');
+            if (characterContainer) characterContainer.style.display = 'block';
+            
+            // Update character data
+            this.characterView.updateCharacters(
+                { name: 'Hero', level: heroLevel, hp: heroHp, maxHp: heroHp, attack: heroAtk, defense: heroDef },
+                { name: 'Enemy Boss', level: enemyLevel, hp: enemyHp, maxHp: enemyHp, attack: enemyAtk, defense: enemyDef }
+            );
+            
+            // Reset and play landing animation
+            this.characterView.reset();
+            await this.characterView.playLandingAnimation();
+        }
 
         // Show progress bar for batch simulations
         const progressContainer = document.getElementById('customProgress');
@@ -316,7 +361,13 @@ export class DemoApp {
                 const enemy = new BattleEntity("Enemy Boss", enemyHp, enemyAtk, enemyDef, enemyLevel);
                 const simulator = new BattleSimulator(hero, enemy, logger);
 
-                const result = simulator.startBattle();
+                // For single simulation, play battle animations
+                let result: any;
+                if (simCount === 1 && this.characterView) {
+                    result = await this.playAnimatedBattle(hero, enemy, simulator);
+                } else {
+                    result = simulator.startBattle();
+                }
                 
                 if (result.winner === "Hero") {
                     wins++;
@@ -396,6 +447,15 @@ ${i18n.t('status.battleDetails.hp', { hp: Math.round(lastResult.battleData[lastR
             // 显示详情图表（不调用 updateCharts，避免覆盖主图表）
             this.showCustomBattleDetail(battleDataPoint);
             
+            // 更新最终角色状态
+            if (this.characterView && lastResult) {
+                const finalRound = lastResult.battleData[lastResult.battleData.length - 1];
+                if (finalRound) {
+                    this.characterView.updateHp(finalRound.heroHp, heroHp, 'hero');
+                    this.characterView.updateHp(finalRound.enemyHp, enemyHp, 'enemy');
+                }
+            }
+            
             this.setStatus('success', i18n.t('status.success'));
 
         } catch (e: any) {
@@ -405,6 +465,106 @@ ${i18n.t('status.battleDetails.hp', { hp: Math.round(lastResult.battleData[lastR
         } finally {
             this.isRunning = false;
         }
+    }
+
+    /**
+     * 播放带动画的战斗
+     */
+    private async playAnimatedBattle(hero: any, enemy: any, simulator: any): Promise<any> {
+        if (!this.characterView) {
+            return simulator.startBattle();
+        }
+
+        // 创建一个自定义的战斗模拟器，逐步执行战斗
+        const battleData: any[] = [];
+        let round = 0;
+        const maxRounds = 100;
+
+        // 初始化血量显示
+        this.characterView.updateHp(hero.currentHp, hero.maxHp, 'hero');
+        this.characterView.updateHp(enemy.currentHp, enemy.maxHp, 'enemy');
+
+        while (round < maxRounds) {
+            round++;
+            
+            // 英雄攻击 - 计算基础伤害（带随机性）
+            const heroBaseDamage = Math.floor(hero.attack * (0.8 + Math.random() * 0.4));
+            const actualHeroDamage = enemy.takeDamage(heroBaseDamage);
+            
+            // 播放攻击动画
+            await this.characterView.playAttackAnimation('hero');
+            await this.characterView.playHitAnimation('enemy', actualHeroDamage);
+            
+            // 更新血量
+            this.characterView.updateHp(enemy.currentHp, enemy.maxHp, 'enemy');
+            
+            await new Promise(r => setTimeout(r, 200)); // 短暂延迟
+            
+            if (!enemy.isAlive()) {
+                battleData.push({
+                    round,
+                    heroHp: hero.currentHp,
+                    heroHpPercent: (hero.currentHp / hero.maxHp) * 100,
+                    enemyHp: 0,
+                    enemyHpPercent: 0,
+                    heroDamageDealt: actualHeroDamage,
+                    enemyDamageDealt: 0,
+                    winner: hero.name,
+                    battleEnd: true
+                });
+                this.characterView.playVictoryAnimation('hero');
+                break;
+            }
+
+            // 敌人攻击 - 计算基础伤害（带随机性）
+            const enemyBaseDamage = Math.floor(enemy.attack * (0.8 + Math.random() * 0.4));
+            const actualEnemyDamage = hero.takeDamage(enemyBaseDamage);
+            
+            // 播放攻击动画
+            await this.characterView.playAttackAnimation('enemy');
+            await this.characterView.playHitAnimation('hero', actualEnemyDamage);
+            
+            // 更新血量
+            this.characterView.updateHp(hero.currentHp, hero.maxHp, 'hero');
+            
+            await new Promise(r => setTimeout(r, 200)); // 短暂延迟
+            
+            if (!hero.isAlive()) {
+                battleData.push({
+                    round,
+                    heroHp: 0,
+                    heroHpPercent: 0,
+                    enemyHp: enemy.currentHp,
+                    enemyHpPercent: (enemy.currentHp / enemy.maxHp) * 100,
+                    heroDamageDealt: actualHeroDamage,
+                    enemyDamageDealt: actualEnemyDamage,
+                    winner: enemy.name,
+                    battleEnd: true
+                });
+                this.characterView.playVictoryAnimation('enemy');
+                break;
+            }
+
+            // 记录回合数据
+            battleData.push({
+                round,
+                heroHp: hero.currentHp,
+                heroHpPercent: (hero.currentHp / hero.maxHp) * 100,
+                enemyHp: enemy.currentHp,
+                enemyHpPercent: (enemy.currentHp / enemy.maxHp) * 100,
+                heroDamageDealt: actualHeroDamage,
+                enemyDamageDealt: actualEnemyDamage,
+                battleEnd: false
+            });
+        }
+
+        const winner = hero.isAlive() ? hero.name : (enemy.isAlive() ? enemy.name : '平局');
+        
+        return {
+            winner,
+            rounds: round,
+            battleData
+        };
     }
 
     /**
