@@ -60,21 +60,21 @@ export class ChartController {
             this.chartInstances.hpChart = this.createLineChart('hpChart', 'Health Points', 'rgb(75, 192, 192)');
         }
         // Update series name to localized
-        this.updateChartData(this.chartInstances.hpChart, levels, hpValues, currentLevelIndex, 'rgb(75, 192, 192)', false, i18n.t('charts.hp'));
+        this.updateChartData(this.chartInstances.hpChart, levels, hpValues, currentLevelIndex, 'rgb(75, 192, 192)', false, i18n.t('charts.hpByLevel'));
 
         // Update or create Damage chart
         if (!this.chartInstances.damageChart) {
             document.getElementById('damagePlaceholder')?.classList.add('hidden');
             this.chartInstances.damageChart = this.createLineChart('damageChart', 'Attack Damage', 'rgb(255, 99, 132)');
         }
-        this.updateChartData(this.chartInstances.damageChart, levels, damageValues, currentLevelIndex, 'rgb(255, 99, 132)', false, i18n.t('charts.damage'));
+        this.updateChartData(this.chartInstances.damageChart, levels, damageValues, currentLevelIndex, 'rgb(255, 99, 132)', false, i18n.t('charts.damageByLevel'));
 
         // Update or create Rounds chart
         if (!this.chartInstances.roundsChart) {
             document.getElementById('roundsPlaceholder')?.classList.add('hidden');
             this.chartInstances.roundsChart = this.createLineChart('roundsChart', 'Battle Duration', 'rgb(153, 102, 255)');
         }
-        this.updateChartData(this.chartInstances.roundsChart, levels, roundsValues, currentLevelIndex, 'rgb(153, 102, 255)', true, i18n.t('charts.rounds'));
+        this.updateChartData(this.chartInstances.roundsChart, levels, roundsValues, currentLevelIndex, 'rgb(153, 102, 255)', true, i18n.t('charts.roundsByLevel'));
     }
 
     public clearCharts() {
@@ -112,21 +112,23 @@ export class ChartController {
         }
         this.updateDualBarChart(this.chartInstances.damageChart, rounds, heroDamageValues, enemyDamageValues, heroName, enemyName);
 
-        // Rounds Chart - 显示血量百分比变化
-        document.getElementById('roundsPlaceholder')?.classList.add('hidden');
-        if (!this.chartInstances.roundsChart) {
-            this.chartInstances.roundsChart = this.createLineChart('roundsChart', 'HP %', 'rgb(153, 102, 255)');
-        }
-        this.updateDualLineChart(this.chartInstances.roundsChart, rounds, heroHpPercent, enemyHpPercent, `${heroName} %`, `${enemyName} %`, 'rgb(75, 192, 192)', 'rgb(255, 99, 132)');
+
+        // Rounds Chart - Custom Battle 模式下不显示 HP % Chart，因为它与 HP Chart 重复
+        // 如果需要显示，可以在 DemoApp 中控制显隐，这里不再更新数据
+
     }
 
     private updateDualLineChart(chart: echarts.ECharts, labels: string[], data1: number[], data2: number[], name1: string, name2: string, color1: string, color2: string) {
-        // 检查图表是否已初始化
         const currentOption = chart.getOption() as any;
-        const isInitialized = currentOption && currentOption.xAxis && currentOption.xAxis[0];
-        
+        // 检查是否已经初始化为正确的双系列图表
+        const isInitialized = currentOption && 
+                              currentOption.series && 
+                              currentOption.series.length === 2 &&
+                              currentOption.series[0].name === name1 &&
+                              currentOption.series[1].name === name2 &&
+                              currentOption.series[0].type === 'line';
+
         if (!isInitialized) {
-            // 首次初始化，设置完整配置
             const option: echarts.EChartsOption = {
                 animation: true,
                 animationDuration: 300,
@@ -189,38 +191,33 @@ export class ChartController {
             };
             chart.setOption(option);
         } else {
-            // 增量更新，只更新数据和必要的配置
             chart.setOption({
-                animation: true,
-                animationDuration: 300,
-                animationEasing: 'cubicOut',
                 xAxis: {
                     data: labels
                 },
-                legend: {
-                    data: [name1, name2]
-                },
                 series: [
                     {
-                        name: name1,
                         data: data1
                     },
                     {
-                        name: name2,
                         data: data2
                     }
                 ]
-            }, { notMerge: false, lazyUpdate: false });
+            });
         }
     }
 
     private updateDualBarChart(chart: echarts.ECharts, labels: string[], data1: number[], data2: number[], name1: string, name2: string) {
-        // 检查图表是否已初始化
         const currentOption = chart.getOption() as any;
-        const isInitialized = currentOption && currentOption.xAxis && currentOption.xAxis[0];
-        
+        // 检查是否已经初始化为正确的双系列图表
+        const isInitialized = currentOption && 
+                              currentOption.series && 
+                              currentOption.series.length === 2 &&
+                              currentOption.series[0].name === name1 &&
+                              currentOption.series[1].name === name2 &&
+                              currentOption.series[0].type === 'bar';
+
         if (!isInitialized) {
-            // 首次初始化，设置完整配置
             const option: echarts.EChartsOption = {
                 animation: true,
                 animationDuration: 300,
@@ -278,28 +275,19 @@ export class ChartController {
             };
             chart.setOption(option);
         } else {
-            // 增量更新，只更新数据和必要的配置
             chart.setOption({
-                animation: true,
-                animationDuration: 300,
-                animationEasing: 'cubicOut',
                 xAxis: {
                     data: labels
                 },
-                legend: {
-                    data: [name1, name2]
-                },
                 series: [
                     {
-                        name: name1,
                         data: data1
                     },
                     {
-                        name: name2,
                         data: data2
                     }
                 ]
-            }, { notMerge: false, lazyUpdate: false });
+            });
         }
     }
 

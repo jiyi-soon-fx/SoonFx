@@ -178,6 +178,25 @@ export class DemoApp {
         this.currentScenario = scenario;
         this.updateStoryHeader(scenario);
 
+        // Update Chart Titles based on scenario
+        const hpTitle = document.getElementById('hpChartTitle');
+        const damageTitle = document.getElementById('damageChartTitle');
+        const roundsTitle = document.getElementById('roundsChartTitle');
+        const roundsChartCard = roundsTitle?.closest('.chart-card') as HTMLElement;
+
+        if (scenario === 'custom-battle') {
+            if (hpTitle) hpTitle.setAttribute('data-i18n', 'charts.hpByRound');
+            if (damageTitle) damageTitle.setAttribute('data-i18n', 'charts.damageByRound');
+            // Custom Battle 中 HP % by Round 与 HP by Round 重复，隐藏该图表
+            if (roundsChartCard) roundsChartCard.style.display = 'none';
+        } else {
+            if (hpTitle) hpTitle.setAttribute('data-i18n', 'charts.hpByLevel');
+            if (damageTitle) damageTitle.setAttribute('data-i18n', 'charts.damageByLevel');
+            if (roundsTitle) roundsTitle.setAttribute('data-i18n', 'charts.roundsByLevel');
+            if (roundsChartCard) roundsChartCard.style.display = 'block';
+        }
+        i18n.updatePage();
+
         // Clear previous data
         this.clearOutput();
         this.chartController.clearCharts();
@@ -438,20 +457,15 @@ ${i18n.t('status.battleDetails.hp', { hp: Math.round(lastResult.battleData[lastR
             // Update pveBattleData to contain this single battle so showBattleDetail works
             this.pveBattleData = [battleDataPoint];
             
-            // 显示主图表（回合数据）- 对于单场战斗，直接使用回合数据更新图表
-            // 不调用 updateCharts，避免重建图表
-            if (simCount === 1) {
-                // 单场战斗已经在 playAnimatedBattle 中实时更新了图表
-                // 这里只需要确保最终状态正确
-                this.chartController.updateChartsWithBattleRounds(
-                    lastResult.battleData, 
-                    battleDataPoint.heroName, 
-                    battleDataPoint.enemyName
-                );
-            } else {
-                // 批量模拟时，使用标准图表
-                this.chartController.updateCharts([battleDataPoint], heroLevel);
-            }
+            // Custom Battle 模式下主图表显示 Round 数据，不需要调用 updateCharts (它会重置为 Level 数据)
+            // this.chartController.updateCharts([battleDataPoint], heroLevel);
+            
+            // 显示主图表（回合数据）- 必须在 showBattleDetail 之前调用
+            this.chartController.updateChartsWithBattleRounds(
+                lastResult.battleData, 
+                battleDataPoint.heroName, 
+                battleDataPoint.enemyName
+            );
             
             // 显示详情图表
             this.showCustomBattleDetail(battleDataPoint);

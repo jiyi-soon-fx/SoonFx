@@ -31,9 +31,11 @@ export const en = {
     }
   },
   charts: {
-    hp: "❤️ Health Points (HP) by Level",
-    damage: "💥 Attack Damage by Level",
-    rounds: "⏱️ Battle Duration (Rounds) by Level",
+    hpByLevel: "❤️ Health Points (HP) by Level",
+    damageByLevel: "💥 Attack Damage by Level",
+    roundsByLevel: "⏱️ Battle Duration (Rounds) by Level",
+    hpByRound: "❤️ Health Points (HP) by Round",
+    damageByRound: "💥 Damage by Round",
     loading: "Running simulations...",
     details: {
       title: "📋 Battle Details",
@@ -135,9 +137,11 @@ export const zhCN = {
     }
   },
   charts: {
-    hp: "❤️ 生命值 (HP) 随等级变化",
-    damage: "💥 攻击伤害随等级变化",
-    rounds: "⏱️ 战斗回合数随等级变化",
+    hpByLevel: "❤️ 生命值 (HP) 随等级变化",
+    damageByLevel: "💥 攻击伤害随等级变化",
+    roundsByLevel: "⏱️ 战斗回合数随等级变化",
+    hpByRound: "❤️ 生命值 (HP) 随回合变化",
+    damageByRound: "💥 伤害随回合变化",
     loading: "正在运行模拟...",
     details: {
       title: "📋 战斗详情",
