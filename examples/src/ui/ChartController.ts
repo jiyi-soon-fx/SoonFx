@@ -95,144 +95,212 @@ export class ChartController {
         const enemyHpValues = battleData.map(d => d.enemyHp);
         const heroDamageValues = battleData.map(d => d.heroDamageDealt || 0);
         const enemyDamageValues = battleData.map(d => d.enemyDamageDealt || 0);
+        const heroHpPercent = battleData.map(d => d.heroHpPercent || 0);
+        const enemyHpPercent = battleData.map(d => d.enemyHpPercent || 0);
 
         // HP Chart - 显示双方血量变化
         document.getElementById('hpPlaceholder')?.classList.add('hidden');
-        if (this.chartInstances.hpChart) {
-            this.chartInstances.hpChart.dispose();
+        if (!this.chartInstances.hpChart) {
+            this.chartInstances.hpChart = this.createLineChart('hpChart', 'HP', 'rgb(75, 192, 192)');
         }
-        this.chartInstances.hpChart = this.createLineChart('hpChart', 'HP', 'rgb(75, 192, 192)');
         this.updateDualLineChart(this.chartInstances.hpChart, rounds, heroHpValues, enemyHpValues, heroName, enemyName, 'rgb(45, 105, 105)', 'rgb(255, 99, 132)');
 
         // Damage Chart - 显示双方每回合伤害
         document.getElementById('damagePlaceholder')?.classList.add('hidden');
-        if (this.chartInstances.damageChart) {
-            this.chartInstances.damageChart.dispose();
+        if (!this.chartInstances.damageChart) {
+            this.chartInstances.damageChart = this.createLineChart('damageChart', 'Damage', 'rgb(255, 99, 132)');
         }
-        this.chartInstances.damageChart = this.createLineChart('damageChart', 'Damage', 'rgb(255, 99, 132)');
         this.updateDualBarChart(this.chartInstances.damageChart, rounds, heroDamageValues, enemyDamageValues, heroName, enemyName);
 
         // Rounds Chart - 显示血量百分比变化
         document.getElementById('roundsPlaceholder')?.classList.add('hidden');
-        const heroHpPercent = battleData.map(d => d.heroHpPercent || 0);
-        const enemyHpPercent = battleData.map(d => d.enemyHpPercent || 0);
-        if (this.chartInstances.roundsChart) {
-            this.chartInstances.roundsChart.dispose();
+        if (!this.chartInstances.roundsChart) {
+            this.chartInstances.roundsChart = this.createLineChart('roundsChart', 'HP %', 'rgb(153, 102, 255)');
         }
-        this.chartInstances.roundsChart = this.createLineChart('roundsChart', 'HP %', 'rgb(153, 102, 255)');
         this.updateDualLineChart(this.chartInstances.roundsChart, rounds, heroHpPercent, enemyHpPercent, `${heroName} %`, `${enemyName} %`, 'rgb(75, 192, 192)', 'rgb(255, 99, 132)');
-
-        // 确保图表正确渲染
-        setTimeout(() => {
-            Object.values(this.chartInstances).forEach(chart => {
-                if (chart) chart.resize();
-            });
-        }, 100);
     }
 
     private updateDualLineChart(chart: echarts.ECharts, labels: string[], data1: number[], data2: number[], name1: string, name2: string, color1: string, color2: string) {
-        const option: echarts.EChartsOption = {
-            tooltip: {
-                trigger: 'axis',
-                confine: true,
-                backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                textStyle: { color: '#fff' }
-            },
-            legend: {
-                data: [name1, name2],
-                textStyle: { color: '#f1f5f9', fontSize: 10 },
-                top: 0
-            },
-            grid: {
-                left: '3%',
-                right: '4%',
-                bottom: '3%',
-                top: '15%',
-                containLabel: true
-            },
-            xAxis: {
-                type: 'category',
-                data: labels,
-                axisLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.1)' } },
-                axisLabel: { color: '#94a3b8', fontSize: 10 }
-            },
-            yAxis: {
-                type: 'value',
-                splitLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.1)' } },
-                axisLabel: { color: '#94a3b8' }
-            },
-            series: [
-                {
-                    name: name1,
-                    type: 'line',
-                    data: data1,
-                    smooth: 0.3,
-                    lineStyle: { color: color1, width: 2 },
-                    itemStyle: { color: color1 },
-                    areaStyle: { color: color1.replace('rgb', 'rgba').replace(')', ', 0.2)') }
+        // 检查图表是否已初始化
+        const currentOption = chart.getOption() as any;
+        const isInitialized = currentOption && currentOption.xAxis && currentOption.xAxis[0];
+        
+        if (!isInitialized) {
+            // 首次初始化，设置完整配置
+            const option: echarts.EChartsOption = {
+                animation: true,
+                animationDuration: 300,
+                animationEasing: 'cubicOut',
+                tooltip: {
+                    trigger: 'axis',
+                    confine: true,
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    textStyle: { color: '#fff' }
                 },
-                {
-                    name: name2,
-                    type: 'line',
-                    data: data2,
-                    smooth: 0.3,
-                    lineStyle: { color: color2, width: 2 },
-                    itemStyle: { color: color2 },
-                    areaStyle: { color: color2.replace('rgb', 'rgba').replace(')', ', 0.2)') }
-                }
-            ]
-        };
-        chart.setOption(option);
+                legend: {
+                    data: [name1, name2],
+                    textStyle: { color: '#f1f5f9', fontSize: 10 },
+                    top: 0
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    top: '15%',
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'category',
+                    data: labels,
+                    axisLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.1)' } },
+                    axisLabel: { color: '#94a3b8', fontSize: 10 }
+                },
+                yAxis: {
+                    type: 'value',
+                    splitLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.1)' } },
+                    axisLabel: { color: '#94a3b8' }
+                },
+                series: [
+                    {
+                        name: name1,
+                        type: 'line',
+                        data: data1,
+                        smooth: 0.3,
+                        lineStyle: { color: color1, width: 2 },
+                        itemStyle: { color: color1 },
+                        areaStyle: { color: color1.replace('rgb', 'rgba').replace(')', ', 0.2)') },
+                        animation: true,
+                        animationDuration: 300,
+                        animationEasing: 'cubicOut'
+                    },
+                    {
+                        name: name2,
+                        type: 'line',
+                        data: data2,
+                        smooth: 0.3,
+                        lineStyle: { color: color2, width: 2 },
+                        itemStyle: { color: color2 },
+                        areaStyle: { color: color2.replace('rgb', 'rgba').replace(')', ', 0.2)') },
+                        animation: true,
+                        animationDuration: 300,
+                        animationEasing: 'cubicOut'
+                    }
+                ]
+            };
+            chart.setOption(option);
+        } else {
+            // 增量更新，只更新数据和必要的配置
+            chart.setOption({
+                animation: true,
+                animationDuration: 300,
+                animationEasing: 'cubicOut',
+                xAxis: {
+                    data: labels
+                },
+                legend: {
+                    data: [name1, name2]
+                },
+                series: [
+                    {
+                        name: name1,
+                        data: data1
+                    },
+                    {
+                        name: name2,
+                        data: data2
+                    }
+                ]
+            }, { notMerge: false, lazyUpdate: false });
+        }
     }
 
     private updateDualBarChart(chart: echarts.ECharts, labels: string[], data1: number[], data2: number[], name1: string, name2: string) {
-        const option: echarts.EChartsOption = {
-            tooltip: {
-                trigger: 'axis',
-                axisPointer: { type: 'shadow' },
-                confine: true,
-                backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                textStyle: { color: '#fff' }
-            },
-            legend: {
-                data: [name1, name2],
-                textStyle: { color: '#f1f5f9', fontSize: 10 },
-                top: 0
-            },
-            grid: {
-                left: '3%',
-                right: '4%',
-                bottom: '3%',
-                top: '15%',
-                containLabel: true
-            },
-            xAxis: {
-                type: 'category',
-                data: labels,
-                axisLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.1)' } },
-                axisLabel: { color: '#94a3b8', fontSize: 10 }
-            },
-            yAxis: {
-                type: 'value',
-                splitLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.1)' } },
-                axisLabel: { color: '#94a3b8' }
-            },
-            series: [
-                {
-                    name: name1,
-                    type: 'bar',
-                    data: data1,
-                    itemStyle: { color: 'rgba(75, 192, 192, 0.8)' }
+        // 检查图表是否已初始化
+        const currentOption = chart.getOption() as any;
+        const isInitialized = currentOption && currentOption.xAxis && currentOption.xAxis[0];
+        
+        if (!isInitialized) {
+            // 首次初始化，设置完整配置
+            const option: echarts.EChartsOption = {
+                animation: true,
+                animationDuration: 300,
+                animationEasing: 'cubicOut',
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: { type: 'shadow' },
+                    confine: true,
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    textStyle: { color: '#fff' }
                 },
-                {
-                    name: name2,
-                    type: 'bar',
-                    data: data2,
-                    itemStyle: { color: 'rgba(255, 99, 132, 0.8)' }
-                }
-            ]
-        };
-        chart.setOption(option);
+                legend: {
+                    data: [name1, name2],
+                    textStyle: { color: '#f1f5f9', fontSize: 10 },
+                    top: 0
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    top: '15%',
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'category',
+                    data: labels,
+                    axisLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.1)' } },
+                    axisLabel: { color: '#94a3b8', fontSize: 10 }
+                },
+                yAxis: {
+                    type: 'value',
+                    splitLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.1)' } },
+                    axisLabel: { color: '#94a3b8' }
+                },
+                series: [
+                    {
+                        name: name1,
+                        type: 'bar',
+                        data: data1,
+                        itemStyle: { color: 'rgba(75, 192, 192, 0.8)' },
+                        animation: true,
+                        animationDuration: 300,
+                        animationEasing: 'cubicOut'
+                    },
+                    {
+                        name: name2,
+                        type: 'bar',
+                        data: data2,
+                        itemStyle: { color: 'rgba(255, 99, 132, 0.8)' },
+                        animation: true,
+                        animationDuration: 300,
+                        animationEasing: 'cubicOut'
+                    }
+                ]
+            };
+            chart.setOption(option);
+        } else {
+            // 增量更新，只更新数据和必要的配置
+            chart.setOption({
+                animation: true,
+                animationDuration: 300,
+                animationEasing: 'cubicOut',
+                xAxis: {
+                    data: labels
+                },
+                legend: {
+                    data: [name1, name2]
+                },
+                series: [
+                    {
+                        name: name1,
+                        data: data1
+                    },
+                    {
+                        name: name2,
+                        data: data2
+                    }
+                ]
+            }, { notMerge: false, lazyUpdate: false });
+        }
     }
 
     public createDetailCharts(battleData: any[], heroName: string, enemyName: string) {

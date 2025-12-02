@@ -28,6 +28,7 @@ export class DemoApp {
     private pveBattleData: any[] | null = null;
     private currentLevel: number | null = null;
     private isRunning: boolean = false;
+    private chartUpdateTimer: number | null = null;
 
     // Preset configurations
     private static readonly PRESETS: { [key: string]: { hero: any, enemy: any } } = {
@@ -434,17 +435,25 @@ ${i18n.t('status.battleDetails.hp', { hp: Math.round(lastResult.battleData[lastR
                 enemyName: "Enemy Boss"
             };
 
-            // Hack: Update pveBattleData to contain this single battle so showBattleDetail works
+            // Update pveBattleData to contain this single battle so showBattleDetail works
             this.pveBattleData = [battleDataPoint];
             
-            // 显示主图表（回合数据）- 必须在 showBattleDetail 之前调用
-            this.chartController.updateChartsWithBattleRounds(
-                lastResult.battleData, 
-                battleDataPoint.heroName, 
-                battleDataPoint.enemyName
-            );
+            // 显示主图表（回合数据）- 对于单场战斗，直接使用回合数据更新图表
+            // 不调用 updateCharts，避免重建图表
+            if (simCount === 1) {
+                // 单场战斗已经在 playAnimatedBattle 中实时更新了图表
+                // 这里只需要确保最终状态正确
+                this.chartController.updateChartsWithBattleRounds(
+                    lastResult.battleData, 
+                    battleDataPoint.heroName, 
+                    battleDataPoint.enemyName
+                );
+            } else {
+                // 批量模拟时，使用标准图表
+                this.chartController.updateCharts([battleDataPoint], heroLevel);
+            }
             
-            // 显示详情图表（不调用 updateCharts，避免覆盖主图表）
+            // 显示详情图表
             this.showCustomBattleDetail(battleDataPoint);
             
             // 更新最终角色状态
@@ -484,6 +493,10 @@ ${i18n.t('status.battleDetails.hp', { hp: Math.round(lastResult.battleData[lastR
         this.characterView.updateHp(hero.currentHp, hero.maxHp, 'hero');
         this.characterView.updateHp(enemy.currentHp, enemy.maxHp, 'enemy');
 
+        // 初始化图表 - 显示回合图表容器
+        const detailContainer = document.getElementById('detailChartsContainer');
+        if (detailContainer) detailContainer.style.display = 'block';
+
         while (round < maxRounds) {
             round++;
             
@@ -512,6 +525,16 @@ ${i18n.t('status.battleDetails.hp', { hp: Math.round(lastResult.battleData[lastR
                     winner: hero.name,
                     battleEnd: true
                 });
+                // 立即更新图表（战斗结束）
+                if (this.chartUpdateTimer !== null) {
+                    clearTimeout(this.chartUpdateTimer);
+                    this.chartUpdateTimer = null;
+                }
+                this.chartController.updateChartsWithBattleRounds(
+                    battleData, 
+                    'Hero', 
+                    'Enemy Boss'
+                );
                 this.characterView.playVictoryAnimation('hero');
                 break;
             }
@@ -541,6 +564,16 @@ ${i18n.t('status.battleDetails.hp', { hp: Math.round(lastResult.battleData[lastR
                     winner: enemy.name,
                     battleEnd: true
                 });
+                // 立即更新图表（战斗结束）
+                if (this.chartUpdateTimer !== null) {
+                    clearTimeout(this.chartUpdateTimer);
+                    this.chartUpdateTimer = null;
+                }
+                this.chartController.updateChartsWithBattleRounds(
+                    battleData, 
+                    'Hero', 
+                    'Enemy Boss'
+                );
                 this.characterView.playVictoryAnimation('enemy');
                 break;
             }
@@ -556,6 +589,25 @@ ${i18n.t('status.battleDetails.hp', { hp: Math.round(lastResult.battleData[lastR
                 enemyDamageDealt: actualEnemyDamage,
                 battleEnd: false
             });
+
+            // 使用节流更新图表，避免过于频繁的更新
+            if (this.chartUpdateTimer !== null) {
+                clearTimeout(this.chartUpdateTimer);
+            }
+            this.chartUpdateTimer = window.setTimeout(() => {
+                this.chartController.updateChartsWithBattleRounds(
+                    battleData, 
+                    'Hero', 
+                    'Enemy Boss'
+                );
+                this.chartUpdateTimer = null;
+            }, 50); // 50ms 节流，确保动画流畅
+        }
+
+        // 清理定时器
+        if (this.chartUpdateTimer !== null) {
+            clearTimeout(this.chartUpdateTimer);
+            this.chartUpdateTimer = null;
         }
 
         const winner = hero.isAlive() ? hero.name : (enemy.isAlive() ? enemy.name : '平局');
