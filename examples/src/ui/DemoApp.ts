@@ -28,6 +28,7 @@ export class DemoApp {
     private pveBattleData: any[] | null = null;
     private currentLevel: number | null = null;
     private isRunning: boolean = false;
+    private shouldStop: boolean = false;
     private chartUpdateTimer: number | null = null;
 
     // Preset configurations
@@ -166,6 +167,30 @@ export class DemoApp {
     }
 
     public async selectScenario(scenario: string) {
+        // Stop any running simulation
+        if (this.isRunning) {
+            this.shouldStop = true;
+            // Wait for running tasks to actually stop (check every 50ms, max 2s)
+            let waitCount = 0;
+            while (this.isRunning && waitCount < 40) {
+                await new Promise(r => setTimeout(r, 50));
+                waitCount++;
+            }
+            // Force reset if still running after timeout
+            if (this.isRunning) {
+                this.isRunning = false;
+                console.warn('Force stopped running task after timeout');
+            }
+        }
+        this.shouldStop = false;
+
+        // Reset button state if it was running
+        const startBtn = document.getElementById('startCustomBattle');
+        if (startBtn) {
+            startBtn.classList.remove('running');
+            startBtn.querySelector('.label')!.textContent = '⚔️ ' + i18n.t('custom.start');
+        }
+
         // Update active button
         document.querySelectorAll('.scenario-btn').forEach(btn => {
             btn.classList.remove('active');
@@ -375,6 +400,12 @@ export class DemoApp {
             const batchSize = 50; // Process in batches for UI responsiveness
             
             for (let i = 0; i < simCount; i++) {
+                // Check if should stop
+                if (this.shouldStop) {
+                    console.log('Simulation stopped by user');
+                    return;
+                }
+
                 // Yield to UI every batchSize iterations
                 if (i > 0 && i % batchSize === 0) {
                     await new Promise(r => requestAnimationFrame(r));
@@ -398,6 +429,11 @@ export class DemoApp {
                 let result: any;
                 if (simCount === 1 && this.characterView) {
                     result = await this.playAnimatedBattle(hero, enemy, simulator);
+                    // Check if stopped during animation
+                    if (this.shouldStop) {
+                        console.log('Simulation stopped during battle animation');
+                        return;
+                    }
                 } else {
                     result = simulator.startBattle();
                 }
@@ -531,6 +567,12 @@ ${i18n.t('status.battleDetails.hp', { hp: Math.round(lastResult.battleData[lastR
         if (detailContainer) detailContainer.style.display = 'block';
 
         while (round < maxRounds) {
+            // Check if should stop
+            if (this.shouldStop) {
+                console.log('Battle animation stopped by user');
+                break;
+            }
+
             round++;
             
             // 英雄攻击 - 计算基础伤害（带随机性）
@@ -539,12 +581,15 @@ ${i18n.t('status.battleDetails.hp', { hp: Math.round(lastResult.battleData[lastR
             
             // 播放攻击动画
             await this.characterView.playAttackAnimation('hero');
+            if (this.shouldStop) break;
             await this.characterView.playHitAnimation('enemy', actualHeroDamage);
+            if (this.shouldStop) break;
             
             // 更新血量
             this.characterView.updateHp(enemy.currentHp, enemy.maxHp, 'enemy');
             
             await new Promise(r => setTimeout(r, 200)); // 短暂延迟
+            if (this.shouldStop) break;
             
             if (!enemy.isAlive()) {
                 battleData.push({
@@ -578,12 +623,15 @@ ${i18n.t('status.battleDetails.hp', { hp: Math.round(lastResult.battleData[lastR
             
             // 播放攻击动画
             await this.characterView.playAttackAnimation('enemy');
+            if (this.shouldStop) break;
             await this.characterView.playHitAnimation('hero', actualEnemyDamage);
+            if (this.shouldStop) break;
             
             // 更新血量
             this.characterView.updateHp(hero.currentHp, hero.maxHp, 'hero');
             
             await new Promise(r => setTimeout(r, 200)); // 短暂延迟
+            if (this.shouldStop) break;
             
             if (!hero.isAlive()) {
                 battleData.push({
@@ -713,7 +761,7 @@ ${i18n.t('status.battleDetails.footer')}
                     }
                 }, 500);
             }
-        }, maxLevel - startLevel + 1, startLevel); // count, startLevel
+        }, maxLevel - startLevel + 1, startLevel, () => this.shouldStop); // count, startLevel, shouldStop callback
 
         this.pveBattleData = pveData;
         console.log(`Growth curve generated with ${pveData.length} data points`);

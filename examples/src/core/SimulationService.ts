@@ -24,7 +24,12 @@ export async function initFx() {
 /**
  * 生成指定范围的PVE测试数据
  */
-export async function generatePVEDataRange(onProgress?: (data: any[], level: number, total: number) => void, count: number = 50, startLevel: number = 1) {
+export async function generatePVEDataRange(
+    onProgress?: (data: any[], level: number, total: number) => void, 
+    count: number = 50, 
+    startLevel: number = 1,
+    shouldStop?: () => boolean
+) {
     const data: any[] = [];
     const maxLevel = startLevel + count - 1;
 
@@ -32,6 +37,12 @@ export async function generatePVEDataRange(onProgress?: (data: any[], level: num
     const seerUtil = FxUtil.getInstance();
 
     for (let level = startLevel; level <= maxLevel; level++) {
+        // Check if should stop
+        if (shouldStop && shouldStop()) {
+            console.log('PVE simulation stopped by user');
+            return data;
+        }
+
         await new Promise(resolve => requestAnimationFrame(() => resolve(true)));
 
         try {
