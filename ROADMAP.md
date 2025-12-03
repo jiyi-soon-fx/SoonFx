@@ -26,11 +26,9 @@
 
 - [ ] Complete Chinese documentation
 - [ ] Complete English documentation
+ 
 
-## 🚀 v2.1.0 - Architecture Upgrade
+## ✨ v2.1.0 - Features
 
-- [ ] Full modular architecture
-- [ ] Tree-shaking support
-- [ ] Performance benchmark suite
-- [ ] Plugin system
+- [ ] Formula visual preview
 
